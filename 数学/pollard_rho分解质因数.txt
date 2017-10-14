@@ -92,7 +92,7 @@ void find(LL n, int c)
     find(p, k);
     find(n / p, k);
 }
-void work(LL n)             //1Ê±Êä³ö0^1
+void work(LL n)             //1æ—¶è¾“å‡º0^1
 {
     ct = 0;
     find(n, 120);

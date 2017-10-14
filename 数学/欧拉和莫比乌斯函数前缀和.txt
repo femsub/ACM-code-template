@@ -1,27 +1,27 @@
 const int maxn =3100000;
 LL sphi[maxn];
-LL phi[maxn],prime[maxn],siz;      //ÏßĞÔÉ¸ËØÊı£¬Å·À­º¯Êı
-bool mark[maxn];        //markÎª0Ê±ÎªËØÊı
+LL phi[maxn],prime[maxn],siz;      //çº¿æ€§ç­›ç´ æ•°ï¼Œæ¬§æ‹‰å‡½æ•°
+bool mark[maxn];        //markä¸º0æ—¶ä¸ºç´ æ•°
 map<LL,LL>h;
 LL getphi(LL N)
 {
   mem(mark);
   LL tot=0,i,j;
   phi[1]=mark[0]=mark[1]=1;
-  for(i=2;i<=N;i++)//Ïàµ±ÓÚ·Ö½âÖÊÒòÊ½µÄÄæ¹ı³Ì
+  for(i=2;i<=N;i++)//ç›¸å½“äºåˆ†è§£è´¨å› å¼çš„é€†è¿‡ç¨‹
   {
      if(mark[i]==0){
-         prime[tot++]=i;//É¸ËØÊıµÄÊ±ºòÊ×ÏÈ»áÅĞ¶ÏiÊÇ·ñÊÇËØÊı¡£
-         phi[i]=i-1;//µ± i ÊÇËØÊıÊ± phi[i]=i-1
+         prime[tot++]=i;//ç­›ç´ æ•°çš„æ—¶å€™é¦–å…ˆä¼šåˆ¤æ–­iæ˜¯å¦æ˜¯ç´ æ•°ã€‚
+         phi[i]=i-1;//å½“ i æ˜¯ç´ æ•°æ—¶ phi[i]=i-1
          }
      for(j=0;j<tot&&i*prime[j]<=N;j++)
      {
-       mark[i*prime[j]]=1;//È·¶¨i*prime[j]²»ÊÇËØÊı
-       if(i%prime[j]==0)//½Ó×ÅÎÒÃÇ»á¿´prime[j]ÊÇ·ñÊÇiµÄÔ¼Êı
+       mark[i*prime[j]]=1;//ç¡®å®ši*prime[j]ä¸æ˜¯ç´ æ•°
+       if(i%prime[j]==0)//æ¥ç€æˆ‘ä»¬ä¼šçœ‹prime[j]æ˜¯å¦æ˜¯içš„çº¦æ•°
        {
          phi[i*prime[j]]=phi[i]*prime[j];break;
        }
-       else  phi[i*prime[j]]=phi[i]*(prime[j]-1);//ÆäÊµÕâÀïprime[j]-1¾ÍÊÇphi[prime[j]]£¬ÀûÓÃÁËÅ·À­º¯ÊıµÄ»ıĞÔ
+       else  phi[i*prime[j]]=phi[i]*(prime[j]-1);//å…¶å®è¿™é‡Œprime[j]-1å°±æ˜¯phi[prime[j]]ï¼Œåˆ©ç”¨äº†æ¬§æ‹‰å‡½æ•°çš„ç§¯æ€§
      }
   }
   return tot;
@@ -55,31 +55,31 @@ LL sumphi(LL n)
         sphi[x]=(phi[x]+sphi[x-1])%MOD;
     printf("%I64d\n",sumphi(n));
 ******************************************
-const int maxn =7100000;		//´óĞ¡×¢Òâ
+const int maxn =7100000;		//å¤§å°æ³¨æ„
 int smu[maxn],siz;
 map<LL,LL>h;
-int mu[maxn],prime[maxn];      //ÏßĞÔÉ¸ËØÊı£¬Äª±ÈÎÚË¹º¯Êı
-bool mark[maxn];        //markÎª0Ê±ÎªËØÊı
+int mu[maxn],prime[maxn];      //çº¿æ€§ç­›ç´ æ•°ï¼Œè«æ¯”ä¹Œæ–¯å‡½æ•°
+bool mark[maxn];        //markä¸º0æ—¶ä¸ºç´ æ•°
 LL getmu(LL N)
 {
   mem(mark);
   LL tot=0,i,j;
   mu[1]=mark[0]=mark[1]=1;
-  for(i=2;i<=N;i++)//Ïàµ±ÓÚ·Ö½âÖÊÒòÊ½µÄÄæ¹ı³Ì
+  for(i=2;i<=N;i++)//ç›¸å½“äºåˆ†è§£è´¨å› å¼çš„é€†è¿‡ç¨‹
   {
      if(!mark[i]){
-         prime[tot++]=i;//É¸ËØÊıµÄÊ±ºòÊ×ÏÈ»áÅĞ¶ÏiÊÇ·ñÊÇËØÊı¡£
-         mu[i]=-1;//µ± i ÊÇËØÊıÊ± phi[i]=i-1
+         prime[tot++]=i;//ç­›ç´ æ•°çš„æ—¶å€™é¦–å…ˆä¼šåˆ¤æ–­iæ˜¯å¦æ˜¯ç´ æ•°ã€‚
+         mu[i]=-1;//å½“ i æ˜¯ç´ æ•°æ—¶ phi[i]=i-1
          }
      for(j=0;j<tot;j++)
      {
        if(i*prime[j]>N) break;
-       mark[i*prime[j]]=1;//È·¶¨i*prime[j]²»ÊÇËØÊı
-       if(!(i%prime[j]))//½Ó×ÅÎÒÃÇ»á¿´prime[j]ÊÇ·ñÊÇiµÄÔ¼Êı
+       mark[i*prime[j]]=1;//ç¡®å®ši*prime[j]ä¸æ˜¯ç´ æ•°
+       if(!(i%prime[j]))//æ¥ç€æˆ‘ä»¬ä¼šçœ‹prime[j]æ˜¯å¦æ˜¯içš„çº¦æ•°
        {
          mu[i*prime[j]]=0;break;
        }
-       else  mu[i*prime[j]]=-mu[i];//ÆäÊµÕâÀïprime[j]-1¾ÍÊÇphi[prime[j]]£¬ÀûÓÃÁËÅ·À­º¯ÊıµÄ»ıĞÔ
+       else  mu[i*prime[j]]=-mu[i];//å…¶å®è¿™é‡Œprime[j]-1å°±æ˜¯phi[prime[j]]ï¼Œåˆ©ç”¨äº†æ¬§æ‹‰å‡½æ•°çš„ç§¯æ€§
      }
   }
   return tot;

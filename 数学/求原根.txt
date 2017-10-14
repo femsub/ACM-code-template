@@ -1,5 +1,5 @@
 ***************************
-				pÆæËØÊı
+				på¥‡ç´ æ•°
 LL mu(LL a,LL b,LL p)
 {
     LL ans=1;
@@ -15,7 +15,7 @@ LL mu(LL a,LL b,LL p)
     return ans;
 }
 
-inline LL findRoot(LL p)   //pÊÇÆæËØÊı
+inline LL findRoot(LL p)   //pæ˜¯å¥‡ç´ æ•°
 {
     LL sign,t;
 
@@ -40,7 +40,7 @@ inline LL findRoot(LL p)   //pÊÇÆæËØÊı
         }
     }
 }
-***************************************ÈÎÒâp
+***************************************ä»»æ„p
 LL mod_mul(LL a, LL b, LL n) {
     LL res = 0;
     while(b) {
@@ -91,11 +91,11 @@ bool miLLer_rabin(LL n,int S) {
     }
     return true;
 }
-LL euler(LL n){ //·µ»Øeuler(n)
+LL euler(LL n){ //è¿”å›euler(n)
         LL res=n,a=n;
         for(LL i=2;i*i<=a;i++){
             if(a%i==0){
-                res=res/i*(i-1);//ÏÈ½øĞĞ³ı·¨ÊÇÎªÁË·ÀÖ¹ÖĞ¼äÊı¾İµÄÒç³ö
+                res=res/i*(i-1);//å…ˆè¿›è¡Œé™¤æ³•æ˜¯ä¸ºäº†é˜²æ­¢ä¸­é—´æ•°æ®çš„æº¢å‡º
                 while(a%i==0) a/=i;
             }
         }
@@ -119,7 +119,7 @@ int check(LL p)
     }
     return 0;
 }
-inline LL findRoot(LL p)        //-1ÎŞ½â
+inline LL findRoot(LL p)        //-1æ— è§£
 {
     LL sign,t,phi;
     if(miLLer_rabin(p,4)==1)

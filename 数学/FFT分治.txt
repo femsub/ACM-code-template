@@ -33,7 +33,7 @@ void CDQ(int L,int R){
 
 *************************
 CDQ(0,n);
-给出A数组
+喔樴箻喔撪箹A喔喔粪箟
 ans[0]=1,A[0]=0;
 Ans[x]=sigma{Ans[y]*A[x-y]}
 

@@ -1,9 +1,9 @@
-ÏÂÃæÎÒÃÇ½éÉÜÒ»ÖÖÐÂµÄ·½·¨¡ª¡ªMatrix-Tree¶¨Àí(Kirchhoff¾ØÕó-Ê÷¶¨Àí)¡£Matrix-Tree¶¨ÀíÊÇ½â¾öÉú³ÉÊ÷¼ÆÊýÎÊÌâ×îÓÐÁ¦µÄÎäÆ÷Ö®Ò»¡£ËüÊ×ÏÈÓÚ1847Äê±»KirchhoffÖ¤Ã÷¡£ÔÚ½éÉÜ¶¨ÀíÖ®Ç°£¬ÎÒÃÇÊ×ÏÈÃ÷È·¼¸¸ö¸ÅÄî£º
+ä¸‹é¢æˆ‘ä»¬ä»‹ç»ä¸€ç§æ–°çš„æ–¹æ³•â€”â€”Matrix-Treeå®šç†(KirchhoffçŸ©é˜µ-æ ‘å®šç†)ã€‚Matrix-Treeå®šç†æ˜¯è§£å†³ç”Ÿæˆæ ‘è®¡æ•°é—®é¢˜æœ€æœ‰åŠ›çš„æ­¦å™¨ä¹‹ä¸€ã€‚å®ƒé¦–å…ˆäºŽ1847å¹´è¢«Kirchhoffè¯æ˜Žã€‚åœ¨ä»‹ç»å®šç†ä¹‹å‰ï¼Œæˆ‘ä»¬é¦–å…ˆæ˜Žç¡®å‡ ä¸ªæ¦‚å¿µï¼š
 
-1¡¢GµÄ¶ÈÊý¾ØÕóD[G]ÊÇÒ»¸ön*nµÄ¾ØÕó£¬²¢ÇÒÂú×ã£ºµ±i¡ÙjÊ±,dij=0£»µ±i=jÊ±£¬dijµÈÓÚviµÄ¶ÈÊý¡£
+1ã€Gçš„åº¦æ•°çŸ©é˜µD[G]æ˜¯ä¸€ä¸ªn*nçš„çŸ©é˜µï¼Œå¹¶ä¸”æ»¡è¶³ï¼šå½“iâ‰ jæ—¶,dij=0ï¼›å½“i=jæ—¶ï¼Œdijç­‰äºŽviçš„åº¦æ•°ã€‚
 
-2¡¢GµÄÁÚ½Ó¾ØÕóA[G]Ò²ÊÇÒ»¸ön*nµÄ¾ØÕó£¬ ²¢ÇÒÂú×ã£ºÈç¹ûvi¡¢vjÖ®¼äÓÐ±ßÖ±½ÓÏàÁ¬£¬Ôòaij=1£¬·ñÔòÎª0¡£
+2ã€Gçš„é‚»æŽ¥çŸ©é˜µA[G]ä¹Ÿæ˜¯ä¸€ä¸ªn*nçš„çŸ©é˜µï¼Œ å¹¶ä¸”æ»¡è¶³ï¼šå¦‚æžœviã€vjä¹‹é—´æœ‰è¾¹ç›´æŽ¥ç›¸è¿žï¼Œåˆ™aij=1ï¼Œå¦åˆ™ä¸º0ã€‚
 
-ÎÒÃÇ¶¨ÒåGµÄKirchhoff¾ØÕó(Ò²³ÆÎªÀ­ÆÕÀ­Ë¹Ëã×Ó)C[G]ÎªC[G]=D[G]-A[G]£¬ÔòMatrix-Tree¶¨Àí¿ÉÒÔÃèÊöÎª£ºGµÄËùÓÐ²»Í¬µÄÉú³ÉÊ÷µÄ¸öÊýµÈÓÚÆäKirchhoff¾ØÕóC[G]ÈÎºÎÒ»¸ön-1½×Ö÷×ÓÊ½µÄÐÐÁÐÊ½µÄ¾ø¶ÔÖµ¡£ËùÎ½n-1½×Ö÷×ÓÊ½£¬¾ÍÊÇ¶ÔÓÚr(1¡Ür¡Ün)£¬½«C[G]µÄµÚrÐÐ¡¢µÚrÁÐÍ¬Ê±È¥µôºóµÃµ½µÄÐÂ¾ØÕó£¬ÓÃCr[G]±íÊ¾¡£
+æˆ‘ä»¬å®šä¹‰Gçš„KirchhoffçŸ©é˜µ(ä¹Ÿç§°ä¸ºæ‹‰æ™®æ‹‰æ–¯ç®—å­)C[G]ä¸ºC[G]=D[G]-A[G]ï¼Œåˆ™Matrix-Treeå®šç†å¯ä»¥æè¿°ä¸ºï¼šGçš„æ‰€æœ‰ä¸åŒçš„ç”Ÿæˆæ ‘çš„ä¸ªæ•°ç­‰äºŽå…¶KirchhoffçŸ©é˜µC[G]ä»»ä½•ä¸€ä¸ªn-1é˜¶ä¸»å­å¼çš„è¡Œåˆ—å¼çš„ç»å¯¹å€¼ã€‚æ‰€è°“n-1é˜¶ä¸»å­å¼ï¼Œå°±æ˜¯å¯¹äºŽr(1â‰¤râ‰¤n)ï¼Œå°†C[G]çš„ç¬¬rè¡Œã€ç¬¬råˆ—åŒæ—¶åŽ»æŽ‰åŽå¾—åˆ°çš„æ–°çŸ©é˜µï¼Œç”¨Cr[G]è¡¨ç¤ºã€‚
 
-ÍêÈ«Í¼¸ù¾ÝPr¨¹ferÎªn^(n-2)
+å®Œå…¨å›¾æ ¹æ®PrÃ¼ferä¸ºn^(n-2)

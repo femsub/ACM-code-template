@@ -15,7 +15,7 @@ struct HASHMAP
     {
         int i;
         int h=st%HASH;
-        for(i=head[h];i!=-1;i=next[i])//这里要注意是next
+        for(i=head[h];i!=-1;i=next[i])//杩欓噷瑕佹敞鎰忔槸next
           if(state[i]==st)
           {
               dp[i]=(dp[i]+ans)%MOD;

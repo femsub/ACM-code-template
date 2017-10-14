@@ -1,4 +1,4 @@
-LL mu(LL a,LL b)		//a负数注意
+LL mu(LL a,LL b)		//a璐熸暟娉ㄦ剰
 {
     LL ans=1;
     while(b)
@@ -26,7 +26,7 @@ void initsp(int sz)
 		}
 	}
 }
-LL sumpow(LL n,LL k){         //模意义下的求和i^k	O(k) 0^0=0
+LL sumpow(LL n,LL k){         //妯℃剰涔変笅鐨勬眰鍜宨^k	O(k) 0^0=0
 	LL ans=0,sum=0;
 	for(int x=1;x<=k+1;x++)if(!bo[x])S[x]=mu(x,k);else S[x]=S[x/bo[x]]*S[bo[x]]%MOD;
 	for(int x=1;x<=k+1;x++)S[x]=(S[x]+S[x-1])%MOD;

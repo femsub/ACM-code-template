@@ -5,7 +5,7 @@ double f(double x)
 double T[22][1<<21];
 int er[22];
 LL si[22];
-double Rombery(double a,double b,double eps)//»ý·Öa-b ¼ä¸ôesp
+double Rombery(double a,double b,double eps)//ç§¯åˆ†a-b é—´éš”esp
 {
     er[0]=1;si[0]=1;
     int now=0,j;

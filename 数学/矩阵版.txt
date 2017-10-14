@@ -13,7 +13,7 @@ struct mat
             m[i][i]=1;
     }
 }
-mat matmul(mat a,mat b,LL mod)//¾ØÕóa³Ë¾ØÕób
+mat matmul(mat a,mat b,LL mod)//çŸ©é˜µaä¹˜çŸ©é˜µb
 {
     mat c;
     c.clear();
@@ -50,7 +50,7 @@ mat ksm(mat k,LL n,LL  mod)
 
 
 ////////////////////
-Ï¡Êè¾ØÕóÓÅ»¯
+ç¨€ç–çŸ©é˜µä¼˜åŒ–
 void mult(LL a[][120],LL b[][120])
 {
     for(int i=0;i<=n;++i)

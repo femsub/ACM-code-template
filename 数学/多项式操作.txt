@@ -1,9 +1,9 @@
-ÄæÔª
+é€†å…ƒ
 ****************************
-ÄæÔªÍêÈ«È¡¾öÓÚÆä³£ÊıÏîÊÇ·ñÓĞÄæÔª
-A(x)B(x)¡Ô1(modx^n)  
+é€†å…ƒå®Œå…¨å–å†³äºå…¶å¸¸æ•°é¡¹æ˜¯å¦æœ‰é€†å…ƒ
+A(x)B(x)â‰¡1(modx^n)  
 
-LL inv(LL a,LL p) //0<a<p,a%=pÏÈ
+LL inv(LL a,LL p) //0<a<p,a%=på…ˆ
 {
     if(a==0)return -1;
     if(a==1)return 1;
@@ -19,7 +19,7 @@ void getinv(LL C[],LL D[],int t)
 }
 
 ******************************
-¶àÏîÊ½È¡Ä£
+å¤šé¡¹å¼å–æ¨¡
 A=D*B+R A[n],B[m],n>=m,D[n-m+1],R[m-1]
 
 
@@ -39,7 +39,7 @@ void getdiv(LL A[],int n,LL D[],LL B[],int m,LL R[])
 }
 
 ********************************
-¶àÏîÊ½ln&exp ³£ÊıÏîÎª1Ê±
+å¤šé¡¹å¼ln&exp å¸¸æ•°é¡¹ä¸º1æ—¶
 int inv[maxn],invsz=1;
 void initinv(int N){
     if(N<invsz)return;

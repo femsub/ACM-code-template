@@ -1,17 +1,17 @@
-Çó½âa^k=b  %p	Çók,×îÐ¡µÄkÒ»¶¨Ð¡ÓÚp,·ñÔò»áÖØ¸´£¬·ñÔòÎÞ½â
+æ±‚è§£a^k=b  %p	æ±‚k,æœ€å°çš„kä¸€å®šå°äºŽp,å¦åˆ™ä¼šé‡å¤ï¼Œå¦åˆ™æ— è§£
 ***********************
-gcd(a,p)=1Ê±
-Éèk=mi+v  m=sqrt(p);
+gcd(a,p)=1æ—¶
+è®¾k=mi+v  m=sqrt(p);
 i,v<=m
 
 a^v=b*(a^-m)^i  %p
 
-´ò±ímap for i=0~m-1 (a^i,i)
+æ‰“è¡¨map for i=0~m-1 (a^i,i)
 for i=0~m-1
-check a^v´æÔÚ
+check a^vå­˜åœ¨
 
 ****************************
-gcd(a,p)=tÊ±
+gcd(a,p)=tæ—¶
 (A/t)^c*A^(x-c)=B/(t^c)  %C/(t^c)  c max
 A^(x-c)=B/(t^c)*(A/t)^-c  %C/(t^c)
 
@@ -46,7 +46,7 @@ void ex_gcd(LL a , LL b , LL& x , LL& y){
     x = y;
     y = t - a/b*y ;
 }
-LL baby_step(LL A, LL B , LL C){        //A^x=B  %C  ×îÐ¡x£¬__gcd g++Ê¹ÓÃ
+LL baby_step(LL A, LL B , LL C){        //A^x=B  %C  æœ€å°xï¼Œ__gcd g++ä½¿ç”¨
     LL D=1 % C ,d=0;
     if(__gcd(A,C)!=1){
         LL ans = 1 ;
@@ -83,4 +83,4 @@ LL baby_step(LL A, LL B , LL C){        //A^x=B  %C  ×îÐ¡x£¬__gcd g++Ê¹ÓÃ
 }
 
 
--1ÎÞ½â			sqrt(p)
+-1æ— è§£			sqrt(p)

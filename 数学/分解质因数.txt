@@ -1,27 +1,27 @@
-int prime[maxn];      //ÏßĞÔÉ¸ËØÊı£¬×îĞ¡ËØÒò×Ó
-int mark[maxn];        //mark[i]ÎªiÊ±ÎªËØÊı,
+int prime[maxn];      //çº¿æ€§ç­›ç´ æ•°ï¼Œæœ€å°ç´ å› å­
+int mark[maxn];        //mark[i]ä¸ºiæ—¶ä¸ºç´ æ•°,
 int getprime(int N)
 {
   mem(mark,0);
   int tot=0,i,j;
   mark[0]=mark[1]=1;
-  for(i=2;i<=N;i++)//Ïàµ±ÓÚ·Ö½âÖÊÒòÊ½µÄÄæ¹ı³Ì
+  for(i=2;i<=N;i++)//ç›¸å½“äºåˆ†è§£è´¨å› å¼çš„é€†è¿‡ç¨‹
   {
      if(!mark[i]){
-         prime[tot++]=i;//É¸ËØÊıµÄÊ±ºòÊ×ÏÈ»áÅĞ¶ÏiÊÇ·ñÊÇËØÊı¡£
+         prime[tot++]=i;//ç­›ç´ æ•°çš„æ—¶å€™é¦–å…ˆä¼šåˆ¤æ–­iæ˜¯å¦æ˜¯ç´ æ•°ã€‚
          mark[i]=1;
          }
      for(j=0;j<tot&&i*prime[j]<=N;j++)
      {
-       mark[i*prime[j]]=1;//È·¶¨i*prime[j]²»ÊÇËØÊı
-       if(!(i%prime[j]))//½Ó×ÅÎÒÃÇ»á¿´prime[j]ÊÇ·ñÊÇiµÄÔ¼Êı
+       mark[i*prime[j]]=1;//ç¡®å®ši*prime[j]ä¸æ˜¯ç´ æ•°
+       if(!(i%prime[j]))//æ¥ç€æˆ‘ä»¬ä¼šçœ‹prime[j]æ˜¯å¦æ˜¯içš„çº¦æ•°
          break;
      }
   }
   return tot;
 }
 int fact[100],num[100];
-void dfs(int t,LL b)			//1 µ±³É1^0 dfs(len-1,1);
+void dfs(int t,LL b)			//1 å½“æˆ1^0 dfs(len-1,1);
 {
     if(t==-1)
     {
@@ -36,7 +36,7 @@ void dfs(int t,LL b)			//1 µ±³É1^0 dfs(len-1,1);
     }
 }
 int tot;
-int work(LL n)		//v=1ÌØÅĞ
+int work(LL n)		//v=1ç‰¹åˆ¤
 {
 	if(n==1){fact[0]=1;num[0]=0;return 1;}
 	int len=0;
@@ -64,7 +64,7 @@ int len=work(n);
 dfs(len-1,1);
 
 **********************************************************
- ÏßĞÔÉ¸next=0ÖÕÖ¹
+ çº¿æ€§ç­›next=0ç»ˆæ­¢
 
 struct fact{
     int p,num,next;

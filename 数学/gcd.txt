@@ -6,11 +6,11 @@ inline int gcd(int a,int b){while(b^=a^=b^=a%=b);return a;}
 LL lcm = 1;
 	for(LL i = 1; i <= n; i++)lcm = lcm/__gcd(lcm,m[i])*m[i];
 
-***************	O(n)Ô¤´¦Àí O(1)²éÑ¯
+***************	O(n)é¢„å¤„ç† O(1)æŸ¥è¯¢
 const int N=10000000;
 const int sn=sqrt(N);
 bool np[N+5];
-int ps[N/10+5],pn=0;       //N>65000Ê±ËØÊýÉÙÓÚn/10
+int ps[N/10+5],pn=0;       //N>65000æ—¶ç´ æ•°å°‘äºŽn/10
 int cs[N+5][3];
 void xs()
 {

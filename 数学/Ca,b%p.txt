@@ -1,9 +1,9 @@
 LL lucas(int n,int m){if(n>=MOD)return Cab(n%MOD,m%MOD)*lucas(n/MOD,m/MOD)%MOD;else return Cab(n,m);}
 
-Ô¤´¦ÀíMODÒÔÄÚµÄÄæÔª£¬Ô­°æif(m==0)return 0;
-ËØÊı£¬·ÇËØÊıÓÃCRT
+é¢„å¤„ç†MODä»¥å†…çš„é€†å…ƒï¼ŒåŸç‰ˆif(m==0)return 0;
+ç´ æ•°ï¼Œéç´ æ•°ç”¨CRT
 *********************************************
-ÏßĞÔÇóÄæÔª£¬ĞèÒªO(n)Ô¤´¦Àí
+çº¿æ€§æ±‚é€†å…ƒï¼Œéœ€è¦O(n)é¢„å¤„ç†
 
 
 int inv[maxn],pin_inv[maxn],pin[maxn];
@@ -27,7 +27,7 @@ void genc()
                         else c[x][y]=c[x-1][y]+c[x-1][y-1];
 }
 ***************************************
-LL Cab(LL a,LL b)//b½ÏĞ¡
+LL Cab(LL a,LL b)//bè¾ƒå°
 {
     LL t=1,k=1,p;
     for(LL x=1;x<=b;x++)
@@ -43,7 +43,7 @@ LL Cab(LL a,LL b)//b½ÏĞ¡
 }
 
 *********************************************
-ÈÎÒâÊı
+ä»»æ„æ•°
 i64 POW(i64 a,i64 b,i64 mod)
 {
     i64 ans=1;
@@ -156,7 +156,7 @@ i64 C2(i64 n,i64 m,i64 p,i64 t)
     return ans;
 }
 
-//¼ÆËãC(n,m)%mod
+//è®¡ç®—C(n,m)%mod
 i64 Lucas(i64 n,i64 m,i64 mod)
 {
     i64 i,t,cnt=0;

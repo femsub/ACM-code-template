@@ -1,4 +1,4 @@
-LL det(LL a[][N],int n)//Éú³ÉÊ÷¼ÆÊı:Matrix-Tree¶¨Àí  Ëã1-(n-1)
+LL det(LL a[][N],int n)//ç”Ÿæˆæ ‘è®¡æ•°:Matrix-Treeå®šç†  ç®—1-(n-1)
 {  
     LL ret=1;  
     for(int i=1; i<n; i++)  

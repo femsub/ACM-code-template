@@ -98,7 +98,7 @@ i64 C2(i64 n,i64 m,i64 p,i64 t) {
     return ans;
 }
 
-//¼ÆËãC(n,m)%mod
+//è®¡ç®—C(n,m)%mod
 i64 Lucas(i64 n,i64 m,i64 mod) {
     i64 i,t,cnt=0;
     i64 A[205],M[205];

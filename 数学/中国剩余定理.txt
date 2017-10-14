@@ -2,7 +2,7 @@ void extend_gcd (LL a , LL b , LL& d, LL &x , LL &y) {
 	if(!b){d = a; x = 1; y = 0;}
 	else {extend_gcd(b, a%b, d, y, x); y-=x*(a/b);}
 }
-LL china(LL l, LL r, LL *m, LL *a){ //下标[l,r] 方程x%m=a;      ,m a数组会变
+LL china(LL l, LL r, LL *m, LL *a){ //涓嬫爣[l,r] 鏂圭▼x%m=a;      ,m a鏁扮粍浼氬彉
 	LL lcm = 1;
 	for(LL i = l; i <= r; i++)lcm = lcm/__gcd(lcm,m[i])*m[i];
 	for(LL i = l+1; i <= r; i++) {
@@ -19,7 +19,7 @@ LL china(LL l, LL r, LL *m, LL *a){ //下标[l,r] 方程x%m=a;      ,m a数组会变
 }
 ****************************************************
 
-m互质
+m浜掕川
 
 void gcd(LL a,LL b,LL &d,LL &x,LL &y)
 {

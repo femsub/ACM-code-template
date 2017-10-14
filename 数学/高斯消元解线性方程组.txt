@@ -2,7 +2,7 @@ typedef long long ll;
 const int N = 1e0+10;
 int change_num=0;
 double **ans,a[N];
-void display(double **l_array,int r_size1,int r_size2)  //Õâ¸öº¯ÊıÊÇÓÃÀ´ÏÔÊ¾¾ØÕó£¨Ö÷ÒªÊÇÓÃÀ´µ÷ÊÔÊ¹ÓÃµÄ£©
+void display(double **l_array,int r_size1,int r_size2)  //è¿™ä¸ªå‡½æ•°æ˜¯ç”¨æ¥æ˜¾ç¤ºçŸ©é˜µï¼ˆä¸»è¦æ˜¯ç”¨æ¥è°ƒè¯•ä½¿ç”¨çš„ï¼‰
 {
     for(int i=0; i<r_size1; i++)
         for(int j=0; j<r_size2; j++)
@@ -26,14 +26,14 @@ void display(double **l_array,int r_size1,int r_size2)  //Õâ¸öº¯ÊıÊÇÓÃÀ´ÏÔÊ¾¾ØÕó
 }
 
 
-//Õâ¸öÏÂÃæµÄÊÇËã³öÉÏÈı½ÇĞÎ
+//è¿™ä¸ªä¸‹é¢çš„æ˜¯ç®—å‡ºä¸Šä¸‰è§’å½¢
 bool Change(double **&array,int r_size,int c_size)
 {
     int  k=0;
     double max=array[k][k];
     int num=0;
     bool flag=false;
-    while(k<r_size)                       //k±íÊ¾ÏÖÔÚÔÚÄÄÒ»ĞĞ
+    while(k<r_size)                       //kè¡¨ç¤ºç°åœ¨åœ¨å“ªä¸€è¡Œ
     {
         max=array[k][k];
         for(int i=k; i<r_size; i++)
@@ -42,7 +42,7 @@ bool Change(double **&array,int r_size,int c_size)
             {
                 flag=true;
                 max=array[i][k];
-                num=i;                    //num±íÊ¾×î´óĞĞµÄĞĞÊı
+                num=i;                    //numè¡¨ç¤ºæœ€å¤§è¡Œçš„è¡Œæ•°
             }
         }
 
@@ -50,7 +50,7 @@ bool Change(double **&array,int r_size,int c_size)
         {
             num=k;
         }
-        if(max==0)                      //Èç¹ûÒ»¸öÁĞÖĞµÄ×î´óÊıÊÇ0µÄ»°ÄÇ¾ÍËµÃ÷Õâ¸ö¾ØÕóµÄÆæÒì¾ØÕó
+        if(max==0)                      //å¦‚æœä¸€ä¸ªåˆ—ä¸­çš„æœ€å¤§æ•°æ˜¯0çš„è¯é‚£å°±è¯´æ˜è¿™ä¸ªçŸ©é˜µçš„å¥‡å¼‚çŸ©é˜µ
         {
             return false;
         }
@@ -68,7 +68,7 @@ bool Change(double **&array,int r_size,int c_size)
 
         for(int i=k; i<r_size-1; i++)
         {
-            double temp=array[i+1][k];          //ÕâÀïµÄtempÒ»¶¨Òª±£´æµÄ£¬ÒòÎªÖ±½ÓÊ¹ÓÃarray[i+1][k]£¬ÔÚÏÂÃæµÄ¼ÆËãÖĞ»á¸Ä±ä
+            double temp=array[i+1][k];          //è¿™é‡Œçš„tempä¸€å®šè¦ä¿å­˜çš„ï¼Œå› ä¸ºç›´æ¥ä½¿ç”¨array[i+1][k]ï¼Œåœ¨ä¸‹é¢çš„è®¡ç®—ä¸­ä¼šæ”¹å˜
             for(int j=k; j<c_size; j++)
             {
                 array[i+1][j]-=((temp/array[k][k])*array[k][j]);
@@ -80,7 +80,7 @@ bool Change(double **&array,int r_size,int c_size)
     return true;
 }
 
-double Rowlay(double **&array,int r_size, int c_size )   // ÇóĞĞÁĞÊ½
+double Rowlay(double **&array,int r_size, int c_size )   // æ±‚è¡Œåˆ—å¼
 
 {
     double sum=1;
@@ -91,7 +91,7 @@ double Rowlay(double **&array,int r_size, int c_size )   // ÇóĞĞÁĞÊ½
     return sum;
 }
 
-void  Equation(double **&array,int r_size, int c_size)  //Çó·½³Ì×é½â
+void  Equation(double **&array,int r_size, int c_size)  //æ±‚æ–¹ç¨‹ç»„è§£
 {
     for(int i=0; i<r_size; i++)
     {

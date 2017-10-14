@@ -1,4 +1,4 @@
-﻿LL prefixpowpk(LL p,LL k)
+LL prefixpowpk(LL p,LL k)
 {
     LL ans=0,powe=p,sum=p,mul=1;
     while(k)

@@ -1,4 +1,4 @@
-LL mu(LL a,LL b)		//a¸ºÊý×¢Òâ
+LL mu(LL a,LL b)		//aè´Ÿæ•°æ³¨æ„
 {
     LL ans=1;
     while(b)

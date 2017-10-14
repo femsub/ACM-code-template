@@ -1,56 +1,56 @@
 *********************************************
-int prime[maxn];      //ÏßĞÔÉ¸ËØÊı£¬×îĞ¡ËØÒò×Ó
-int mark[maxn];        //mark[i]ÎªiÊ±ÎªËØÊı,
+int prime[maxn];      //çº¿æ€§ç­›ç´ æ•°ï¼Œæœ€å°ç´ å› å­
+int mark[maxn];        //mark[i]ä¸ºiæ—¶ä¸ºç´ æ•°,
 int getprime(int N)
 {
   mem(mark,0);
   int tot=0,i,j;
   mark[0]=mark[1]=1;
-  for(i=2;i<=N;i++)//Ïàµ±ÓÚ·Ö½âÖÊÒòÊ½µÄÄæ¹ı³Ì
+  for(i=2;i<=N;i++)//ç›¸å½“äºåˆ†è§£è´¨å› å¼çš„é€†è¿‡ç¨‹
   {
      if(!mark[i]){
-         prime[tot++]=i;//É¸ËØÊıµÄÊ±ºòÊ×ÏÈ»áÅĞ¶ÏiÊÇ·ñÊÇËØÊı¡£
+         prime[tot++]=i;//ç­›ç´ æ•°çš„æ—¶å€™é¦–å…ˆä¼šåˆ¤æ–­iæ˜¯å¦æ˜¯ç´ æ•°ã€‚
          mark[i]=1;
          }
      for(j=0;j<tot&&i*prime[j]<=N;j++)
      {
-       mark[i*prime[j]]=1;//È·¶¨i*prime[j]²»ÊÇËØÊı
-       if(!(i%prime[j]))//½Ó×ÅÎÒÃÇ»á¿´prime[j]ÊÇ·ñÊÇiµÄÔ¼Êı
+       mark[i*prime[j]]=1;//ç¡®å®ši*prime[j]ä¸æ˜¯ç´ æ•°
+       if(!(i%prime[j]))//æ¥ç€æˆ‘ä»¬ä¼šçœ‹prime[j]æ˜¯å¦æ˜¯içš„çº¦æ•°
          break;
      }
   }
   return tot;
 }
   *********************************************
-int phi[maxn],prime[maxn];      //ÏßĞÔÉ¸ËØÊı£¬Å·À­º¯Êı
-bool mark[maxn];        //markÎª0Ê±ÎªËØÊı
+int phi[maxn],prime[maxn];      //çº¿æ€§ç­›ç´ æ•°ï¼Œæ¬§æ‹‰å‡½æ•°
+bool mark[maxn];        //markä¸º0æ—¶ä¸ºç´ æ•°
 int getphi(int N)
 {
   mem(mark);
   int tot=0,i,j;
   phi[1]=mark[0]=mark[1]=1;
-  for(i=2;i<=N;i++)//Ïàµ±ÓÚ·Ö½âÖÊÒòÊ½µÄÄæ¹ı³Ì
+  for(i=2;i<=N;i++)//ç›¸å½“äºåˆ†è§£è´¨å› å¼çš„é€†è¿‡ç¨‹
   {
      if(!mark[i]){
-         prime[tot++]=i;//É¸ËØÊıµÄÊ±ºòÊ×ÏÈ»áÅĞ¶ÏiÊÇ·ñÊÇËØÊı¡£
-         phi[i]=i-1;//µ± i ÊÇËØÊıÊ± phi[i]=i-1
+         prime[tot++]=i;//ç­›ç´ æ•°çš„æ—¶å€™é¦–å…ˆä¼šåˆ¤æ–­iæ˜¯å¦æ˜¯ç´ æ•°ã€‚
+         phi[i]=i-1;//å½“ i æ˜¯ç´ æ•°æ—¶ phi[i]=i-1
          }
      for(j=0;j<tot;j++)
      {
        if(i*prime[j]>N) break;
-       mark[i*prime[j]]=1;//È·¶¨i*prime[j]²»ÊÇËØÊı
-       if(!(i%prime[j]))//½Ó×ÅÎÒÃÇ»á¿´prime[j]ÊÇ·ñÊÇiµÄÔ¼Êı
+       mark[i*prime[j]]=1;//ç¡®å®ši*prime[j]ä¸æ˜¯ç´ æ•°
+       if(!(i%prime[j]))//æ¥ç€æˆ‘ä»¬ä¼šçœ‹prime[j]æ˜¯å¦æ˜¯içš„çº¦æ•°
        {
          phi[i*prime[j]]=phi[i]*prime[j];break;
        }
-       else  phi[i*prime[j]]=phi[i]*(prime[j]-1);//ÆäÊµÕâÀïprime[j]-1¾ÍÊÇphi[prime[j]]£¬ÀûÓÃÁËÅ·À­º¯ÊıµÄ»ıĞÔ
+       else  phi[i*prime[j]]=phi[i]*(prime[j]-1);//å…¶å®è¿™é‡Œprime[j]-1å°±æ˜¯phi[prime[j]]ï¼Œåˆ©ç”¨äº†æ¬§æ‹‰å‡½æ•°çš„ç§¯æ€§
      }
   }
   return tot;
 }
 *****************************************
-int mu[maxn],prime[maxn];      //ÏßĞÔÉ¸ËØÊı£¬Äª±ÈÎÚË¹º¯Êı
-bool mark[maxn];        //markÎª0Ê±ÎªËØÊı
+int mu[maxn],prime[maxn];      //çº¿æ€§ç­›ç´ æ•°ï¼Œè«æ¯”ä¹Œæ–¯å‡½æ•°
+bool mark[maxn];        //markä¸º0æ—¶ä¸ºç´ æ•°
 int getmu(int N)
 {
   mem(mark);
@@ -76,8 +76,8 @@ int getmu(int N)
   return tot;
 }
 *******************************************
-int prime[maxn],piou[maxn];      //ÏßĞÔÉ¸ euler n!
-bool mark[maxn];        //markÎª0Ê±ÎªËØÊı
+int prime[maxn],piou[maxn];      //çº¿æ€§ç­› euler n!
+bool mark[maxn];        //markä¸º0æ—¶ä¸ºç´ æ•°
 int getphi(int N)
 {
     mem(mark);
@@ -101,8 +101,8 @@ int getphi(int N)
     return tot;
 }
 ******************************************
-ÊıÂÛ¾í»ı nlogn	
-Ëã1-nµÄh[x]=(ÇóºÍd|x)(f[d]*g[x/d])	ÒÑÖªf,gµÄ1-n
+æ•°è®ºå·ç§¯ nlogn	
+ç®—1-nçš„h[x]=(æ±‚å’Œd|x)(f[d]*g[x/d])	å·²çŸ¥f,gçš„1-n
 int f[MAXN],g[MAXN],h[MAXN]={0};
 void calc(int n)
 {    
@@ -112,14 +112,14 @@ void calc(int n)
             else h[i*j]+=f[i]*g[j]+f[j]*g[i];
 }
 ******************************************
-ÔÚÊıÂÛ£¬¶ÔÕıÕûÊın£¬Å·À­º¯ÊıÊÇÉÙÓÚ»òµÈÓÚnµÄÊıÖĞÓën»¥ÖÊµÄÊıµÄÊıÄ¿
-	//Ö±½ÓÇó½âÅ·À­º¯Êı  
+åœ¨æ•°è®ºï¼Œå¯¹æ­£æ•´æ•°nï¼Œæ¬§æ‹‰å‡½æ•°æ˜¯å°‘äºæˆ–ç­‰äºnçš„æ•°ä¸­ä¸näº’è´¨çš„æ•°çš„æ•°ç›®
+	//ç›´æ¥æ±‚è§£æ¬§æ‹‰å‡½æ•°  
 
-    LL euler(LL n){ //·µ»Øeuler(n)   
+    LL euler(LL n){ //è¿”å›euler(n)   
         LL res=n,a=n;  
-        for(LL i=2;i*i<=a;i++){ //ÓÃprime[i]¿ì
+        for(LL i=2;i*i<=a;i++){ //ç”¨prime[i]å¿«
             if(a%i==0){  
-                res=res/i*(i-1);//ÏÈ½øĞĞ³ı·¨ÊÇÎªÁË·ÀÖ¹ÖĞ¼äÊı¾İµÄÒç³ö   
+                res=res/i*(i-1);//å…ˆè¿›è¡Œé™¤æ³•æ˜¯ä¸ºäº†é˜²æ­¢ä¸­é—´æ•°æ®çš„æº¢å‡º   
                 while(a%i==0) a/=i;  
             }  
         }  
@@ -129,22 +129,22 @@ void calc(int n)
 
 
 
-******************************ÒÑÖªf[n]=(ÇóºÍd|n)g(d),Çóg nlogn
+******************************å·²çŸ¥f[n]=(æ±‚å’Œd|n)g(d),æ±‚g nlogn
 for (int i = 1; i <= n; ++i)
   for (int j = i + i; j <= n; j += i)		
     f[j] -= f[i];
 
-*****************************f[n]=(ÇóºÍd|n)g(d),ÒÑÖªg,Çóf
+*****************************f[n]=(æ±‚å’Œd|n)g(d),å·²çŸ¥g,æ±‚f
 for (int i = n; i >= 1; --i)
   for (int j = i + i; j <= n; j += i)		
     f[j] += f[i];
 
-******************************ÒÑÖªf[n]=(ÇóºÍn|d)g(d),Çóg nlogn
+******************************å·²çŸ¥f[n]=(æ±‚å’Œn|d)g(d),æ±‚g nlogn
 for (int i = n; i >= 1; --i)
   for (int j = i + i; j <= n; j += i)		
     f[i] -= f[j];
 
-*****************************f[n]=(ÇóºÍn|d)g(d),ÒÑÖªg,Çóf
+*****************************f[n]=(æ±‚å’Œn|d)g(d),å·²çŸ¥g,æ±‚f
 for (int i = 1; i <= n; ++i)
   for (int j = i + i; j <= n; j += i)		
     f[i] += f[j];
