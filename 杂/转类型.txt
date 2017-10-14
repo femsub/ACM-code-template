@@ -1,0 +1,16 @@
+#include <sstream>
+template<class out_type,class in_value>
+out_type convert(const in_value & t)
+{
+stringstream stream;
+stream.clear();
+stream.str("");
+stream<<t;
+out_type result;
+stream>>result;
+return result;
+}
+
+
+
+//s=convert<string>(q);

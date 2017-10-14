@@ -1,0 +1,10 @@
+#include<cstdio>   
+using namespace std;  
+int year,month,day;  
+int main()  
+{   while(scanf("%d%d%d",&year,&month,&day)!=EOF)//得使用c输入,不然会TLE   
+    {   if(month<=2) year-=1,month+=12;  
+        printf("%d\n",(day+1+2*month+3*(month+1)/5+year+year/4-year/100+year/400)%7);   
+    }  
+    return 0;  
+} 

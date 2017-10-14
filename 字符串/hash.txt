@@ -1,0 +1,17 @@
+LL hashp=751;
+LL hashval[maxn];
+LL hashpow[maxn];
+void inithash(char* s,int len)
+{
+        hashval[0]=s[0];
+        for(int x=1;x<=len-1;x++)
+                hashval[x]=(hashval[x-1]*hashp+s[x])%MOD;
+        hashpow[0]=1;
+        for(int x=1;x<=len-1;x++)
+                hashpow[x]=hashpow[x-1]*hashp%MOD;
+}
+LL seghash(int a,int b)
+{
+        if(a==0)return hashval[b];
+        return ((hashval[b]-hashval[a-1]*hashpow[b-a+1])%MOD+MOD)%MOD;
+}

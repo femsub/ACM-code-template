@@ -1,0 +1,53 @@
+int n;
+LL dp[maxn];
+pair<int,int>q[maxn];//决策值，该决策的起点 1111223
+LL calw(int i,int j)//w[i,j]
+{
+	
+}
+void monotonic()
+{
+	dp[0]=0;
+	int r=0,pos=0,ul,ur,mid;
+	q[r++]=mp(0,1);
+	for(int x=1;x<=n;x++)
+	{
+		while(r-pos>=2&&q[pos+1].se<=x)pos++;
+		dp[x]=dp[q[pos].fi]+calw(x,q[pos].fi);
+		ur=n+1;//注意n+1
+        while(r>0&&q[r-1].se>=x&&dp[x]+calw(q[r-1].se,x)<=dp[q[r-1].fi]+calw(q[r-1].se,q[r-1].fi))ur=q[r-1].se,r--;
+		{
+			ul=max(x,q[r-1].se);
+			while(ul<ur)
+			{
+				mid=(ul+ur)/2;
+				if(dp[x]+calw(mid,x)<=dp[q[r-1].fi]+calw(mid,q[r-1].fi))ur=mid;
+				else ul=mid+1;
+			}
+			if(ur<=n)q[r++]=mp(x,ur);
+		}
+	}
+}
+
+******************************
+dp[x]=min{dp[i]+w[x,i]}
+
+k[i]表示dp[i]的决策
+i<=j k[i]<=k[j]
+当且仅当
+i<=j w[i,j]+w[i+1,j+1]<=w[i+1,j]+w[i,j+1]
+
+跑完后决策在q中
+
+**********************************
+dp[x][y]=min{dp[x][k-1]+dp[k][y]}+w[x][y]  x<k<=y
+
+若w决策单调:
+a1≤a2<b1≤b2，有w[a1,b1]+w[a2,b2]≤w[a1,b2]+w[a2,b1]
+
+定义s(i,j)为函数w(i,j)对应的使得w(i,j)取得最值的k值。
+我们可以证明，s[i,j-1]≤s[i,j]≤s[i+1,j]
+
+这时当按区间dp时，计算区间[i, j]的最优解，只要枚举[s[i][j - 1], s[i + 1][j]]即可，由于数组p取值为[1, n]且是单调的，所以枚举的总复杂度为O(n)，最后加上区间枚举的复杂度，总复杂度为O(n^2)
+
+按区间长度dp

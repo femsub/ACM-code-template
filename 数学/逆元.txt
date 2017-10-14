@@ -1,0 +1,49 @@
+LL ex(LL a,LL b,LL &x,LL &y)
+{
+        if(a==0&&b==0)return -1;
+        if(b==0){x=1;y=0;return a;}
+        LL d=ex(b,a%b,y,x);
+        y-=a/b*x;
+        return d;
+}
+LL Inv(LL a,LL n)
+{
+        LL x,y;
+        LL d=ex(a,n,x,y);
+        if(d==1)return (x%n+n)%n;
+        else return -1;
+}			//逆元存在条件gcd(b,MOD)=1，用逆元a是b的倍数
+			逆元是完全积性函数
+***************************************
+LL inv(LL a,LL p) //0<a<p,a%=p先
+{
+    if(a==0)return -1;
+    if(a==1)return 1;
+    return inv(p%a,p)*(p-p/a)%p;
+}
+***************************************	
+a/b %p  =  a%(pb)/b		
+证明：
+a/b=km+x   %m
+a=bkm+bx
+a%(bm)=bx
+a%(pb)/b= x =a/b%m
+
+****************************************
+
+int inv[MOD];
+void ininv(){inv[1]=1;for(int x=2;x<MOD;x++)inv[x]=(MOD-MOD/x)*inv[MOD%x]%MOD;}
+
+
+求1~p-1 对p的所有逆元   p素数  1~p-1的逆元不同
+inv[i]=(p-p/i)*inv[p%i]%p
+
+证明：
+t=p/i k=p%i
+t*i+k=0  %p
+-t*i=k  %p
+同时除i*k
+-t*inv[k]=inv[i]  %p
+
+******************************************
+n^(p-2)=1/p  %p

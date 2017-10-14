@@ -1,0 +1,116 @@
+const int MAXN=100005;
+struct SegTree
+{
+        int l,r;
+        LL d,sum;
+}tr[MAXN*5];
+struct ZXTree{                          //回溯时间线段树
+        int n,no,time;//n为线段树个数
+        int T[MAXN],noo[MAXN];
+        void init(int n)
+        {
+                //sorted[]存前缀和
+                //time=0时为初始值
+                this->n=n;
+                T[0]=build(1,n);
+                time=0;
+        }
+        int build(int l,int r)
+        {
+                int cur=++no;
+                int mid=(l+r)>>1;
+                tr[cur].d=tr[cur].sum=0;
+                if(l<r)
+                {
+                        tr[cur].l=build(l,mid);
+                        tr[cur].r=build(mid+1,r);
+                }
+                return cur;
+        }
+        int insertt(int ti,int k,int d)//k-n  +d  在t
+        {
+                int l=1,r=n,cur=++no,c=cur;
+                while(1)
+                {
+                        tr[cur].d=tr[ti].d+d;
+                        tr[cur].sum=tr[ti].sum+(LL)k*(LL)d;
+                        if(l==r)break;
+                        int mid=(l+r)>>1;
+                        if(k<=mid)
+                        {
+                                tr[cur].l=++no;
+                                tr[cur].r=tr[ti].r;
+                                ti=tr[ti].l;
+                                cur=no;
+                                r=mid;
+                        }
+                        else
+                        {
+                                tr[cur].l=tr[ti].l;
+                                tr[cur].r=++no;
+                                ti=tr[ti].r;
+                                cur=no;
+                                l=mid+1;
+                        }
+                }
+                return c;
+        }
+        LL query(int k,int ti)
+        {
+                int cur=T[ti],l=1,r=n;
+                LL d=0,sum=0;
+                if(k==0) return 0;
+                while(1)
+                {
+                        if(l==r)
+                        {
+                                d+=tr[cur].d;
+                                sum+=tr[cur].sum;
+                                break;
+                        }
+                        int mid=(l+r)>>1;
+                        if(k<=mid)
+                        {
+                                cur=tr[cur].l;
+                                r=mid;
+                        }
+                        else
+                        {
+                                d+=tr[tr[cur].l].d;
+                                sum+=tr[tr[cur].l].sum;
+                                cur=tr[cur].r;
+                                l=mid+1;
+                        }
+                }
+                return (k+1)*d-sum;
+        }
+        void update(int l,int r,int d)//time时间更新l-r +d，时间变为time+1
+        {
+                time++;
+                T[time]=insertt(T[time-1],l,d);
+                if(r<n)
+                T[time]=insertt(T[time],r+1,-d);
+                noo[time]=no;
+        }
+        void update(int l,int d)//time时间更新l-n +d，时间变为time+1
+        {
+                time++;
+                T[time]=insertt(T[time-1],l,d);
+                noo[time]=no;
+        }
+        LL query(int l,int r,int t)//l-r,在t时间区间和
+        {
+                return query(r,t)-query(l-1,t);
+        }
+        void back(int t)//回到t时间
+        {
+                time=t;
+                no=noo[t];
+        }
+}zt;
+
+
+//外部数组存放前缀和   query+a[r]-a[l-1]
+zt.init(n);
+zt.update(l,r,d);
+zt.query(l,r,t)

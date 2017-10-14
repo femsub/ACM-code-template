@@ -1,0 +1,150 @@
+*********************************************
+int prime[maxn];      //线性筛素数，最小素因子
+int mark[maxn];        //mark[i]为i时为素数,
+int getprime(int N)
+{
+  mem(mark,0);
+  int tot=0,i,j;
+  mark[0]=mark[1]=1;
+  for(i=2;i<=N;i++)//相当于分解质因式的逆过程
+  {
+     if(!mark[i]){
+         prime[tot++]=i;//筛素数的时候首先会判断i是否是素数。
+         mark[i]=1;
+         }
+     for(j=0;j<tot&&i*prime[j]<=N;j++)
+     {
+       mark[i*prime[j]]=1;//确定i*prime[j]不是素数
+       if(!(i%prime[j]))//接着我们会看prime[j]是否是i的约数
+         break;
+     }
+  }
+  return tot;
+}
+  *********************************************
+int phi[maxn],prime[maxn];      //线性筛素数，欧拉函数
+bool mark[maxn];        //mark为0时为素数
+int getphi(int N)
+{
+  mem(mark);
+  int tot=0,i,j;
+  phi[1]=mark[0]=mark[1]=1;
+  for(i=2;i<=N;i++)//相当于分解质因式的逆过程
+  {
+     if(!mark[i]){
+         prime[tot++]=i;//筛素数的时候首先会判断i是否是素数。
+         phi[i]=i-1;//当 i 是素数时 phi[i]=i-1
+         }
+     for(j=0;j<tot;j++)
+     {
+       if(i*prime[j]>N) break;
+       mark[i*prime[j]]=1;//确定i*prime[j]不是素数
+       if(!(i%prime[j]))//接着我们会看prime[j]是否是i的约数
+       {
+         phi[i*prime[j]]=phi[i]*prime[j];break;
+       }
+       else  phi[i*prime[j]]=phi[i]*(prime[j]-1);//其实这里prime[j]-1就是phi[prime[j]]，利用了欧拉函数的积性
+     }
+  }
+  return tot;
+}
+*****************************************
+int mu[maxn],prime[maxn];      //线性筛素数，莫比乌斯函数
+bool mark[maxn];        //mark为0时为素数
+int getmu(int N)
+{
+  mem(mark);
+  int tot=0,i,j;
+  mu[1]=mark[0]=mark[1]=1;
+  for(i=2;i<=N;i++)
+  {
+     if(!mark[i]){
+         prime[tot++]=i;
+         mu[i]=-1;
+         }
+     for(j=0;j<tot;j++)
+     {
+       if(i*prime[j]>N) break;
+       mark[i*prime[j]]=1;
+       if(!(i%prime[j]))
+       {
+         mu[i*prime[j]]=0;break;
+       }
+       else  mu[i*prime[j]]=-mu[i];
+     }
+  }
+  return tot;
+}
+*******************************************
+int prime[maxn],piou[maxn];      //线性筛 euler n!
+bool mark[maxn];        //mark为0时为素数
+int getphi(int N)
+{
+    mem(mark);
+    LL tot=0,i,j;
+    mark[0]=mark[1]=1;
+    piou[0]=piou[1]=1;
+    for(i=2;i<=N;i++)
+    {
+        if(!mark[i]){
+            prime[tot++]=i;
+            piou[i]=(LL)piou[i-1]*(i-1)%MOD;
+        }
+        else piou[i]=(LL)piou[i-1]*i%MOD;
+        for(j=0;j<tot;j++)
+        {
+           if(i*prime[j]>N) break;
+           mark[i*prime[j]]=1;
+           if(!(i%prime[j]))break;
+        }
+    }
+    return tot;
+}
+******************************************
+数论卷积 nlogn	
+算1-n的h[x]=(求和d|x)(f[d]*g[x/d])	已知f,g的1-n
+int f[MAXN],g[MAXN],h[MAXN]={0};
+void calc(int n)
+{    
+    for (int i=1;i*i<=n;i++)
+        for (int j=i;i*j<=n;j++)
+            if(j==i)h[i*j]+=f[i]*g[i];
+            else h[i*j]+=f[i]*g[j]+f[j]*g[i];
+}
+******************************************
+在数论，对正整数n，欧拉函数是少于或等于n的数中与n互质的数的数目
+	//直接求解欧拉函数  
+
+    LL euler(LL n){ //返回euler(n)   
+        LL res=n,a=n;  
+        for(LL i=2;i*i<=a;i++){ //用prime[i]快
+            if(a%i==0){  
+                res=res/i*(i-1);//先进行除法是为了防止中间数据的溢出   
+                while(a%i==0) a/=i;  
+            }  
+        }  
+        if(a>1) res=res/a*(a-1);  
+        return res;  
+    }
+
+
+
+******************************已知f[n]=(求和d|n)g(d),求g nlogn
+for (int i = 1; i <= n; ++i)
+  for (int j = i + i; j <= n; j += i)		
+    f[j] -= f[i];
+
+*****************************f[n]=(求和d|n)g(d),已知g,求f
+for (int i = n; i >= 1; --i)
+  for (int j = i + i; j <= n; j += i)		
+    f[j] += f[i];
+
+******************************已知f[n]=(求和n|d)g(d),求g nlogn
+for (int i = n; i >= 1; --i)
+  for (int j = i + i; j <= n; j += i)		
+    f[i] -= f[j];
+
+*****************************f[n]=(求和n|d)g(d),已知g,求f
+for (int i = 1; i <= n; ++i)
+  for (int j = i + i; j <= n; j += i)		
+    f[i] += f[j];

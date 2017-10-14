@@ -1,0 +1,102 @@
+void dfs(int u,int fa)
+{
+        int len=p[u].size();
+        for(int x=0;x<len;x++)
+                if(p[u][x].fi!=fa)
+                        dfs(p[u][x].fi,u);
+        len=q[u].size();
+        for(int x=0;x<len;x++)
+                if(up(q[u][x].fi)!=q[u][x].fi)
+                        qq[q[u][x].se]=up(q[u][x].fi);
+        ro[u]=fa;
+}
+
+
+p[u][x].fi=v;.se=w;
+q[u][x].fi=v;.se=j询问次序
+
+
+void dfs(int u)
+{
+        ro[u]=u;
+        vi[u]=1;
+        int len=p[u].size();
+        for(int x=0;x<len;x++)
+                if(!vi[p[u][x].fi])
+                {
+                        dfs(p[u][x].fi);
+                        ro[p[u][x].fi]=u;
+                }
+        len=q[u].size();
+        for(int x=0;x<len;x++)
+                if(vi[q[u][x].fi])
+                        qq[q[u][x].se]=up(q[u][x].fi);
+}
+
+****************************
+int L[maxn*2],cnt=0,deep[maxn];//u的deep是deep[u];
+int st[maxn*2][30];
+vector<int>node[maxn];
+void dfs(int u,int fa)
+{
+    L[u]=++cnt;
+    st[cnt][0]=u;
+    deep[u]=deep[fa]+1;
+    for(int x:node[u])
+        if(x!=fa)
+        {
+            dfs(x,u);
+            st[++cnt][0]=u;
+        }
+}
+int Log[maxn*2];
+int lca(int u,int v)
+{
+    int a=L[u],b=L[v];
+    if(a>b)swap(a,b);
+    int t=Log[b-a+1];
+    if(deep[st[a][t]]<deep[st[b-(1<<t)+1][t]])return st[a][t];
+    else return st[b-(1<<t)+1][t];
+}
+
+
+
+    deep[0]=0;
+    dfs(1,0);
+    Log[0]=-1;for(int i=1;i<=cnt;i++)Log[i]=Log[i>>1]+1;
+    for(int y=1;y<=Log[cnt];y++)
+        for(int x=1;x<=cnt&&x+(1<<y)-1<=cnt;x++)
+			if(deep[st[x][y-1]]<deep[st[x+(1<<(y-1))][y-1]])st[x][y]=st[x][y-1];
+			else st[x][y]=st[x+(1<<(y-1))][y-1];
+
+
+
+
+
+
+
+
+
+
+***************************************** n ~ 1
+
+void Build(int *a){//建造操作		已经sort,a[0]为size
+    static int stack[maxn],x,last;
+    int p=0;
+    for(int i=1;i<=a[0];++i){
+        x=newtreap(a[i]);
+        last=0;
+        while(p && tr[stack[p]].fix>tr[x].fix){
+            updata(stack[p]);
+            last=stack[p];
+            stack[p--]=0;
+        }
+        if(p) tr[stack[p]].r=x;
+        tr[x].l=last;
+        stack[++p]=x;
+    }
+    while(p) updata(stack[p--]);
+    root=stack[1];
+}
+
+笛卡尔树建立，过程中跑tarjan lca

@@ -1,0 +1,108 @@
+int prime[maxn];      //线性筛素数，最小素因子
+int mark[maxn];        //mark[i]为i时为素数,
+int getprime(int N)
+{
+  mem(mark,0);
+  int tot=0,i,j;
+  mark[0]=mark[1]=1;
+  for(i=2;i<=N;i++)//相当于分解质因式的逆过程
+  {
+     if(!mark[i]){
+         prime[tot++]=i;//筛素数的时候首先会判断i是否是素数。
+         mark[i]=1;
+         }
+     for(j=0;j<tot&&i*prime[j]<=N;j++)
+     {
+       mark[i*prime[j]]=1;//确定i*prime[j]不是素数
+       if(!(i%prime[j]))//接着我们会看prime[j]是否是i的约数
+         break;
+     }
+  }
+  return tot;
+}
+int fact[100],num[100];
+void dfs(int t,LL b)			//1 当成1^0 dfs(len-1,1);
+{
+    if(t==-1)
+    {
+        cout<<b<<endl;
+        return;
+    }
+    LL tem=1;
+    for(int x=0;x<=num[t];x++)
+    {
+        dfs(t-1,b*tem);
+        tem*=fact[t];
+    }
+}
+int tot;
+int work(LL n)		//v=1特判
+{
+	if(n==1){fact[0]=1;num[0]=0;return 1;}
+	int len=0;
+	for(int x=0;x<tot;x++)
+	{
+		if(n==1)break;
+		if(prime[x]*prime[x]>n){fact[len]=n;num[len]=1;len++;break;}
+		if(n%prime[x]==0)
+		{
+			fact[len]=prime[x];
+			num[len]=0;
+			while(n%prime[x]==0)
+			{
+				num[len]++;
+				n/=prime[x];
+			}
+			len++;
+		}
+	}
+	return len;
+}
+
+tot=getprime(maxn-1);
+int len=work(n);
+dfs(len-1,1);
+
+**********************************************************
+ 线性筛next=0终止
+
+struct fact{
+    int p,num,next;
+    fact(){};
+    fact(int p_,int num_,int next_):p(p_),num(num_),next(next_){};
+}factor[maxn];
+int head[maxn];
+int prime[maxn];
+bool mark[maxn];
+int getfact(int N)
+{
+    memset(mark,0,N*sizeof(bool));
+    int tot=0,cnt=0,i,j;
+    mark[0]=mark[1]=1;
+    head[1]=-1;
+    for(i=2;i<=N;i++)
+    {
+        if(!mark[i]){
+            prime[tot++]=i;
+            factor[cnt]=fact(i,1,-1);
+            head[i]=cnt++;
+            }
+        for(j=0;j<tot&&i*prime[j]<=N;j++){
+            mark[i*prime[j]]=1;
+            if(!(i%prime[j]))
+            {
+                factor[cnt]=fact(prime[j],1+factor[head[i]].num,factor[head[i]].next);
+                head[i*prime[j]]=cnt++;
+                break;
+            }
+            else
+            {
+                factor[cnt]=fact(prime[j],1,head[i]);
+                head[i*prime[j]]=cnt++;
+            }
+        }
+    }
+    factor[cnt]=fact(1,0,-1);
+    head[1]=cnt++;
+    return tot;
+}

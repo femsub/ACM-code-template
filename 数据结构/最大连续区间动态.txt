@@ -1,0 +1,351 @@
+对查询区间(a,b)
+
+int mid=(a+b)/2;
+
+要求st_max的话， 有三种情况：
+
+情况1： st_max的起点和终点都在【a,mid】
+
+情况2：st_max的起点和终点都在【mid+1,b】
+
+情况3：st_max的起点在【a,mid】，终点在【mid+1,b】
+
+对于情况三 ： st_max= max_suffix（a,mid）+max_prefix（mid+1,b）  【容易理解】
+
+其中max_suffix为一区间的最大后缀和
+
+其中max_prefix为一区间的最大前缀和
+
+所以，任意区间的st_max 都可求得。只要不断递归下去就可以了。 【线段树维护区间的结果】
+
+而对于max_suffix、max_prefix，我们也是用分治的方法来求
+
+例如 要求max_prefix【a,b】
+
+那么先求max_prefix【a,mid】和max_prefix【mid+1,b】
+
+然后选 max_prefix【a,mid】 和max_prefix【mid+1,b】+sum[mid] 中 较大的一个 即为 【a,b】的最大前缀和，其中sum【i】为前缀和数组
+
+同理也可以分治求得max_suffix
+
+-------------------------------------------------
+
+最终是 用 两个线段树分别维护 max_prefix、max_suffix
+
+再用一棵线段树维护最大连续和
+
+建树nlogn
+
+每次查询logn...常数应该比较大....所以跑了1.4S。。。犇都是0.x秒
+
+
+1、要注意的是inf不能设为2^63-1 会溢出
+
+2、维护某个最大连续和对应的始末位置 我是另创了一个node来记录
+
+3、在情况三下，用query_max查找最大前/后缀和的时候，
+
+查询的l，应该是当前区间的l和要查询的区间的l中 较大的一个
+
+查询的r，应该是当前区间的r和要查询的区间的r中 较小的一个
+
+
+
+
+
+
+
+
+
+//#include <bits/stdc++.h>
+#include <stdio.h>
+#include <iostream>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <algorithm>
+#include <queue>
+#include <vector>
+#include <set>
+#include <map>
+#include <stack>
+#include <bitset>
+#include <string>
+using namespace std;
+double esp=1e-12;
+#pragma comment(linker, "/STACK:1024000000,1024000000")
+#define fi first
+#define se second
+#define all(a) a.begin(),a.end()
+#define cle(a) while(!a.empty())a.pop()
+#define mem(p) memset(p,0,sizeof(p))
+#define mp(A, B) make_pair(A, B)
+#define pb push_back
+#define lson l , m , rt << 1
+#define rson m + 1 , r , rt << 1 | 1
+typedef long long int LL;
+const double PI = acos(-1.0);
+const LL INF=0x3f3f3f3f3f3f3f3f;
+const int MOD = 1000000007;
+int dx[8]={1,0,-1,0,1,1,-1,-1};
+int dy[8]={0,1,0,-1,1,-1,1,-1};
+int POS;
+struct treepo{
+        static const int MAXN = 200050;
+        struct SegTree{
+        int n;
+        struct Node
+        {
+                LL pre,suf;
+                LL sum,ans,add;
+        }nd[MAXN<<2],mt,m1,m2;
+        void PushUp(int rt) {
+                LL g=nd[rt].add;
+                nd[rt]=PushUp(nd[rt<<1],nd[rt<<1|1]);
+                nd[rt].add=g;
+        }
+        Node PushUp(Node m1,Node m2) {
+                Node mt;
+                mt.sum = m1.sum +m2.sum;
+                mt.pre=max(m1.pre,m1.sum+m2.pre);
+                mt.suf=max(m2.suf,m2.sum+m1.suf);
+                mt.ans=max(max(m1.ans,m2.ans),m1.suf+m2.pre);
+                return mt;
+        }
+        void PushDown(int rt,LL m) {
+                if (nd[rt].add!=INF) {
+                        nd[rt<<1].add = nd[rt<<1|1].add=nd[rt].add;
+                        nd[rt<<1].sum = nd[rt].add * (m - (m >> 1));
+                        nd[rt<<1|1].sum = nd[rt].add * (m >> 1);
+                        if(nd[rt].add>0){nd[rt<<1].pre=nd[rt<<1].suf=nd[rt<<1].ans=nd[rt<<1].sum;nd[rt<<1|1].pre=nd[rt<<1|1].suf=nd[rt<<1|1].ans=nd[rt<<1|1].sum;}
+                        else{nd[rt<<1].pre=nd[rt<<1].suf=nd[rt<<1].ans=nd[rt<<1|1].pre=nd[rt<<1|1].suf=nd[rt<<1|1].ans=nd[rt].add;}
+                        nd[rt].add=INF;
+                }
+        }
+        void build(int l,int r,int rt) {
+                nd[rt].sum=0;
+                nd[rt].add=INF;
+                if (l == r) {
+                        //scanf("%lld",&nd[rt].sum);
+                        nd[rt].ans=nd[rt].pre=nd[rt].suf=nd[rt].sum=0;
+                        return ;
+                }
+                int m = (l + r) >> 1;
+                build(lson);
+                build(rson);
+                PushUp(rt);
+        }
+        void build(int n)
+        {
+                this->n=n;
+                build(1,n,1);
+        }
+        void update(int L,int R,LL c,int l,int r,int rt) {
+                if (L <= l && r <= R) {
+                        nd[rt].add=c;
+                        nd[rt].sum=c*(r-l+1);
+                        nd[rt].pre=nd[rt].suf=nd[rt].ans=max(c,nd[rt].sum);
+                        return ;
+                }
+                PushDown(rt , (LL)r - l + 1);
+                int m = (l + r) >> 1;
+                if (L <= m) update(L , R, c , lson);
+                if (m < R) update(L , R , c , rson);
+                PushUp(rt);
+        }
+        void update(int L,int R,LL c){update(L,R,c,1,n,1);}
+        Node query(int L,int R,int l,int r,int rt) {
+                if (L <= l && r <= R) {
+                        return nd[rt];
+                }
+                PushDown(rt , (LL)r - l + 1);
+                int m = (l + r) >> 1;
+                int flag=0;
+                Node mc,mv;
+                if (L <= m) {mc=query(L , R , lson);flag+=1;}
+                if (m < R) {mv=query(L , R , rson);flag+=2;}
+                //PushUp(rt);
+                if(flag==1)
+                        return mc;
+                if(flag==2)
+                        return mv;
+                if(flag==3)
+                        return PushUp(mc,mv);
+        }
+        Node query(int L,int R){return query(L,R,1,n,1);}
+        }tr;
+        /*********************/
+        struct Edge
+        {
+            int to,next;
+        }edge[MAXN*2];
+        int head[MAXN],tot;
+        int top[MAXN];//top[v]表示v所在的重链的顶端节点
+        int fa[MAXN]; //父亲节点
+        int deep[MAXN];//深度
+        int num[MAXN];//num[v]表示以v为根的子树的节点数
+        int p[MAXN];//p[v]表示v与其父亲节点的连边在线段树中的位置
+        int fp[MAXN];//和p数组相反           fp[p[u]] = u;
+        int son[MAXN];//重儿子
+
+        void init(int n)
+        {
+            tot = 0;
+            memset(head,-1,sizeof(head));
+            POS = 1;
+            memset(son,-1,sizeof(son));
+            tr.build(n);
+        }
+        void addedge(int u,int v)
+        {
+            edge[tot].to = v;edge[tot].next = head[u];head[u] = tot++;
+            edge[tot].to = u;edge[tot].next = head[v];head[v] = tot++;
+        }
+        void dfs1(int u,int pre,int d) //第一遍dfs求出fa,deep,num,son  dfs1((n+1)/2,-1,0);
+        {
+            deep[u] = d;
+            fa[u] = pre;
+            num[u] = 1;
+            for(int i = head[u];i != -1; i = edge[i].next)
+            {
+                int v = edge[i].to;
+                if(v != pre)
+                {
+                    dfs1(v,u,d+1);
+                    num[u] += num[v];
+                    if(son[u] == -1 || num[v] > num[son[u]])
+                        son[u] = v;
+                }
+            }
+        }
+        void dfs1(){dfs1((tr.n+1)/2,-1,0);}
+        void getPOS(int u,int sp) //第二遍dfs求出top和p  getPOS((n+1)/2,(n+1)/2);
+        {
+            top[u] = sp;
+            p[u] = POS;
+            POS++;
+            fp[p[u]] = u;
+            if(son[u] == -1) return;
+            getPOS(son[u],sp);
+            for(int i = head[u] ; i != -1; i = edge[i].next)
+            {
+                int v = edge[i].to;
+                if(v != son[u] && v != fa[u])
+                    getPOS(v,v);
+            }
+        }
+        void getPOS(){getPOS((tr.n+1)/2,(tr.n+1)/2);}
+        void up(int va,int vb,LL w)
+        {
+                int f1 = top[va], f2 = top[vb];
+             while (f1 != f2)
+             {
+                   if (deep[f1] < deep[f2])
+                   { swap(f1, f2); swap(va, vb); }
+                   tr.update(p[f1],p[va],w);
+                   va = fa[f1]; f1 = top[va];
+             }
+             if (va != vb&&deep[va] > deep[vb])
+                tr.update(p[vb],p[va],w);
+             else
+                tr.update(p[va],p[vb],w);
+             return;
+        }
+        int lca(int va,int vb)
+        {
+                int f1 = top[va], f2 = top[vb];
+                while (f1 != f2)
+                {
+                        if (deep[f1] < deep[f2])
+                        { swap(f1, f2); swap(va, vb); }
+                        va = fa[f1]; f1 = top[va];
+                }
+                if (va != vb&&deep[va] > deep[vb])
+                        return vb;
+                else
+                        return va;
+        }
+        LL qu(int va,int vb)
+        {                                                       //printf("%d %d \n",va,vb);
+                if(va==vb)
+                        return tr.query(p[va],p[va]).sum;
+                SegTree::Node tem,tem1;
+                int fat=lca(va,vb);
+                int f1 = top[va], f2 = top[vb];
+                if(f1==top[fat])
+                        tem=tr.query(p[fat],p[va]);
+                else
+                {
+                        tem=tr.query(p[f1],p[va]);
+                        va = fa[f1]; f1 = top[va];
+                        while(f1!=top[fat])
+                        {
+                                tem=tr.PushUp(tr.query(p[f1],p[va]),tem);
+                                va = fa[f1]; f1 = top[va];
+                        }
+                        tem=tr.PushUp(tr.query(p[fat],p[va]),tem);
+                }
+                if(vb==fat)
+                        return tem.ans;
+                if(f2==top[fat])
+                {
+                        tem1=tr.query(p[son[fat]],p[vb]);
+                        return max(max(tem.ans,tem1.ans),tem.pre+tem1.pre);
+                }
+                else
+                {
+                        tem1=tr.query(p[f2],p[vb]);
+                        vb = fa[f2]; f2 = top[vb];
+                        while(f2!=top[fat])
+                        {
+                                tem1=tr.PushUp(tr.query(p[f2],p[vb]),tem1);
+                                vb = fa[f2]; f2 = top[vb];
+                        }
+                        if(vb!=fat)
+                                tem1=tr.PushUp(tr.query(p[son[fat]],p[vb]),tem1);
+                }
+                return max(max(tem.ans,tem1.ans),tem.pre+tem1.pre);
+        }
+        /*********************/
+}pt;
+LL di[210000];
+int main()
+{
+        freopen("in.txt", "r", stdin);
+        //freopen("inlay.in", "r", stdin);
+        //freopen("inlay.out", "w", stdout);
+        //map<long long int,int>ma;                 %I64d
+        //vector<int>::iterator iter;
+        //memset(m,0,sizeof(int));
+        //for(int x=1;x<=n;x++)
+        //for(int y=1;y<=n;y++)
+        //scanf("%d%d",&a,&b);
+        //scanf("%d",&a);
+        //printf("%d\n",ans);
+        int n,q,u,v,c,a,b;
+        LL w;
+        scanf("%d%d",&n,&q);
+        pt.init(n);
+        for(int x=1;x<=n;x++)
+                scanf("%lld",&di[x]);
+        for(int x=1;x<=n-1;x++)
+        {
+                scanf("%d%d",&u,&v);
+                pt.addedge(u,v);
+        }
+        pt.dfs1();
+        pt.getPOS();
+        for(int x=1;x<=n;x++)
+                pt.tr.update(pt.p[x],pt.p[x],di[x]);
+        for(int x=1;x<=q;x++)
+        {
+                scanf("%d%d%d%lld",&c,&a,&b,&w);
+                if(c==1)
+                        pt.up(a,b,w);
+                else
+                        printf("%lld\n",pt.qu(a,b));
+        }
+    return 0;
+}
+

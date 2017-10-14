@@ -1,0 +1,137 @@
+******************************
+建立
+    private ClusterKDTree(Clusterable[] points, int height, boolean randomSplit){  
+        if ( points.length == 1 ){  
+            cluster = points[0];  
+        }  
+        else {  
+            splitIndex = chooseSplitDimension//选取切分维度  
+                (points[0].getLocation().length,height,randomSplit);  
+            splitValue = chooseSplit(points,splitIndex);//选取切分值  
+                  
+            Vector<Clusterable> left = new Vector<Clusterable>();  
+            Vector<Clusterable> right = new Vector<Clusterable>();  
+            for ( int i = 0; i < points.length; i++ ){  
+                double val = points[i].getLocation()[splitIndex];  
+                if ( val == splitValue && cluster == null ){  
+                    cluster = points[i];  
+                }  
+                else if ( val >= splitValue ){  
+                    right.add(points[i]);  
+                } else {  
+                    left.add(points[i]);  
+                }  
+            }  
+                  
+            if ( right.size() > 0 ){  
+                this.right = new ClusterKDTree(right.toArray(new  
+                Clusterable[right.size()]),  
+                randomSplit ? splitIndex : height+1, randomSplit);  
+            }  
+            if ( left.size() > 0 ){  
+                this.left = new ClusterKDTree(left.toArray(new  
+                Clusterable[left.size()]),randomSplit ? splitIndex : height+1,  
+                randomSplit);  
+            }  
+        }  
+    }  
+      
+    private int chooseSplitDimension(int dimensionality,int height,boolean random){  
+        if ( !random ) return height % dimensionality;  
+        int rand = r.nextInt(dimensionality);  
+        while ( rand == height ){  
+            rand = r.nextInt(dimensionality);  
+        }  
+        return rand;  
+    }  
+          
+    private double chooseSplit(Clusterable points[],int splitIdx){  
+        double[] values = new double[points.length];  
+        for ( int i = 0; i < points.length; i++ ){  
+        values[i] = points[i].getLocation()[splitIdx];  
+        }  
+        Arrays.sort(values);  
+        return values[values.length/2];//选取中间值以保持树的平衡  
+    }  
+
+
+***********************************
+使用KD-TREE，经过一次二分查找可以获得Query的KNN（最近邻）贪心解，代码如下：
+
+    private Clusterable restrictedNearestNeighbor(Clusterable point, SizedPriorityQueue<ClusterKDTree> values){  
+        if ( splitIndex == -1 ) {  
+            return cluster; //已近到叶子节点  
+        }  
+              
+        double val = point.getLocation()[splitIndex];  
+        Clusterable closest = null;  
+        if ( val >= splitValue && right != null || left == null ){  
+            //沿右边路径遍历，并将左边子树放进队列  
+            if ( left != null ){  
+                double dist = val - splitValue;  
+                values.add(left,dist);  
+            }  
+            closest = right.restrictedNearestNeighbor(point,values);  
+        }  
+        else if ( val < splitValue && left != null || right == null ) {  
+            //沿左边路径遍历，并将右边子树放进队列  
+            if ( right != null ){  
+                double dist = splitValue - val;  
+                values.add(right,dist);  
+            }  
+            closest = left.restrictedNearestNeighbor(point,values);  
+        }  
+        //current distance of the 'ideal' node  
+        double currMinDistance = ClusterUtils.getEuclideanDistance(closest,point);  
+        //check to see if the current node we've backtracked to is closer  
+        double currClusterDistance = ClusterUtils.getEuclideanDistance(cluster,point);  
+        if ( closest == null || currMinDistance > currClusterDistance ){  
+            closest = cluster;  
+            currMinDistance = currClusterDistance;  
+        }  
+        return closest;  
+    }  
+
+**********************************
+一种减少误差的方法（BBF：Best Bin First）是回溯一定数量的节点： 
+
+    public Clusterable restrictedNearestNeighbor(Clusterable point, int numMaxBinsChecked){  
+        SizedPriorityQueue<ClusterKDTree> bins = new SizedPriorityQueue<ClusterKDTree>(50,true);  
+        Clusterable closest = restrictedNearestNeighbor(point,bins);  
+        double closestDist = ClusterUtils.getEuclideanDistance(point,closest);  
+        //System.out.println("retrieved point: " + closest + ", dist: " + closestDist);  
+        int count = 0;  
+        while ( count < numMaxBinsChecked && bins.size() > 0 ){  
+            ClusterKDTree nextBin = bins.pop();  
+        //System.out.println("Popping of next bin: " + nextBin);  
+        Clusterable possibleClosest = nextBin.restrictedNearestNeighbor(point,bins);  
+            double dist = ClusterUtils.getEuclideanDistance(point,possibleClosest);  
+            if ( dist < closestDist ){  
+            closest = possibleClosest;  
+            closestDist = dist;  
+        }  
+        count++;  
+        }  
+        return closest;  
+    }  
+
+
+*********************************
+可以用如下代码进行测试： 
+    public static void main(String args[]){  
+        Clusterable clusters[] = new Clusterable[10];  
+        clusters[0] = new Point(0,0);  
+        clusters[1] = new Point(1,2);  
+        clusters[2] = new Point(2,3);  
+        clusters[3] = new Point(1,5);  
+        clusters[4] = new Point(2,5);  
+        clusters[5] = new Point(1,1);  
+        clusters[6] = new Point(3,3);  
+        clusters[7] = new Point(0,2);  
+        clusters[8] = new Point(4,4);  
+        clusters[9] = new Point(5,5);  
+        ClusterKDTree tree = new ClusterKDTree(clusters,true);  
+        //tree.print();  
+        Clusterable c = tree.restrictedNearestNeighbor(new Point(4,4),1000);  
+        System.out.println(c);  
+    }  

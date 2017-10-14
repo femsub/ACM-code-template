@@ -1,0 +1,76 @@
+#define N 1000010
+
+int Next[N];
+int Nextval[N];
+int extend[N];
+
+char S[N];
+char T[N];
+/*
+给出模板串S和串T，长度分别为Slen和Tlen，要求在线性时间内，对于每个S[i]（0<=i<Slen)，求出S[i..Slen-1]与T的
+
+最长公共前缀长度，记为extend[i]（或者说，extend[i]为满足S[i..i+z-1]==T[0..z-1]的最大的z值）。
+*/
+void GetNext(char *T)
+{
+    int a=0;
+    int Tlen=strlen(T);
+    Next[0]=Tlen;
+    while(a<Tlen-1&&T[a]==T[a+1]) a++;
+    Next[1]=a;
+    a=1;
+    for(int k=2;k<Tlen;k++)
+    {
+        int p=a+Next[a]-1,L=Next[k-a];
+        if((k-1)+L>=p)
+        {
+            int j=(p-k+1)>0? p-k+1:0;
+            while(k+j<Tlen&&T[k+j]==T[j]) j++;
+            Next[k]=j;
+            a=k;
+        }
+        else Next[k]=L;
+    }
+}
+
+void GetExtend(char *S,char *T)
+{
+    int a=0;
+    GetNext(T);
+    int Slen=strlen(S);
+    int Tlen=strlen(T);
+    int MinLen=Slen<Tlen? Slen:Tlen;
+    while(a<MinLen&&S[a]==T[a]) a++;
+    extend[0]=a;
+    a=0;
+    for(int k=1;k<Slen;k++)
+    {
+        int p=a+extend[a]-1,L=Next[k-a];
+        if((k-1)+L>=p)
+        {
+            int j=(p-k+1)>0? p-k+1:0;
+            while(k+j<Slen&&j<Tlen&&S[k+j]==T[j]) j++;
+            extend[k]=j;
+            a=k;
+        }
+        else extend[k]=L;
+    }
+}
+
+void NextVal(char *T)
+{
+    int i=0,j=-1;
+    Nextval[0]=-1;
+    int Tlen=strlen(T);
+    while(i<Tlen)
+    {
+        if(j==-1||T[i]==T[j])
+        {
+            i++;
+            j++;
+            if(T[i]!=T[j]) Nextval[i]=j;
+            else  Nextval[i]=Nextval[j];
+        }
+        else j=Nextval[j];
+    }
+}

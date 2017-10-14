@@ -1,0 +1,20 @@
+﻿int cnt;
+struct Trie{          
+int p[26],sum;
+}tr[maxn];
+void init(){cnt=1;mem(tr[0].p);mem(tr[1].p);tr[0].sum=tr[1].sum=0;}
+void insert(string s)
+{
+    int len=s.length(),t=1;
+    tr[1].sum++;
+    for(int x=0;x<len;x++)
+        if(tr[t].p[s[x]-'a']){t=tr[t].p[s[x]-'a'];tr[t].sum++;}
+        else{t=tr[t].p[s[x]-'a']=++cnt;tr[t].sum=1;mem(tr[t].p);}
+}
+int query(string s)
+{
+    int len=s.length(),t=1;
+    for(int x=0;x<len;x++)
+        if(!(t=tr[t].p[s[x]-'a']))return 0;
+    return tr[t].sum;
+}
