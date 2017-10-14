@@ -1,8 +1,0 @@
-Point TriAndCir(Point a,Point b,Point c)
-{
-	double t,u,v;
-	t=2*(a.x-b.x)*(a.y-c.y)-2*(a.x-c.x)*(a.y-b.y);
-	u=(sqr(a.x)+sqr(a.y)-sqr(b.x)-sqr(b.y))/t;
-	v=(sqr(a.x)+sqr(a.y)-sqr(c.x)-sqr(c.y))/t;
-	return Point((a.y-c.y)*u-(a.y-b.y)*v,-(a.x-c.x)*u+(a.x-b.x)*v);
-}
