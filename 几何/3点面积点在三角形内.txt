@@ -2,3 +2,4 @@ bool pifin(point a,point b,point c,point p)
 {
     return cross(b-a,c-a)*cross(b-a,p-a)>0&&cross(c-b,a-b)*cross(c-b,p-b)>0&&cross(a-c,b-c)*cross(a-c,p-c)>0;
 }
+test
