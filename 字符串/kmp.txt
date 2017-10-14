@@ -1,0 +1,37 @@
+char S[maxn],quS[maxn];     //quS主串
+int nx[maxn];
+int kmp_next()      //nx数组表示匹配失配后模式串跳转位置ababc-10-102
+{
+    int len=strlen(S),i=0,j=nx[0]=-1;
+    while(i<len)
+    {
+        while(j!=-1&&S[i]!=S[j])j=nx[j];
+        i++;j++;
+        nx[i]=(S[i]==S[j])?nx[j]:j;
+        //nx[i]=j; 		前i-1最大前缀后缀 whlielen+1
+    }
+    return len;
+}
+int kmp()
+{
+    int i=0,j=0;
+    int n=strlen(quS),m=strlen(S);
+    int ans=0;
+    while(i<n)
+    {
+        while(j!=-1&&quS[i]!=S[j])j=nx[j];
+        i++;j++;
+        if(j>=m)
+        {
+            ans++;		//i在主串匹配的字串的后1位
+            j=nx[j];
+        }
+    }
+    return ans;
+}
+
+**************************
+用原版next，i % ( i - nx[i] ) == 0 && nx[i] != 0 时，前缀循环
+循环节长度为:   i - next[i]
+
+循环次数为:       i / ( i - next[i] )

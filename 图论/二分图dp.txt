@@ -1,0 +1,205 @@
+//#include <bits/stdc++.h>
+#include<stdio.h>
+#include<iostream>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <algorithm>
+#include <queue>
+#include <vector>
+#include <set>
+#include <map>
+#include <bitset>
+#pragma comment(linker, "/STACK:1024000000,1024000000")
+using namespace std;
+double esp=0.000000001;
+#define  fi  first
+#define se second
+#define LL long long int
+#define all(a) a.begin(),a.end()
+#define sz(a) a.size()
+#define cle(a) while(!a.empty())a.pop()
+#define lson l , m , rt << 1
+#define rson m + 1 , r , rt << 1 | 1
+#define INF 0x3f3f3f3f
+vector<string> m;
+vector<int> b1[27];
+int b[27][27];
+int ys[300];
+int r[27][2];
+int li[27][2];
+queue<int>q;
+bitset<30> dp(int i,int num)
+{
+        bitset<30> tem=0;
+        if(num<0)
+        {
+                tem.set(0);
+                return tem;
+        }
+        if(i==1)
+        {
+                if(li[1][0]==num)
+                {
+                        tem.set(1);
+                        return tem;
+                }
+                else if(li[1][1]==num)
+                        return tem;
+                else
+                {
+                        tem.set(0);
+                        return tem;
+                }
+        }
+        if(li[i][0]>num&&li[i][1]>num)
+        {
+                tem.set(0);
+                return tem;
+        }
+        tem=dp(i-1,num-li[i][0]);
+        if(tem[0]==0)
+        {
+                tem.set(i);
+                return tem;
+        }
+        tem=dp(i-1,num-li[i][1]);
+        if(tem[0]==0)
+                return tem;
+        tem.set(0);
+        return tem;
+}
+int main()
+{
+        //freopen("in.txt", "r", stdin);
+        freopen("javanese.in", "r", stdin);
+        freopen("javanese.out", "w", stdout);
+        //map<long long int,int>ma;
+        //vector<long long int>::iterator iter;
+        //memset(m,0,sizeof(int));
+        //for(int x=1;x<=n;x++)
+        //for(int y=1;y<=t;y++)
+        //scanf("%d%d",&a,&b);
+        //printf("%d\n",ans);                           %I64d
+        memset(ys,0,sizeof(ys));
+        memset(r,0,sizeof(r));
+        memset(b,0,sizeof(b));
+        memset(li,0,sizeof(li));
+
+        int len=0,len1;
+        string s;
+        m.clear();
+        for(int x=0;x<300;x++)
+                ys[x]=x;
+        for(int x=0;x<27;x++)
+                b1[x].clear();
+        while(getline(cin,s))
+        {
+                m.push_back(s);
+                len1=sz(s);
+                for(int x=1;x<len1;x++)
+                        if(s[x]>='A'&&s[x]<='Z'&&s[x-1]>='A'&&s[x-1]<='Z')
+                        {
+                                b[s[x]-'A'][s[x-1]-'A']=b[s[x-1]-'A'][s[x]-'A']=1;
+                        }
+        }
+        for(int x=0;x<26;x++)
+                for(int y=0;y<26;y++)
+                        if(b[x][y]==1)
+                                b1[x].push_back(y);
+        len=sz(m);
+        int k=0,t;
+        for(int x=0;x<26;x++)
+                if(r[x][0]==0)
+                {
+                        cle(q);
+                        k++;
+                        q.push(x);
+                        r[x][0]=1;
+                        r[x][1]=k;
+                        while(!q.empty())
+                        {
+                                t=q.front();
+                                len1=sz(b1[t]);
+                                int h=r[t][0];
+                                for(int y=0;y<len1;y++)
+                                {
+                                        r[b1[t][y]][1]=k;
+                                        if(h==r[b1[t][y]][0])
+                                        {
+                                                printf("impossible\n");
+                                                return 0;
+                                        }
+                                        else if(r[b1[t][y]][0]!=0)
+                                                continue;
+                                        else
+                                        {
+                                                if(h==1)
+                                                        r[b1[t][y]][0]=2;
+                                                else
+                                                        r[b1[t][y]][0]=1;
+                                                q.push(b1[t][y]);
+                                        }
+                                }
+                                q.pop();
+                        }
+                }
+        //printf("%d\n",k);
+        /*for(int x=1;x<=k;x++)
+        {
+                printf("%d\n",x);
+                for(int y=0;y<=25;y++)
+                        if(r[y][1]==x)
+                        {
+                                printf(" %d",y);
+                        }
+                printf("\n");
+        }*/
+        for(int x=0;x<26;x++)
+                if(r[x][0]==1)
+                        li[r[x][1]][0]++;
+                else
+                        li[r[x][1]][1]++;
+        int mi=0;
+        for(int x=1;x<=k;x++)
+                mi+=min(li[x][0],li[x][1]);
+        if(mi>5)
+        {
+                printf("impossible\n");
+                return 0;
+        }
+        bitset<30>tem;
+        tem=dp(k,5);                                            //cout <<tem << endl;
+        if(tem[0]==1)
+        {
+                printf("impossible\n");
+                return 0;
+        }
+        int t1=0,t2=0;
+        int s1[30]={'A','E','I','O','U'};
+        int s2[30]={'Q','W','R','T','Y','P','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M'};
+        for(int x=0;x<26;x++)
+                if(tem[r[x][1]])
+                {
+                        if(r[x][0]==1)
+                                ys[x+'A']=s1[t1++];
+                        else
+                                ys[x+'A']=s2[t2++];
+                }
+                else
+                {
+                        if(r[x][0]==2)
+                                ys[x+'A']=s1[t1++];
+                        else
+                                ys[x+'A']=s2[t2++];
+                }
+        for(int x=0;x<len;x++)
+        {
+                len1=sz(m[x]);
+                for(int y=0;y<len1;y++)
+                        m[x][y]=ys[m[x][y]];
+                cout << m[x] << endl;
+        }
+        return 0;
+}

@@ -1,0 +1,89 @@
+#define nod 405
+int dis[nod];
+int vis[nod];
+vector<int> node[nod],node1[nod];
+int edge[nod][nod];
+void dijkstra(int s)
+{
+        priority_queue<pair<int,int>,vector<pair<int,int> >,greater<pair<int,int> > >q;
+        cle(q);
+        mem(vis);
+        int i,j,mi,len;
+        for(i=0;i<=nod;i++)
+                dis[i]=INF;
+        dis[s]=0;
+        vis[s]=1;
+        len=node[s].size();
+        for(i=0;i<=len-1;i++)
+        {
+                q.push(make_pair(edge[s][node[s][i]],node[s][i]));
+                dis[node[s][i]]=edge[s][node[s][i]];
+        }
+        for(i=1;i<=nod-1;i++)
+        {
+                pair<int,int> tem;
+                while(!q.empty())
+                {
+                        tem=q.top();
+                        q.pop();
+                        if(vis[tem.se]==1)
+                                continue;
+                        else
+                                break;
+                }
+                vis[tem.se]=1;
+                len=node[tem.se].size();
+                for(j=0;j<len;j++)
+                        if(vis[node[tem.se][j]]==0&&(tem.fi+edge[tem.se][node[tem.se][j]]<dis[node[tem.se][j]]))
+                        {
+                                dis[node[tem.se][j]]=tem.fi+edge[tem.se][node[tem.se][j]];
+                                q.push(make_pair(dis[node[tem.se][j]],node[tem.se][j]));
+                        }
+                if(q.empty())
+                        return;
+        }
+}
+
+
+****************************
+
+int dis[maxn];
+int pv[maxn];
+int vis[maxn];
+priority_queue<pair<int,int>,vector<pair<int,int> >,greater<pair<int,int> > >q2;
+int dijkstra(int low)
+{
+        cle(q2);
+        mem(vis);
+        int len;
+        memf(dis);
+        memn(pv);
+        int s=1;
+        q2.push(mp(0,s));
+        dis[s]=0;
+        while(!q2.empty())
+        {
+                s=q2.top().se;
+                q2.pop();
+                if(vis[s])continue;
+                vis[s]=1;
+                len=node[s].size();
+                for(int x=0;x<len;x++)
+                        if(min(val[s],val[node[s][x]])>=low&&vis[node[s][x]]==0&&dis[s]+max(val[s],val[node[s][x]])<dis[node[s][x]])
+                        {
+                                dis[node[s][x]]=dis[s]+max(val[s],val[node[s][x]]);
+                                pv[node[s][x]]=s;
+                                q2.push(mp(dis[node[s][x]],node[s][x]));
+                        }
+        }//for(int x=1;x<=cnt;x++)printf("%d\n",pv[x]);
+        if(pv[2]==-1)return INF;
+        int ans=val[2];
+        s=2;
+        while(pv[s]!=-1)ans=max(ans,val[pv[s]]),s=pv[s];
+        return ans-low;
+}
+
+
+
+
+

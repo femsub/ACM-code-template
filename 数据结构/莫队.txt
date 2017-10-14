@@ -1,0 +1,48 @@
+int sqt;
+struct mo
+{
+    int l,r,pos;
+    bool operator <(const mo&a) const  {  if(l/sqt==a.l/sqt)return r < a.r;return  l<a.l;}
+    mo(){};
+    mo(int _l,int _r,int _pos):l(_l),r(_r),pos(_pos){};
+}query[maxn];
+LL quans[maxn],tot;
+LL solve(mo st,LL ans,mo ed)
+{
+    while(st.r<ed.r){
+        st.r++;}
+    while(st.l>ed.l){
+        st.l--;}
+    while(st.r>ed.r){
+        st.r--;}
+    while(st.l<ed.l){
+        st.l++;}
+    return ans;
+}
+
+
+
+
+
+int n,q;
+        scanf("%d",&n);
+        sqt=(int)sqrt(n)+1;
+        scanf("%d",&q);
+        tot=0;
+        for(int x=1;x<=q;x++)
+        {
+            scanf("%d%d",&query[tot].l,&query[tot].r);
+            query[tot].pos=x;
+            tot++;
+        }
+        sort(query,query+tot);
+        mo tem(1,1,0);
+        LL tk;
+        for(int x=0;x<tot;x++)
+            {
+                tk=solve(tem,tk,query[x]);
+                quans[query[x].pos]=tk;
+                tem=query[x];
+            }
+		for(int x=1;x<=q;x++)
+            printf("%I64d\n",quans[x]);

@@ -1,0 +1,654 @@
+#define MAXN 100010
+struct Node{
+    int key, sz, cnt;
+    Node *ch[2], *pnt;//左右儿子和父亲
+    Node(){}
+    Node(int x, int y, int z){
+    key = x, sz = y, cnt = z;
+    }
+    void rs(){
+    sz = ch[0]->sz + ch[1]->sz + cnt;
+    }
+}nil(0, 0, 0), *NIL = &nil;
+struct Splay{//伸展树结构体类型
+    Node *root;
+    int ncnt;//计算key值不同的结点数，注意已经去重了
+    Node nod[MAXN];
+    void init(){// 首先要初始化
+        root = NIL;
+        ncnt = 0;
+    }
+    void rotate(Node *x, bool d){//旋转操作，d为true表示右旋
+        Node *y = x->pnt;
+        y->ch[!d] = x->ch[d];
+        if (x->ch[d] != NIL)
+            x->ch[d]->pnt = y;
+        x->pnt = y->pnt;
+        if (y->pnt != NIL){
+            if (y == y->pnt->ch[d])
+                y->pnt->ch[d] = x;
+            else
+                y->pnt->ch[!d] = x;
+        }
+        x->ch[d] = y;
+        y->pnt = x;
+        y->rs();
+        x->rs();
+    }
+    void splay(Node *x, Node *target){//将x伸展到target的儿子位置处
+        Node *y;
+        while (x->pnt != target){
+            y = x->pnt;
+            if (x == y->ch[0]){
+                if (y->pnt != target && y == y->pnt->ch[0])
+                    rotate(y, true);
+                    rotate(x, true);
+            }
+            else{
+                if (y->pnt != target && y == y->pnt->ch[1])
+                    rotate(y, false);
+                    rotate(x, false);
+            }
+        }
+        if (target == NIL)
+            root = x;
+    }
+    /************************以上一般不用修改************************/
+    void insert(int key){//插入一个值
+        if (root == NIL){
+            ncnt = 0;
+            root = &nod[++ncnt];
+            root->ch[0] = root->ch[1] = root->pnt = NIL;
+            root->key = key;
+            root->sz = root->cnt = 1;
+            return;
+        }
+        Node *x = root, *y;
+        while (1){
+            x->sz++;
+            if (key == x->key){
+                x->cnt++;
+                x->rs();
+                y = x;
+                break;
+            }
+            else if (key < x->key){
+                    if (x->ch[0] != NIL)
+                        x = x->ch[0];
+                    else{
+                        x->ch[0] = &nod[++ncnt];
+                        y = x->ch[0];
+                        y->key = key;
+                        y->sz = y->cnt = 1;
+                        y->ch[0] = y->ch[1] = NIL;
+                        y->pnt = x;
+                        break;
+                    }
+            }
+            else{
+                if (x->ch[1] != NIL)
+                    x = x->ch[1];
+                else{
+                    x->ch[1] = &nod[++ncnt];
+                    y = x->ch[1];
+                    y->key = key;
+                    y->sz = y->cnt = 1;
+                    y->ch[0] = y->ch[1] = NIL;
+                    y->pnt = x;
+                    break;
+                }
+            }
+        }
+        splay(y, NIL);
+    }
+    Node* search(int key){//查找一个值，返回指针
+        if (root == NIL)
+            return NIL;
+        Node *x = root, *y = NIL;
+        while (1){
+            if (key == x->key){
+                y = x;
+                break;
+            }
+            else if (key > x->key){
+                if (x->ch[1] != NIL)
+                x = x->ch[1];
+                else
+                    break;
+            }
+            else{
+                if (x->ch[0] != NIL)
+                    x = x->ch[0];
+                else
+                    break;
+            }
+        }
+        splay(x, NIL);
+        return y;
+    }
+    Node* searchmin(Node *x){//查找最小值，返回指针
+        Node *y = x->pnt;
+        while (x->ch[0] != NIL){//遍历到最左的儿子就是最小值
+            x = x->ch[0];
+        }
+            splay(x, y);
+            return x;
+    }
+    void del(int key){//删除一个值
+        if (root == NIL)
+            return;
+        Node *x = search(key), *y;
+        if (x == NIL)
+            return;
+        if (x->cnt > 1){
+            x->cnt--;
+            x->rs();
+            return;
+        }
+        else if (x->ch[0] == NIL && x->ch[1] == NIL){
+            init();
+            return;
+        }
+        else if (x->ch[0] == NIL){
+            root = x->ch[1];
+            x->ch[1]->pnt = NIL;
+            return;
+        }
+        else if (x->ch[1] == NIL){
+            root = x->ch[0];
+            x->ch[0]->pnt = NIL;
+            return;
+        }
+        y = searchmin(x->ch[1]);
+        y->pnt = NIL;
+        y->ch[0] = x->ch[0];
+        x->ch[0]->pnt = y;
+        y->rs();
+        root = y;
+    }
+    int rank(int key){//求结点高度
+        Node *x = search(key);
+        if (x == NIL)
+            return 0;
+        return x->ch[0]->sz + 1/* or x->cnt*/;
+    }
+    Node* findk(int kth){//查找第k小的值
+        if (root == NIL || kth > root->sz)
+            return NIL;
+        Node *x = root;
+        while (1){
+            if (x->ch[0]->sz +1 <= kth && kth <= x->ch[0]->sz + x->cnt)
+                break;
+            else if (kth <= x->ch[0]->sz)
+                x = x->ch[0];
+            else{
+                kth -= x->ch[0]->sz + x->cnt;
+                x = x->ch[1];
+            }
+        }
+        splay(x, NIL);
+        return x;
+    }
+}sp;
+
+
+
+sp.init();
+sp.insert(3);
+sp.searchmin(sp.root)->key
+sp.del(1);
+int ncnt;//计算key值不同的结点数，注意已经去重了(jia)
+void rotate(Node *x, bool d){//旋转操作，d为true表示右旋
+void splay(Node *x, Node *target){//将x伸展到target的儿子位置处
+Node* search(int key){//查找一个值，返回指针//找不到时key为0
+int rank(int key){//求结点高度//第几小
+Node* findk(int kth){//查找第k小的值
+
+Node *x = sp.search(3);
+    sp.splay(x,NIL);
+    cout<<sp.root->ch[0]->ch[1]->key<<endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const int MAX = 500000 * 2;
+
+inline int max(int a,int b){return a>b?a:b;}
+inline int min(int a,int b){return a<b?a:b;}
+
+struct Node
+{
+    int sum;
+    int value;
+    int size;
+    Node *ch[2];
+    Node * pre;
+    bool rev;
+    bool same;
+    int MaxL;
+    int MaxR;
+    int MaxM;
+};
+
+
+struct Splay
+{
+
+Node  data[MAX];
+Node *store[MAX];//人工堆栈
+Node * null;
+Node * root;
+int number;
+int top;
+
+
+Node * newNode(int val)
+{
+    Node * p;
+    if(top>0)
+    {
+        p = store[top--];
+    }
+    else
+    {
+        p = &data[number++];
+    }
+    p->size = 1;
+    p->value = val;
+    p->sum = val;
+    p->rev = p->same = false;
+    p->MaxL = p->MaxR = p->MaxM = val;
+    p->ch[0] = p->ch[1] = null;
+    p->pre = null;
+    return p;
+}
+
+
+void init()
+{
+    number = 0;
+    top = 0;
+    null = newNode(-INF);
+    null->size = null->sum = 0;
+    root = newNode(-INF);
+    root->ch[1] = newNode(-INF);
+    root->ch[1]->pre = root;
+    push_up(root);//这里主要是为了更新size，sum的更新并不正确，但是在rotate和splay操作中会正确
+
+}
+
+void push_up(Node * p)
+{
+    if(p == null)
+    {
+        return;
+    }
+    push_down(p);
+    push_down(p->ch[0]);//以求和为例，p节点值的更新需要依赖两个字节点，那么这两个字节点的sum要先得到更新，所以要下放
+    push_down(p->ch[1]);
+
+    p->size = p->ch[0]->size + p->ch[1]->size + 1;
+    p->sum = p->ch[0]->sum + p->ch[1]->sum + p->value;
+    p->MaxL = max(p->ch[0]->MaxL,p->ch[0]->sum + p->value + max(0,p->ch[1]->MaxL));
+    p->MaxR = max(p->ch[1]->MaxR,p->ch[1]->sum + p->value + max(0,p->ch[0]->MaxR));
+    p->MaxM=max(p->ch[0]->MaxM,p->ch[1]->MaxM);
+    p->MaxM=max(p->MaxM,max(p->ch[0]->MaxR+p->ch[1]->MaxL,0)+p->value);
+    p->MaxM=max(p->MaxM,max(p->ch[0]->MaxR,p->ch[1]->MaxL)+p->value);
+}
+
+void push_down(Node * p)
+{
+    if(p == null)
+    {
+        return;
+    }
+    if(p->rev)
+    {
+        p->rev = false;
+        p->ch[0]->rev ^=1;
+        p->ch[1]->rev ^=1;
+        swap(p->ch[0],p->ch[1]);
+        swap(p->MaxL,p->MaxR);
+    }
+    if(p->same)
+    {
+        p->same = false;
+        p->ch[0]->same = p->ch[1]->same = true;
+        p->ch[0]->value = p->ch[1]->value = p->value;
+        p->sum = p->value * p->size;
+        p->MaxL = p->MaxR = p->MaxM = p->size * p->value;
+        if(p->value <0)
+        {
+            p->MaxL = p->MaxR = p->MaxM = p->value;
+        }
+    }
+
+}
+
+
+//中序遍历
+void dfs(Node * p)  //输出
+{
+    if(p == null)
+    {
+        return;
+    }
+    dfs(p->ch[0]);
+    printf("%d   ",p->value);
+    dfs(p->ch[1]);
+}
+//c=1 右旋
+void rotate(Node * x,int c)
+{
+    Node * y = x->pre;
+    push_down(y);
+    push_down(x);
+
+    y->ch[!c] = x->ch[c];
+    if(x->ch[c]!=null)
+    {
+        x->ch[c]->pre = y;
+    }
+    x->pre = y->pre;
+    if(y->pre !=null)
+    {
+        if(y->pre->ch[0] == y)
+        {
+            y->pre->ch[0] = x;
+        }
+        else
+        {
+            y->pre->ch[1] = x;
+        }
+    }
+    x->ch[c] = y;
+    y->pre = x;
+    push_up(y);
+    if(y == root)
+    {
+        root = x;
+    }
+
+}
+void splay(Node * x,Node * f)
+{
+    if(x == null)
+    {
+        return;
+    }
+
+    for(push_down(x);x->pre!=f;)
+    {
+        if(x->pre->pre == f)//单旋
+        {
+            if(x == x->pre->ch[0])
+            {
+                rotate(x,1);
+            }
+            else
+            {
+                rotate(x,0);
+            }
+        }
+        else
+        {
+            Node * y = x->pre;
+            Node * z = y->pre;
+            if(z->ch[0] == y)
+            {
+                if(y->ch[0] == x)//一字形旋转
+                {
+                    rotate(y,1);
+                    rotate(x,1);
+
+                }
+                else//之字形
+                {
+                    rotate(x,0);
+                    rotate(x,1);
+                }
+            }
+            else
+            {
+                if(y->ch[1] == x)//一字形
+                {
+                    rotate(y,0);
+                    rotate(x,0);
+                }
+                else//之字形
+                {
+                    rotate(x,1);
+                    rotate(x,0);
+                }
+            }
+
+        }
+    }
+    push_up(x);
+}
+void select(int k,Node * f)//k是指第几个节点,从1开始  使第k个节点在f下面
+{
+    Node * t;
+    //k = k-1+1;//其实正常情况下应该是 k = k-1;但是前后加两个节点的话，正好向右移动一位
+    for(t=root;;)
+    {
+        push_down(t);
+        int size = t->ch[0]->size;
+        if(k == size)
+        {
+            break;
+        }
+        if(k < size)
+        {
+            t = t->ch[0];
+        }
+        else
+        {
+            k -= size + 1;
+            t = t->ch[1];
+        }
+
+    }
+    splay(t,f);
+}
+
+Node * build(int left,int right,int *ary)
+{
+    if(left>right)
+    {
+        return null;
+    }
+    int mid = (left + right)>>1;
+    Node * p  =  newNode(ary[mid]);
+    p->ch[0] = build(left,mid-1,ary);
+    if(p->ch[0]!=null)
+    {
+        p->ch[0]->pre = p;
+    }
+    p->ch[1] = build(mid+1,right,ary);
+    if(p->ch[1]!=null)
+    {
+        p->ch[1]->pre = p;
+    }
+    push_up(p);//Update操作
+    return p;
+}
+
+
+void insert(int pos,int *ary,int n)  //在x处插入n个点，标号从x开始
+{
+    select(pos-1,null);
+    select(pos,root);
+    Node * p = build(0,n-1,ary);
+    root->ch[1]->ch[0] = p;
+    p->pre = root->ch[1];
+    splay(p,null);//将p移至根节点
+}
+void del(int pos,int end)
+{
+    select(pos-1,null);
+    select(end,root);
+    Node * p = root->ch[1]->ch[0];//如果不回收的话，将会造成内存泄漏
+    root->ch[1]->ch[0] = null;
+    splay(root->ch[1],null);//别忘了维护
+    recyle(p);
+}
+
+void recyle(Node *p)//人工回收删除的空间，防止栈溢出
+{
+    if(p == null)
+    {
+        return;
+    }
+    recyle(p->ch[0]);
+    recyle(p->ch[1]);
+    store[++top] = p;
+
+}
+int getSum(int start,int end)  //区间和
+{
+    select(start-1,null);
+    select(end,root);//这里完全不用担心，肯定会移到root的右子树，因为end比start-1大，根据查询二叉树的性质
+    return root->ch[1]->ch[0]->sum;
+}
+int maxSum(int pos,int end)  //sp.maxSum(1,sp.root->size - 1)全局
+{
+    select(pos-1,null);
+    select(end,root);
+    Node * p = root->ch[1]->ch[0];
+    return p->MaxM;
+}
+void makeSame(int pos,int end,int s)  //使区间变为s
+{
+    select(pos-1,null);
+    select(end,root);
+    Node * p = root->ch[1]->ch[0];
+    p->same = true;
+    p->value = s;
+    splay(p,null);
+}
+void reverse(int pos,int end)
+{
+    select(pos-1,null);
+    select(end,root);
+    Node * p = root->ch[1]->ch[0];
+    p->rev ^= 1;
+    splay(p,null);
+}
+}sp;
+int ary[MAX];                                   //左闭右开，以数组下标为序 0和末为虚拟sp.root->size=size+2
+int main()
+{
+    int T;
+
+    #ifndef ONLINE_JUDGE
+        freopen("in.txt","r",stdin);
+    #endif
+
+
+    for(scanf("%d",&T);T--;)
+    {
+        int n,m;
+        int x,y;
+        int s;
+        Node * p;
+        char cmd[20];
+
+        scanf("%d%d",&n,&m);
+        for(int i=0;i<n;i++)
+        {
+            scanf("%d",&ary[i]);
+        }
+        sp.init();
+        sp.insert(1,ary,n);
+
+         for(;m--;)
+        {
+            scanf("%s",cmd);
+            if(strcmp(cmd,"GET-SUM") == 0)
+            {
+                scanf("%d%d",&x,&y);
+                printf("%d\n",sp.getSum(x,x+y));
+            }
+            if(strcmp(cmd,"MAX-SUM") == 0)
+            {
+                printf("%d\n",sp.maxSum(1,sp.root->size - 1));
+            }
+
+            if(strcmp(cmd,"INSERT") == 0)
+            {
+                scanf("%d%d",&x,&y);
+                x++;//向后移动一位
+                for(int i=0;i<y;i++)
+                {
+                    scanf("%d",&ary[i]);
+                }
+                sp.insert(x,ary,y);
+            }
+            if(strcmp(cmd,"DELETE") == 0)
+            {
+                scanf("%d%d",&x,&y);
+                sp.del(x,x+y);
+            }
+            if(strcmp(cmd,"REVERSE") == 0)
+            {
+                scanf("%d%d",&x,&y);
+                sp.reverse(x,x+y);
+            }
+            if(strcmp(cmd,"MAKE-SAME") == 0)
+            {
+                scanf("%d%d%d",&x,&y,&s);
+                sp.makeSame(x,x+y,s);
+            }
+
+        }
+        //dfs(root);
+        printf("%d\n",sp.root->size);
+    }
+    return 0;
+}

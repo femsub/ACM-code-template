@@ -1,0 +1,227 @@
+//#include <bits/stdc++.h>
+#include <stdio.h>
+#include <iostream>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <algorithm>
+#include <queue>
+#include <vector>
+#include <set>
+#include <map>
+#include <stack>
+#include <bitset>
+#include <string>
+using namespace std;
+long double esp=1e-11;
+//#pragma comment(linker, "/STACK:1024000000,1024000000")
+#define fi first
+#define se second
+#define all(a) (a).begin(),(a).end()
+#define cle(a) while(!a.empty())a.pop()
+#define mem(p) memset(p,0,sizeof(p))
+#define mp(A, B) make_pair(A, B)
+#define pb push_back
+#define lson l , m , rt << 1
+#define rson m , r , rt << 1 | 1
+typedef long long int LL;
+const long double PI = acos((long double)-1);
+const int INF=0x3f3f3f3f;
+const int MOD = 1000000007;
+const int maxn = 200050;
+int dx[8]={1,0,-1,0,1,1,-1,-1};
+int dy[8]={0,1,0,-1,1,-1,1,-1};
+vector<int>ls;
+struct SegTree{
+        int n;
+        LL cov[maxn<<2];
+        LL len[maxn<<2][2];
+        void PushUp(int rt,int l,int r) {
+                if(cov[rt]>0||r-l<=1)
+                {
+                        len[rt][0]=len[rt][1]=0;
+                        len[rt][min(cov[rt],1ll)]=ls[r]-ls[l];
+                        return ;
+                }
+                len[rt][0]=len[rt<<1][0]+len[rt<<1|1][0];
+                len[rt][1]=len[rt<<1][1]+len[rt<<1|1][1];
+        }
+        void build(int l,int r,int rt) {
+                cov[rt]=0;
+                len[rt][0]=ls[r]-ls[l];
+                len[rt][1]=0;
+                if(r-l<=1)return;
+                int m = (l + r) >> 1;
+                build(lson);
+                build(rson);
+        }
+        void build(int n)
+        {
+                this->n=n;
+                build(1,n,1);
+        }
+        void update(int L,int R,int c,int l,int r,int rt) {
+                if (L <= l && r <= R) {
+                        cov[rt]+=c;
+                        PushUp(rt,l,r);
+                        return ;
+                }
+                if(r-l<=1)return;
+                int m = (l + r) >> 1;
+                if (L <= m) update(L , R , c , lson);
+                if (m < R) update(L , R , c , rson);
+                PushUp(rt,l,r);
+        }
+        void update(int L,int R,int c){update(L,R,c,1,n,1);}
+}tr;
+vector<pair<pair<int,pair<int,int> >,int> >q;//   x,y1,y2,»Î±ﬂ
+int main()
+{
+        //freopen("in.txt", "r", stdin);
+        //freopen("inlay.in", "r", stdin);
+        //freopen("out1.txt", "w", stdout);
+        //map<long long int,int>ma;                 %I64d
+        //vector<int>::iterator iter;
+        //memset(m,0,sizeof(int));
+        //for(int x=1;x<=n;x++)
+        //for(int y=1;y<=n;y++)
+        //scanf("%d%d",&a,&b);
+        //scanf("%d",&a);
+        //printf("%d\n",ans);
+        int n;
+        scanf("%d",&n);
+        int x1,y1,x2,y2;
+        q.clear();
+        ls.clear();
+        for(int x=1;x<=n;x++)
+        {
+                scanf("%d%d%d%d",&x1,&y1,&x2,&y2);
+                if(x1==x2&&y1>y2)swap(y1,y2);
+                if(y1==y2&&x1>x2)swap(x1,x2);
+                x2++;y2++;
+                q.pb(mp(mp(x1,mp(y1,y2)),1));
+                q.pb(mp(mp(x2,mp(y1,y2)),-1));
+                ls.pb(y1);
+                ls.pb(y2);
+        }
+        sort(all(q));
+        ls.pb(-INF);
+        sort(all(ls));
+        ls.assign(ls.begin(),unique(all(ls)));          //for(vector<int>::iterator it=ls.begin();it!=ls.end();it++)printf("%d\n",*it);
+        LL ans=0;
+        tr.build(ls.size()-1);
+        int tem1,tem2;
+        tem1=lower_bound(all(ls),q[0].fi.se.fi)-ls.begin();
+        tem2=lower_bound(all(ls),q[0].fi.se.se)-ls.begin();
+        tr.update(tem1,tem2,q[0].se);           //printf("%d %d %d %d  ans=%d\n",q[0].fi.fi,q[0].fi.se.fi,q[0].fi.se.se,q[0].se,tr.query(1,tr.n));printf("%I64d\n",ans);
+        for(int x=1;x<=2*n-1;x++)
+        {
+                if(q[x].fi.fi!=q[x-1].fi.fi)
+                ans+=tr.len[1][1]*(q[x].fi.fi-q[x-1].fi.fi);
+                tem1=lower_bound(all(ls),q[x].fi.se.fi)-ls.begin();
+                tem2=lower_bound(all(ls),q[x].fi.se.se)-ls.begin();
+                tr.update(tem1,tem2,q[x].se);
+                //printf("%d %d %d %d  ans=%d\n",q[x].fi.fi,q[x].fi.se.fi,q[x].fi.se.se,q[x].se,tr.query(1,tr.n));
+                //printf("%I64d\n",ans);
+        }
+        printf("%I64d\n",ans);
+        return 0;
+}
+
+
+
+
+
+
+
+
+
+*******************************************************************
+
+
+
+
+
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+typedef long long LL;
+#define lson l,m,rt<<1
+#define rson m+1,r,rt<<1|1
+const int maxn = 200005;
+int sum[maxn<<2][15];
+int cov[maxn<<2];
+int x[maxn];
+int n,m;
+struct seg{
+    int l,r,h;
+    int flag;
+    seg(){}
+    seg(int _l,int _r,int _h,int _flag):l(_l),r(_r),h(_h),flag(_flag){}
+    bool operator < (const seg &cmp) const {
+        return h<cmp.h;
+    }
+}ss[maxn];
+void pushup(int rt,int l,int r){
+    if(cov[rt]>=m || l==r){
+         memset(sum[rt],0,sizeof(sum[rt]));
+         int t=cov[rt] < m ? cov[rt] : m;
+         sum[rt][t]=x[r+1]-x[l];
+         return ;
+     }
+     int i;
+     for(i=0;i<cov[rt];i++) sum[rt][i]=0;
+     for(i=cov[rt];i<m;i++)
+         sum[rt][i]=sum[rt<<1][i-cov[rt]]+sum[rt<<1|1][i-cov[rt]];
+     sum[rt][m]=0;
+     for(i=m-cov[rt];i<=m;i++)
+         sum[rt][m]+=sum[rt<<1][i]+sum[rt<<1|1][i];
+}
+void build(int l,int r,int rt){
+    cov[rt]=0;sum[rt][0]=x[r+1]-x[l];
+    for(int i=1;i<=m;i++) sum[rt][i]=0;
+    if(l==r)   return ;
+    int m=(l+r)>>1;
+    build(lson);build(rson);
+}
+void update(int L,int R,int val,int l,int r,int rt){
+    if(L<=l&&r<=R){
+        cov[rt]+=val;
+        pushup(rt,l,r);
+        return ;
+    }
+    int m=(l+r)>>1;
+    if(L<=m) update(L,R,val,lson);
+    if(R>m) update(L,R,val,rson);
+    pushup(rt,l,r);
+}
+int main(){
+    int t,ca=1,i,j,k,x1,x2,y1,y2;
+    scanf("%d",&t);
+    while(t--){
+        scanf("%d%d",&n,&m);
+        int tot=0;
+        for(i=1;i<=n;i++){
+            scanf("%d%d%d%d",&x1,&y1,&x2,&y2);x2++;y2++;
+            x[tot]=x1;
+            ss[tot++]=seg(x1,x2,y1,1);
+            x[tot]=x2;
+            ss[tot++]=seg(x1,x2,y2,-1);
+        }
+        sort(x,x+tot);
+        sort(ss,ss+tot);
+        int nx=unique(x,x+tot)-x;
+        build(0,nx-1,1);//printf("%d\n",sum[1][0]);
+        LL ans=0;
+        for(i=0;i<tot-1;i++){
+            int left=lower_bound(x,x+nx,ss[i].l)-x;
+            int right=lower_bound(x,x+nx,ss[i].r)-x-1;
+            update(left,right,ss[i].flag,0,nx-1,1);
+            ans+=(LL)sum[1][m]*(LL)(ss[i+1].h-ss[i].h);
+        }
+        printf("Case %d: %lld\n",ca++,ans);
+    }
+    return 0;
+}

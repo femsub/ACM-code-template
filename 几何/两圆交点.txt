@@ -1,0 +1,20 @@
+struct Cir{
+	point o;
+	double r;
+	Cir(point o,double r){this->o=o;this->r=r;}
+};
+
+pair<bool,pair<point,point> > cro(Cir a,Cir b)
+{								
+    double d=dis(a.o-b.o);
+    if(a.r+b.r<d-esp)return mp(false,mp(point(0,0),point(0,0)));
+    else if(abs(a.r-b.r)>d+esp)return mp(false,mp(point(0,0),point(0,0)));
+    double coth=(a.r*a.r+d*d-b.r*b.r)/(2*a.r*d);
+    point f=b.o-a.o;
+    point p=f;
+    f=point(-f.y,f.x);					
+    p=p/d*a.r*coth;			
+    if(1-abs(coth)<esp)return mp(true,mp(a.o+p,a.o+p));
+    f=f/dis(f)*a.r*sqrt(1.0-coth*coth);
+    return mp(true,mp(a.o+p+f,a.o+p-f));
+}

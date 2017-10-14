@@ -1,0 +1,154 @@
+f[s]存原来的元素，之后f[s]存子集所有元素和
+
+for (int i = 0; i < n; i++)
+    for (int s = 0; s < (1 << n); s++)
+        if (s >> i & 1)
+            f[s] += f[s ^ 1 << i];
+
+
+***************************************
+f[s]存子集所有元素和，之后f[s]存原来的元素
+
+for (int i = 0; i < n; i++)
+    for (int s = 0; s < (1 << n); s++)
+        if (s >> i & 1)
+            f[s] -= f[s ^ 1 << i];
+
+********************************************
+子集卷积
+C[s]=sigma(A[p]*B[s-p])
+
+const int N=17;
+int bit[1<<N],A[1<<N],B[1<<N],SA[N+1][1<<N],SB[N+1][1<<N],SC[N+1][1<<N];
+void initbit()
+{
+	bit[0]=0;
+	for(int s=1;s<1<<N;s++)
+		bit[s]=bit[s>>1]+(s&1);
+}
+void conv()			//C[x]=SC[bit[x]][x]
+{
+	initbit();
+	for(int s=0;s<1<<N;s++)
+		for(int i=0;i<=N;i++)
+		if(bit[s]==i)
+			SA[i][s]=A[s],SB[i][s]=B[s];
+		else
+			SA[i][s]=SB[i][s]=0;
+	for(int k=0;k<=N;k++)
+		for(int i=0;i<N;i++)
+			for(int s=0;s<1<<N;s++)
+			if(s>>i&1)
+				SA[k][s]+=SA[k][s^1<<i],SB[k][s]+=SB[k][s^1<<i];
+	for(int k=0;k<=N;k++)
+		for(int s=0;s<1<<N;s++)
+		{
+			SC[k][s]=0;
+			for(int x=0;x<=k;x++)
+				SC[k][s]+=SA[x][s]*SB[k-x][s];
+		}
+	for(int k=0;k<=N;k++)
+		for(int i=0;i<N;i++)
+			for(int s=0;s<1<<N;s++)
+			if(s>>i&1)
+				SC[k][s]-=SC[k][s^1<<i];
+}
+
+
+**************************************c[g]=[i$j=g]a[i]*b[j]
+LL a[1<<20],b[1<<20],c[1<<20];
+LL dp[2][1<<20];
+
+//xor
+void xortf(LL a[],int n)
+{
+	LL *x=dp[0],*y=dp[1];
+	for(int i=0;i<(1<<n);++i)x[i]=a[i];
+	for(int i=0;i<n;++i)
+	{
+		swap(x,y);
+		for(int j=0;j<(1<<n);++j)
+			if(j>>i&1)
+				x[j]=y[j^(1<<i)]-y[j];
+			else
+				x[j]=y[j]+y[j^(1<<i)];
+	}
+	for(int i=0;i<(1<<n);++i)a[i]=x[i];
+}
+void xorutf(LL a[],int n)
+{
+	LL *x=dp[0],*y=dp[1];
+	for(int i=0;i<(1<<n);++i)x[i]=a[i];
+	for(int i=0;i<n;++i)
+	{
+		swap(x,y);
+		for(int j=0;j<(1<<n);++j)
+			if(j>>i&1)
+				x[j]=y[j^(1<<i)]-y[j]>>1;
+			else
+				x[j]=y[j]+y[j^(1<<i)]>>1;
+	}
+	for(int i=0;i<(1<<n);++i)a[i]=x[i];
+}
+//or
+void ortf(LL a[],int n)
+{
+	LL *x=dp[0],*y=dp[1];
+	for(int i=0;i<(1<<n);++i)x[i]=a[i];
+	for(int i=0;i<n;++i)
+	{
+		swap(x,y);
+		for(int j=0;j<(1<<n);++j)
+			if(j>>i&1)
+				x[j]=y[j^(1<<i)]+y[j];
+			else
+				x[j]=y[j];
+	}
+	for(int i=0;i<(1<<n);++i)a[i]=x[i];
+}
+void orutf(LL a[],int n)
+{
+	LL *x=dp[0],*y=dp[1];
+	for(int i=0;i<(1<<n);++i)x[i]=a[i];
+	for(int i=0;i<n;++i)
+	{
+		swap(x,y);
+		for(int j=0;j<(1<<n);++j)
+			if(j>>i&1)
+				x[j]=y[j]-y[j^(1<<i)];
+			else
+				x[j]=y[j];
+	}
+	for(int i=0;i<(1<<n);++i)a[i]=x[i];
+}
+//and
+void andtf(LL a[],int n)
+{
+	LL *x=dp[0],*y=dp[1];
+	for(int i=0;i<(1<<n);++i)x[i]=a[i];
+	for(int i=0;i<n;++i)
+	{
+		swap(x,y);
+		for(int j=0;j<(1<<n);++j)
+			if(j>>i&1)
+				x[j]=y[j];
+			else
+				x[j]=y[j]+y[j^(1<<i)];
+	}
+	for(int i=0;i<(1<<n);++i)a[i]=x[i];
+}
+void andutf(LL a[],int n)
+{
+	LL *x=dp[0],*y=dp[1];
+	for(int i=0;i<(1<<n);++i)x[i]=a[i];
+	for(int i=0;i<n;++i)
+	{
+		swap(x,y);
+		for(int j=0;j<(1<<n);++j)
+			if(j>>i&1)
+				x[j]=y[j];
+			else
+				x[j]=y[j]-y[j^(1<<i)];
+	}
+	for(int i=0;i<(1<<n);++i)a[i]=x[i];
+}

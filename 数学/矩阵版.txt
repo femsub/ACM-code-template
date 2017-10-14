@@ -1,0 +1,70 @@
+const int N=601;
+struct mat
+{
+    LL m[N][N];
+    void clear()
+    {
+        memset(m,0,sizeof(m));
+    }
+    void unit()
+    {
+        clear();
+        for(int i=0; i<N; i++)
+            m[i][i]=1;
+    }
+}
+mat matmul(mat a,mat b,LL mod)//æÿ’Ûa≥Àæÿ’Ûb
+{
+    mat c;
+    c.clear();
+    LL mod2=mod*mod;
+    for(int i=0; i<N; i++)
+        for(int j=0; j<N; j++)
+        {
+            if(!a.m[i][j])continue;
+            for(int k=0; k<N; k++)
+			{
+				c.m[i][k]+=a.m[i][j]*b.m[j][k];
+				if(c.m[i][k]>=mod2)
+					c.m[i][k]-=mod2;
+			}
+        }
+    for(int i=0; i<N; i++)
+        for(int j=0; j<N; j++)
+            c.m[i][j]%=mod;
+    return c;
+}
+mat ksm(mat k,LL n,LL  mod)
+{
+    mat ans;
+    ans.unit();
+    while(n>=1)
+    {
+        if(n&1)
+            ans=matmul(ans,k,mod);
+        n>>=1;
+        k=matmul(k,k,mod);
+    }
+    return ans;
+}
+
+
+////////////////////
+œ° Ëæÿ’Û”≈ªØ
+void mult(LL a[][120],LL b[][120])
+{
+    for(int i=0;i<=n;++i)
+        for(int j=0;j<=n;++j)
+        {
+            if(a[i][j]==0)continue;	/*******
+            for(int k=0;k<=n;++k)
+                c[i][k]+=a[i][j]*b[j][k];
+        }
+
+    for(int i=0;i<=n;++i)
+        for(int j=0;j<=n;++j)
+        {
+            a[i][j]=c[i][j];
+            c[i][j]=0;
+        }
+}

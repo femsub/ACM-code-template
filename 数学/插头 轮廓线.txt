@@ -1,0 +1,74 @@
+
+const int HASH=30007;
+const int STATE=1<<20;
+struct HASHMAP
+{
+    int head[HASH],next[STATE],sz;
+    LL state[STATE];
+    LL dp[STATE];
+    void init()
+    {
+        sz=0;
+        memset(head,-1,sizeof(head));
+    }
+    void push(LL st,LL ans)
+    {
+        int i;
+        int h=st%HASH;
+        for(i=head[h];i!=-1;i=next[i])//这里要注意是next
+          if(state[i]==st)
+          {
+              dp[i]=(dp[i]+ans)%MOD;
+              //dp[i]+=ans;
+              return;
+          }
+        state[sz]=st;
+        dp[sz]=ans;
+        next[sz]=head[h];
+        head[h]=sz++;
+    }
+}hm[2];
+
+int mask[10];
+void decode(int st)
+{
+	st>>=7;
+	for(int x=0;x<m;x++)
+		mask[x]=st>>x&1;
+}
+void dfs(int st,int k,int t,LL ans)
+{
+	if(t==m)
+	{
+		hm[f^1].push(st,k,ans);
+		return ;
+	}
+	if((t&&(st>>(t-1)&1))||mask[t])
+		dfs(st|1<<t,k,t+1,ans);
+	else
+		dfs(st,k,t+1,ans);
+	if(k)dfs(st,k-1,t+1,ans);
+}
+
+**********************************
+		hm[0].init();
+		hm[0].push(1,k,1);
+		f=0;
+		for(int x=1;x<=n;x++)
+		{
+
+			hm[f^1].init();
+			for(int y=0;y<hm[f].sz;y++)
+			{
+				decode(hm[f].state[y]);
+				dfs(0,hm[f].state[y]&get,0,hm[f].dp[y]);
+			}
+			f^=1;
+		}
+		LL ans=0;
+		for(int y=0;y<hm[f].sz;y++)
+		{
+			decode(hm[f].state[y]);
+			if(mask[m-1]==0)
+				ans=(ans+hm[f].dp[y])%MOD;
+		}

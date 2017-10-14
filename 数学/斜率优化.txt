@@ -1,0 +1,47 @@
+
+LL dp[maxn],h[maxn][2];
+
+
+
+    LL n,c,t;
+    int a,b;
+    LL u,v,k;
+    while(scanf("%I64d%I64d",&n,&c)!=EOF)
+    {
+        if(n==0&&c==0)break;
+        dp[0]=0;
+        a=b=0;
+        for(int x=1;x<=n;x++)
+        {
+            scanf("%I64d",&t);
+            k=2*t;
+            u=t;
+            v=dp[x-1]+t*t;
+            while(b-a>=2&&(h[b-1][0]-h[b-2][0])*(v-h[b-1][1])-(u-h[b-1][0])*(h[b-1][1]-h[b-2][1])<=0)b--;
+            h[b][0]=u;
+            h[b][1]=v;
+            b++;
+            while(b-a>=2&&h[a+1][1]-h[a][1]<=k*(h[a+1][0]-h[a][0]))a++;
+            dp[x]=-k*h[a][0]+h[a][1]+c+t*t;
+                //printf("%d %I64d\n",x,dp[x]);
+        }
+        printf("%I64d\n",dp[n]);
+    }
+
+
+
+
+
+
+dp[i]=min{dp[j]+(m[i]-m[j+1])^2}+c
+     = -2*m[i]*m[j+1]+dp[j]+m[j+1]^2 +c+m[i]^2
+x=m[j+1]
+y=dp[j]+m[j+1]^2
+k=2*m[i]
+所以 g=-kx+y	最小
+y=kx+g	g最小
+
+要求k,新的x递增
+维护下凸包
+先加点，叉积维护顶端，维护凸性
+后尾部删点，<k的删

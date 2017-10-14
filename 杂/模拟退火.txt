@@ -1,0 +1,33 @@
+double Search(Point p[], int n)  
+{  
+    Point s = p[0];    //随机初始化一个点开始搜索  
+    double t = T;      //初始化温度	100  
+    double ans = INF;  //初始答案值	
+    while(t > eps)  		//1e-8
+    {  
+        bool flag = 1;  
+        while(flag)  
+        {  
+            flag = 0;  
+            for(int i = 0; i < 4; i++)    //上下左右四个方向  
+            {  
+                Point z;  
+                z.x = s.x + dx[i] * t;  
+                z.y = s.y + dy[i] * t;  
+                double tp = GetSum(p, n, z);  
+                if(ans > tp)  
+                {  
+                    ans = tp;  
+                    s = z;  
+                    flag = 1;  
+                }  
+            }  
+        }  
+        t *= delta;  		//0.98
+    }  
+    return ans;  
+}  
+	
+*********************************
+如果对于温度t，答案能更好就继续，否则 t *= delta; 
+

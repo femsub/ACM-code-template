@@ -1,0 +1,16 @@
+RMQ用于区间快速查找最值，适用于期间数值无更改的情况。其预处理的复杂度为
+
+
+    int Log[maxn],st[maxn][25];
+    Log[0]=-1;for(int i=1;i<=n;i++)Log[i]=Log[i>>1]+1;
+    for(int i=1;i<=n;i++)st[i][0]=height[i];
+    for(int y=1;y<=Log[n];y++)
+        for(int x=1;x<=n&&x+(1<<y)-1<=n;x++)
+            st[x][y]=min(st[x][y-1],st[x+(1<<(y-1))][y-1]);
+
+
+int query(int a,int b){
+    if(a>b)swap(a,b);
+    int t=Log[b-a+1];
+    return min(st[a][t],st[b-(1<<t)+1][t]);
+}

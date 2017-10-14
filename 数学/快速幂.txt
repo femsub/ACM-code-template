@@ -1,0 +1,55 @@
+LL mu(LL a,LL b)		//a¸ºÊý×¢Òâ
+{
+    LL ans=1;
+    while(b)
+    {
+        if((b & 1)&&(ans*=a)>=MOD)
+            ans%=MOD;
+        b >>= 1;
+        if((a*=a)>=MOD)
+            a%=MOD;
+    }
+    return ans;
+}
+
+
+LL mc(LL a,LL b)
+{
+    LL ans=0;
+    while(b)
+    {
+        if((b & 1) && (ans += a) >= MOD)
+            ans -= MOD;
+        b >>= 1;
+        if((a <<= 1) >= MOD)
+            a -= MOD;
+    }
+    return ans;
+}
+
+
+
+a^b%p=a^(b%phi(p)+phi(p))%p   	b>=phi(p)
+
+
+********************************************
+static final BigInteger p=new BigInteger("10000");
+    static BigInteger mu(BigInteger a,BigInteger b)
+{
+        BigInteger ans=BigInteger.ONE;
+        while(!b.equals(BigInteger.ZERO))
+        {                                                                             
+                if(b.and(BigInteger.ONE).equals(BigInteger.ONE))
+                        ans=ans.multiply(a).mod(p);
+                a=a.multiply(a).mod(p);
+                b=b.shiftRight(1);
+        }
+        return ans.mod(p);
+}
+
+
+**********************************************
+long long mul( long long u , long long v , long long p ){
+		return (u*v-(long long)((long double)u*v/p)*p+p)%p;
+	}
+inline int mul(int a,int b){int ret;__asm__ __volatile__ ("\tmull %%ebx\n\tdivl %%ecx\n":"=d"(ret):"a"(a),"b"(b),"c"(mod));return ret;}

@@ -1,0 +1,23 @@
+struct Cir{
+    point p;
+    double r;
+};
+double CalcuDistance(point o,point a,point b)//o to ab
+{
+    if(dis(a-b)<esp)return dis(o-a);
+    double aoab=(o-a)*(b-a);
+    double ab2=dis2(a-b);
+    if(aoab>ab2)return dis(o-b);
+    else if(aoab<0)return dis(o-a);
+    else return dis(cross(o-a,b-a))/dis(a-b);
+}
+bool circross(Cir o,point a,point b)    //if Cir a cross ab
+{
+    double d=CalcuDistance(o.p,a,b);
+    double len1=dis(o.p-a);
+    double len2=dis(o.p-b);
+    if(len1<o.r&&len2<o.r)return false;
+    if(len1>o.r&&len2>o.r&&d>o.r)return false;
+    return true;
+
+}

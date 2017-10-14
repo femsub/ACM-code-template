@@ -1,0 +1,51 @@
+struct Simplex
+{
+    /*// N个变量 M个限制
+double a[M][N]; // 这m个限制里变量的系数
+double b[M]; // 第i个限制加和 <=bi
+double c[N]; // 目标函数里变量系数
+double ans; // 目标函数自带的系数*/
+    int n,m; // n个变量、m个限制
+    double a[M][N],b[M],c[M],ans;
+    void pivot(int x,int y)
+    {
+        int i,j;
+        double t;
+        b[x]/=a[x][y];
+        for(i=1;i<=n;i++)if(i!=y)a[x][i]/=a[x][y];
+        a[x][y]=1.0/a[x][y];
+
+        for(i=1;i<=m;i++)if(i!=x&&fabs(a[i][y])>eps)
+        {
+            b[i]-=a[i][y]*b[x],t=a[i][y];
+            for(j=1;j<=n;j++)a[i][j]-=t*a[x][j];
+            a[i][y]=-t*a[x][y];
+        }
+
+        ans+=c[y]*b[x],t=c[y];
+        for(i=1;i<=n;i++)c[i]-=t*a[x][i];
+        c[y]=-t*a[x][y];
+    }
+    double solve()
+    {
+        read();
+        double t;
+        for(int i,x,y;;)
+        {
+            for(i=1;i<=m;i++)if(c[i]>eps){y=i;break;}
+            if(i>m)return ans;
+
+            for(t=inf,i=1;i<=m;i++)
+                if(a[i][y]>eps&&t>b[i]/a[i][y])
+                    x=i,t=b[i]/a[i][y];
+            if(t==inf)return t;
+            else pivot(x,y);
+        }
+    }
+}simplex;
+
+
+
+
+*************************
+变量>=0，若没有变量x变为x1-x2
