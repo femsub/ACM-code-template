@@ -48,12 +48,12 @@ struct line
 
     line(double a = 0, double b = 0, double c = 0) : a(a), b(b), c(c) {}
 
-	//åˆ¤æ–­æ˜¯å¦ä¸ç›´çº¿lç›¸äº¤
+	//ÅĞ¶ÏÊÇ·ñÓëÖ±ÏßlÏà½»
     bool check_lines_intersect(const line &l) const{
         return fabs(point(a, b) ^ point(l.a, l.b)) < eps ? false : true;
     }
 
-	//æ±‚ä¸ç›´çº¿lçš„äº¤ç‚¹
+	//ÇóÓëÖ±ÏßlµÄ½»µã
     point lines_intersect(const line &l) const{
         double d = point(a, b) ^ point(l.a, l.b);
         return point((point(b, c) ^ point(l.b, l.c)) / d, (point(c, a) ^ point(l.c, l.a)) / d);

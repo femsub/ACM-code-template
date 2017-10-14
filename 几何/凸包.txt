@@ -74,7 +74,7 @@ void convex()
     out.clear();
     if(!n)return;
     out.resize(2*n);
-    for(int i=0;i<n;i++){                                                   //寮�濮嬪拰鏈�鍚庝竴涓偗瀹氭槸
+    for(int i=0;i<n;i++){                                                   //开始和最后一个肯定是
         while(k>1&&cross(out[k-1]-out[k-2],in[i]-out[k-1])<esp)k--;
         out[k++]=in[i];
     }

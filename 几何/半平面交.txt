@@ -46,7 +46,7 @@ struct Point
 int sgn(double v){return abs(v)<esp?0:v<0?-1:1;}
 double det(Point u,Point v){return u.x*v.y-u.y*v.x;}	//determine
 double sqr(double v){return v*v;}
-struct Segment					//å·¦ä¾§
+struct Segment					//×ó²à
 {
 	Point st,ed;
 	double angle;

@@ -7,7 +7,7 @@ double dis(const Point &a,const Point &b)
     return sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));   
 }   
 Point circumcenter(const Point &a,const Point &b,const Point &c)  
-{ //è¿”å›ä¸‰è§’å½¢çš„å¤–å¿ƒ   
+{ //·µ»ØÈı½ÇĞÎµÄÍâĞÄ   
     Point ret;   
     double a1=b.x-a.x,b1=b.y-a.y,c1=(a1*a1+b1*b1)/2;  
     double a2=c.x-a.x,b2=c.y-a.y,c2=(a2*a2+b2*b2)/2;  
@@ -16,23 +16,23 @@ Point circumcenter(const Point &a,const Point &b,const Point &c)
     ret.y=a.y+(a1*c2-a2*c1)/d;  
     return ret;   
 }   
-void min_cover_circle(Point *p,int n,Point &c,double &r){ //cä¸ºåœ†å¿ƒï¼Œrä¸ºåŠå¾„   
+void min_cover_circle(Point *p,int n,Point &c,double &r){ //cÎªÔ²ĞÄ£¬rÎª°ë¾¶   
     random_shuffle(p,p+n); //   
     c=p[0]; r=0;  
     for(int i=1;i<n;i++)  
     {  
-        if(dis(p[i],c)>r+eps)  //ç¬¬ä¸€ä¸ªç‚¹  
+        if(dis(p[i],c)>r+eps)  //µÚÒ»¸öµã  
         {   
             c=p[i]; r=0;  
             for(int j=0;j<i;j++)  
-                if(dis(p[j],c)>r+eps) //ç¬¬äºŒä¸ªç‚¹  
+                if(dis(p[j],c)>r+eps) //µÚ¶ş¸öµã  
                 {  
                     c.x=(p[i].x+p[j].x)/2;  
                     c.y=(p[i].y+p[j].y)/2;  
                     r=dis(p[j],c);  
                     for(int k=0;k<j;k++)  
-                        if(dis(p[k],c)>r+eps) //ç¬¬ä¸‰ä¸ªç‚¹  
-                        {//æ±‚å¤–æ¥åœ†åœ†å¿ƒï¼Œä¸‰ç‚¹å¿…ä¸å…±çº¿   
+                        if(dis(p[k],c)>r+eps) //µÚÈı¸öµã  
+                        {//ÇóÍâ½ÓÔ²Ô²ĞÄ£¬Èıµã±Ø²»¹²Ïß   
                             c=circumcenter(p[i],p[j],p[k]);   
                             r=dis(p[i],c);   
                         }   
