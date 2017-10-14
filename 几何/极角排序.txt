@@ -4,7 +4,7 @@ bool xy(double x,double y)  {   return x < y - eps;} // x < y
 bool dyd(double x,double y) {   return x > y - eps;} // x >= y
 bool xyd(double x,double y) {   return x < y + eps;}     // x <= y
 bool dd(double x,double y)  {   return fabs( x - y ) < eps;}  // x == y
-int quad(point a)// ÅÐ¶ÏÏóÏÞµÄº¯Êý£¬Ã¿¸öÏóÏÞ°üÀ¨°ë¸ö×ø±êÖá
+int quad(point a)// åˆ¤æ–­è±¡é™çš„å‡½æ•°ï¼Œæ¯ä¸ªè±¡é™åŒ…æ‹¬åŠä¸ªåæ ‡è½´
 {
 	if( dy(a.x,0) && dyd(a.y,0) ) return 1;
 	if( xyd(a.x,0) && dy(a.y,0) ) return 2;
