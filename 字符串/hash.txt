@@ -1,17 +1,26 @@
-LL hashp=751;
-LL hashval[maxn];
-LL hashpow[maxn];
-void inithash(char* s,int len)
-{
-        hashval[0]=s[0];
-        for(int x=1;x<=len-1;x++)
-                hashval[x]=(hashval[x-1]*hashp+s[x])%MOD;
-        hashpow[0]=1;
-        for(int x=1;x<=len-1;x++)
-                hashpow[x]=hashpow[x-1]*hashp%MOD;
-}
-LL seghash(int a,int b)
-{
-        if(a==0)return hashval[b];
-        return ((hashval[b]-hashval[a-1]*hashpow[b-a+1])%MOD+MOD)%MOD;
-}
+int hashp=751,hashsz=0;
+int hashpow[maxn];
+struct hashS{
+	int len;
+	vector<int>hashval;
+	hashS(){len=0;}
+	int gethash(const char* s){
+		int len=strlen(s);
+		hashval.clear();
+		hashval.emplace_back(*s);
+		for(char* p=(char*)s+1;*p;p++)
+			hashval.emplace_back((1ll*hashval.back()*hashp+(*p))%MOD);
+		if(hashsz==0)
+			hashpow[0]=1;
+		if(hashsz<len){
+			for(int x=hashsz+1;x<=len;x++)
+				hashpow[x]=1ll*hashpow[x-1]*hashp%MOD;
+			hashsz=len;
+		}
+		return hashval.back();
+	}
+	int seghash(int a,int b){
+		if(a==0)return hashval[b];
+		return ((hashval[b]-1ll*hashval[a-1]*hashpow[b-a+1])%MOD+MOD)%MOD;
+	}
+};
