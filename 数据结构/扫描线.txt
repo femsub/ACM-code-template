@@ -75,7 +75,7 @@ struct SegTree{
         }
         void update(int L,int R,int c){update(L,R,c,1,n,1);}
 }tr;
-vector<pair<pair<int,pair<int,int> >,int> >q;//   x,y1,y2,Èë±ß
+vector<pair<pair<int,pair<int,int> >,int> >q;//   x,y1,y2,å…¥è¾¹
 int main()
 {
         //freopen("in.txt", "r", stdin);

@@ -54,9 +54,9 @@ int Query(int c,int l,int r,int ql,int qr,int k)
 
 
 
-lognÇóquery
-ĞëÅĞkÊÇ·ñ³¬½ç
-t[0][i]´æÔ­Öµ
+lognæ±‚query
+é¡»åˆ¤kæ˜¯å¦è¶…ç•Œ
+t[0][i]å­˜åŸå€¼
 sot[i]=t[0][i];
 sort(sot+1,sot+1+n);
 Build(0,1,n);

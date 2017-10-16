@@ -15,7 +15,7 @@ struct DynamicTree{
 		p->size=1;
 	}
 	static int isroot(node *p){return !p->p || (p->p->l!=p && p->p->r!=p);}
-        void init(int n){                                    //³õÊ¼»¯
+        void init(int n){                                    //åˆå§‹åŒ–
 	//DynamicTree_(int n){
 		N=n;
 		nodes=new node[n];
@@ -138,21 +138,21 @@ struct DynamicTree{
 	static int AskMin(node *p){
 		return Expose(p)->mn;
 	}
-	int AskMin(int id){return AskMin(getNode(id));}                 //×îÐ¡Öµ
+	int AskMin(int id){return AskMin(getNode(id));}                 //æœ€å°å€¼
 	static void Increase(node *p,int d){
 		inc(Expose(p),d);
 	}
-	void Increase(int id,int d){Increase(getNode(id),d);}           //Ôö¼Ó
+	void Increase(int id,int d){Increase(getNode(id),d);}           //å¢žåŠ 
 	static void Change(node *p,int a){
 		Splay(p);
 		p->key=a;
 		update(p);
 	}
-	void Change(int id,int a){Change(getNode(id),a);}               //¸Ä±ä
+	void Change(int id,int a){Change(getNode(id),a);}               //æ”¹å˜
 	static void ChangeRoot(node *p){
 		rev(Expose(p));
 	}
-	void ChangeRoot(int id){ChangeRoot(getNode(id));}                       //±ä³É¸ù
+	void ChangeRoot(int id){ChangeRoot(getNode(id));}                       //å˜æˆæ ¹
 	static node *getParent(node *p){
 		Splay(p);
 		if (p->l)return prev(p);
@@ -162,12 +162,12 @@ struct DynamicTree{
 	static node *getRoot(node *p){
 		return head(Expose(p));
 	}
-	int getRoot(int id){return getId(getRoot(getNode(id)));}                        //Çó¸ù
+	int getRoot(int id){return getId(getRoot(getNode(id)));}                        //æ±‚æ ¹
 	static void Merge(node *p,node *q){
 		Splay(q);
 		q->p=p;
 	}
-	void Merge(int p,int q){Merge(getNode(p),getNode(q));}                          //ºÏ²¢qÁ¬µ½pÏÂ
+	void Merge(int p,int q){Merge(getNode(p),getNode(q));}                          //åˆå¹¶qè¿žåˆ°pä¸‹
 	void addedge(int p,int q){Merge(p,q);}
 	static void Cut(node *p){
 		Splay(p);
@@ -176,7 +176,7 @@ struct DynamicTree{
 			p->p=p->l=NULL;
 		}else p->p=NULL;
 	}
-	void Cut(int id){Cut(getNode(id));}                                                     //ÇÐ
+	void Cut(int id){Cut(getNode(id));}                                                     //åˆ‡
 	static node *LCA(node *p,node *q){
 		node *x=head(Expose(p));
 		node *y=Expose(q),*z=head(y);

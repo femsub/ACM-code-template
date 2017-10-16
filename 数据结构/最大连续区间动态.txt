@@ -1,53 +1,53 @@
-¶Ô²éÑ¯Çø¼ä(a,b)
+å¯¹æŸ¥è¯¢åŒºé—´(a,b)
 
 int mid=(a+b)/2;
 
-ÒªÇóst_maxµÄ»°£¬ ÓÐÈýÖÖÇé¿ö£º
+è¦æ±‚st_maxçš„è¯ï¼Œ æœ‰ä¸‰ç§æƒ…å†µï¼š
 
-Çé¿ö1£º st_maxµÄÆðµãºÍÖÕµã¶¼ÔÚ¡¾a,mid¡¿
+æƒ…å†µ1ï¼š st_maxçš„èµ·ç‚¹å’Œç»ˆç‚¹éƒ½åœ¨ã€a,midã€‘
 
-Çé¿ö2£ºst_maxµÄÆðµãºÍÖÕµã¶¼ÔÚ¡¾mid+1,b¡¿
+æƒ…å†µ2ï¼šst_maxçš„èµ·ç‚¹å’Œç»ˆç‚¹éƒ½åœ¨ã€mid+1,bã€‘
 
-Çé¿ö3£ºst_maxµÄÆðµãÔÚ¡¾a,mid¡¿£¬ÖÕµãÔÚ¡¾mid+1,b¡¿
+æƒ…å†µ3ï¼šst_maxçš„èµ·ç‚¹åœ¨ã€a,midã€‘ï¼Œç»ˆç‚¹åœ¨ã€mid+1,bã€‘
 
-¶ÔÓÚÇé¿öÈý £º st_max= max_suffix£¨a,mid£©+max_prefix£¨mid+1,b£©  ¡¾ÈÝÒ×Àí½â¡¿
+å¯¹äºŽæƒ…å†µä¸‰ ï¼š st_max= max_suffixï¼ˆa,midï¼‰+max_prefixï¼ˆmid+1,bï¼‰  ã€å®¹æ˜“ç†è§£ã€‘
 
-ÆäÖÐmax_suffixÎªÒ»Çø¼äµÄ×î´óºó×ººÍ
+å…¶ä¸­max_suffixä¸ºä¸€åŒºé—´çš„æœ€å¤§åŽç¼€å’Œ
 
-ÆäÖÐmax_prefixÎªÒ»Çø¼äµÄ×î´óÇ°×ººÍ
+å…¶ä¸­max_prefixä¸ºä¸€åŒºé—´çš„æœ€å¤§å‰ç¼€å’Œ
 
-ËùÒÔ£¬ÈÎÒâÇø¼äµÄst_max ¶¼¿ÉÇóµÃ¡£Ö»Òª²»¶ÏµÝ¹éÏÂÈ¥¾Í¿ÉÒÔÁË¡£ ¡¾Ïß¶ÎÊ÷Î¬»¤Çø¼äµÄ½á¹û¡¿
+æ‰€ä»¥ï¼Œä»»æ„åŒºé—´çš„st_max éƒ½å¯æ±‚å¾—ã€‚åªè¦ä¸æ–­é€’å½’ä¸‹åŽ»å°±å¯ä»¥äº†ã€‚ ã€çº¿æ®µæ ‘ç»´æŠ¤åŒºé—´çš„ç»“æžœã€‘
 
-¶ø¶ÔÓÚmax_suffix¡¢max_prefix£¬ÎÒÃÇÒ²ÊÇÓÃ·ÖÖÎµÄ·½·¨À´Çó
+è€Œå¯¹äºŽmax_suffixã€max_prefixï¼Œæˆ‘ä»¬ä¹Ÿæ˜¯ç”¨åˆ†æ²»çš„æ–¹æ³•æ¥æ±‚
 
-ÀýÈç ÒªÇómax_prefix¡¾a,b¡¿
+ä¾‹å¦‚ è¦æ±‚max_prefixã€a,bã€‘
 
-ÄÇÃ´ÏÈÇómax_prefix¡¾a,mid¡¿ºÍmax_prefix¡¾mid+1,b¡¿
+é‚£ä¹ˆå…ˆæ±‚max_prefixã€a,midã€‘å’Œmax_prefixã€mid+1,bã€‘
 
-È»ºóÑ¡ max_prefix¡¾a,mid¡¿ ºÍmax_prefix¡¾mid+1,b¡¿+sum[mid] ÖÐ ½Ï´óµÄÒ»¸ö ¼´Îª ¡¾a,b¡¿µÄ×î´óÇ°×ººÍ£¬ÆäÖÐsum¡¾i¡¿ÎªÇ°×ººÍÊý×é
+ç„¶åŽé€‰ max_prefixã€a,midã€‘ å’Œmax_prefixã€mid+1,bã€‘+sum[mid] ä¸­ è¾ƒå¤§çš„ä¸€ä¸ª å³ä¸º ã€a,bã€‘çš„æœ€å¤§å‰ç¼€å’Œï¼Œå…¶ä¸­sumã€iã€‘ä¸ºå‰ç¼€å’Œæ•°ç»„
 
-Í¬ÀíÒ²¿ÉÒÔ·ÖÖÎÇóµÃmax_suffix
+åŒç†ä¹Ÿå¯ä»¥åˆ†æ²»æ±‚å¾—max_suffix
 
 -------------------------------------------------
 
-×îÖÕÊÇ ÓÃ Á½¸öÏß¶ÎÊ÷·Ö±ðÎ¬»¤ max_prefix¡¢max_suffix
+æœ€ç»ˆæ˜¯ ç”¨ ä¸¤ä¸ªçº¿æ®µæ ‘åˆ†åˆ«ç»´æŠ¤ max_prefixã€max_suffix
 
-ÔÙÓÃÒ»¿ÃÏß¶ÎÊ÷Î¬»¤×î´óÁ¬ÐøºÍ
+å†ç”¨ä¸€æ£µçº¿æ®µæ ‘ç»´æŠ¤æœ€å¤§è¿žç»­å’Œ
 
-½¨Ê÷nlogn
+å»ºæ ‘nlogn
 
-Ã¿´Î²éÑ¯logn...³£ÊýÓ¦¸Ã±È½Ï´ó....ËùÒÔÅÜÁË1.4S¡£¡£¡£ Ä¶¼ÊÇ0.xÃë
+æ¯æ¬¡æŸ¥è¯¢logn...å¸¸æ•°åº”è¯¥æ¯”è¾ƒå¤§....æ‰€ä»¥è·‘äº†1.4Sã€‚ã€‚ã€‚çŠ‡éƒ½æ˜¯0.xç§’
 
 
-1¡¢Òª×¢ÒâµÄÊÇinf²»ÄÜÉèÎª2^63-1 »áÒç³ö
+1ã€è¦æ³¨æ„çš„æ˜¯infä¸èƒ½è®¾ä¸º2^63-1 ä¼šæº¢å‡º
 
-2¡¢Î¬»¤Ä³¸ö×î´óÁ¬ÐøºÍ¶ÔÓ¦µÄÊ¼Ä©Î»ÖÃ ÎÒÊÇÁí´´ÁËÒ»¸önodeÀ´¼ÇÂ¼
+2ã€ç»´æŠ¤æŸä¸ªæœ€å¤§è¿žç»­å’Œå¯¹åº”çš„å§‹æœ«ä½ç½® æˆ‘æ˜¯å¦åˆ›äº†ä¸€ä¸ªnodeæ¥è®°å½•
 
-3¡¢ÔÚÇé¿öÈýÏÂ£¬ÓÃquery_max²éÕÒ×î´óÇ°/ºó×ººÍµÄÊ±ºò£¬
+3ã€åœ¨æƒ…å†µä¸‰ä¸‹ï¼Œç”¨query_maxæŸ¥æ‰¾æœ€å¤§å‰/åŽç¼€å’Œçš„æ—¶å€™ï¼Œ
 
-²éÑ¯µÄl£¬Ó¦¸ÃÊÇµ±Ç°Çø¼äµÄlºÍÒª²éÑ¯µÄÇø¼äµÄlÖÐ ½Ï´óµÄÒ»¸ö
+æŸ¥è¯¢çš„lï¼Œåº”è¯¥æ˜¯å½“å‰åŒºé—´çš„lå’Œè¦æŸ¥è¯¢çš„åŒºé—´çš„lä¸­ è¾ƒå¤§çš„ä¸€ä¸ª
 
-²éÑ¯µÄr£¬Ó¦¸ÃÊÇµ±Ç°Çø¼äµÄrºÍÒª²éÑ¯µÄÇø¼äµÄrÖÐ ½ÏÐ¡µÄÒ»¸ö
+æŸ¥è¯¢çš„rï¼Œåº”è¯¥æ˜¯å½“å‰åŒºé—´çš„rå’Œè¦æŸ¥è¯¢çš„åŒºé—´çš„rä¸­ è¾ƒå°çš„ä¸€ä¸ª
 
 
 
@@ -181,13 +181,13 @@ struct treepo{
             int to,next;
         }edge[MAXN*2];
         int head[MAXN],tot;
-        int top[MAXN];//top[v]±íÊ¾vËùÔÚµÄÖØÁ´µÄ¶¥¶Ë½Úµã
-        int fa[MAXN]; //¸¸Ç×½Úµã
-        int deep[MAXN];//Éî¶È
-        int num[MAXN];//num[v]±íÊ¾ÒÔvÎª¸ùµÄ×ÓÊ÷µÄ½ÚµãÊý
-        int p[MAXN];//p[v]±íÊ¾vÓëÆä¸¸Ç×½ÚµãµÄÁ¬±ßÔÚÏß¶ÎÊ÷ÖÐµÄÎ»ÖÃ
-        int fp[MAXN];//ºÍpÊý×éÏà·´           fp[p[u]] = u;
-        int son[MAXN];//ÖØ¶ù×Ó
+        int top[MAXN];//top[v]è¡¨ç¤ºvæ‰€åœ¨çš„é‡é“¾çš„é¡¶ç«¯èŠ‚ç‚¹
+        int fa[MAXN]; //çˆ¶äº²èŠ‚ç‚¹
+        int deep[MAXN];//æ·±åº¦
+        int num[MAXN];//num[v]è¡¨ç¤ºä»¥vä¸ºæ ¹çš„å­æ ‘çš„èŠ‚ç‚¹æ•°
+        int p[MAXN];//p[v]è¡¨ç¤ºvä¸Žå…¶çˆ¶äº²èŠ‚ç‚¹çš„è¿žè¾¹åœ¨çº¿æ®µæ ‘ä¸­çš„ä½ç½®
+        int fp[MAXN];//å’Œpæ•°ç»„ç›¸å           fp[p[u]] = u;
+        int son[MAXN];//é‡å„¿å­
 
         void init(int n)
         {
@@ -202,7 +202,7 @@ struct treepo{
             edge[tot].to = v;edge[tot].next = head[u];head[u] = tot++;
             edge[tot].to = u;edge[tot].next = head[v];head[v] = tot++;
         }
-        void dfs1(int u,int pre,int d) //µÚÒ»±édfsÇó³öfa,deep,num,son  dfs1((n+1)/2,-1,0);
+        void dfs1(int u,int pre,int d) //ç¬¬ä¸€édfsæ±‚å‡ºfa,deep,num,son  dfs1((n+1)/2,-1,0);
         {
             deep[u] = d;
             fa[u] = pre;
@@ -220,7 +220,7 @@ struct treepo{
             }
         }
         void dfs1(){dfs1((tr.n+1)/2,-1,0);}
-        void getPOS(int u,int sp) //µÚ¶þ±édfsÇó³ötopºÍp  getPOS((n+1)/2,(n+1)/2);
+        void getPOS(int u,int sp) //ç¬¬äºŒédfsæ±‚å‡ºtopå’Œp  getPOS((n+1)/2,(n+1)/2);
         {
             top[u] = sp;
             p[u] = POS;

@@ -6,7 +6,7 @@ struct Treap{
 inline void updata(int a){tr[a].size=1+tr[tr[a].l].size+tr[tr[a].r].size;}
 inline int newtreap(int _val){++cnt;tr[cnt].l=tr[cnt].r=0;tr[cnt].fix=(rand()<<16)+rand();tr[cnt].key=_val;tr[cnt].size=1;return cnt;}
 void init(){srand((int)time(0));root=cnt=0;tr[0].size=tr[0].l=tr[0].r=0;}
-int Merge(int A,int B){//ºÏ²¢²Ù×÷
+int Merge(int A,int B){//åˆå¹¶æ“ä½œ
     if(!A)return B;
     if(!B)return A;
     if(tr[A].fix<tr[B].fix){
@@ -22,7 +22,7 @@ int Merge(int A,int B){//ºÏ²¢²Ù×÷
     }
 }
 
-pair<int,int> Split(int x,int k){//²ğ·Ö²Ù×÷
+pair<int,int> Split(int x,int k){//æ‹†åˆ†æ“ä½œ
     if(!x)return mp(0,0);
     pair<int,int> y;
     //tr[++cnt]=tr[x];x=cnt;
@@ -40,7 +40,7 @@ pair<int,int> Split(int x,int k){//²ğ·Ö²Ù×÷
     return y;
 }
 
-int Findkth(int k,int& tree){//²éÕÒµÚKĞ¡
+int Findkth(int k,int& tree){//æŸ¥æ‰¾ç¬¬Kå°
     pair<int,int> x=Split(tree,k-1);
     pair<int,int> y=Split(x.second,1);
     int ans=y.first;
@@ -48,16 +48,16 @@ int Findkth(int k,int& tree){//²éÕÒµÚKĞ¡
     return tr[ans].key;
 }
 
-int Getkth(int key,int tree){//Ñ¯ÎÊÒ»¸öÊıkeyÊÇµÚ¼¸´ó
+int Getkth(int key,int tree){//è¯¢é—®ä¸€ä¸ªæ•°keyæ˜¯ç¬¬å‡ å¤§
     if(!tree)return 0;
     return key<tr[tree].key?Getkth(key,tr[tree].l):Getkth(key,tr[tree].r)+tr[tr[tree].l].size+1;
 }
-void Insert(int key,int& tree){//²åÈë²Ù×÷
+void Insert(int key,int& tree){//æ’å…¥æ“ä½œ
     pair<int,int> x=Split(tree,Getkth(key-1,tree));
     tree=Merge(Merge(x.first,newtreap(key)),x.second);
 }
 
-void Delete(int key,int& tree){//É¾³ıkey
+void Delete(int key,int& tree){//åˆ é™¤key
     key=Getkth(key,tree);
     pair<int,int> x=Split(tree,key-1);
     pair<int,int> y=Split(x.second,1);
@@ -65,7 +65,7 @@ void Delete(int key,int& tree){//É¾³ıkey
 }
 
 /*
-void Build(int *a){//½¨Ôì²Ù×÷		ÒÑ¾­sort,a[0]Îªsize
+void Build(int *a){//å»ºé€ æ“ä½œ		å·²ç»sort,a[0]ä¸ºsize
     static int stack[maxn],x,last;
     int p=0;
     for(int i=1;i<=a[0];++i){
@@ -84,7 +84,7 @@ void Build(int *a){//½¨Ôì²Ù×÷		ÒÑ¾­sort,a[0]Îªsize
     root=stack[1];
 }
 
-    int a[maxn];//a[0]Îª´óĞ¡
+    int a[maxn];//a[0]ä¸ºå¤§å°
     init();
     sort(a+1,a+1+a[0]);
     Build(a);

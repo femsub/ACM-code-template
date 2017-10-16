@@ -5,8 +5,8 @@
 #include <utility>
 #include <vector>
 
-// w = 1 Ê±£¬Ö±¾¶ÆÚÍûÊÇ $O(\sqrt{n})$
-// w = n Ê±£¬Ö±¾¶ÆÚÍûÊÇ $O(n)$ £¨ÎÒÏ¹ËµµÄ£©
+// w = 1 æ—¶ï¼Œç›´å¾„æœŸæœ›æ˜¯ $O(\sqrt{n})$
+// w = n æ—¶ï¼Œç›´å¾„æœŸæœ›æ˜¯ $O(n)$ ï¼ˆæˆ‘çè¯´çš„ï¼‰
 
 std::vector<std::pair<int, int>> random_tree(int n, int w)
 {

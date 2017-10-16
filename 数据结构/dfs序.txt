@@ -49,4 +49,4 @@ void dfs(int u,int f)
         for(int x=1;x<=tot;x++)
             updp(x,num[x]);
 
-T=<V,E>£¬ÆäÖÐV={A,B,C,D,E,F,G},E={AB,AC,BD,BE,EF,EG},ÇÒAÎªÊ÷¸ù¡£ÔòÍ¼TµÄDFS½á¹ûÎª£ºA->B->D->B->E->F->E->G->E->B->A->C->A£¬ÒªÇóDºÍGµÄ×î½ü¹«¹²×æÏÈ, ÔòLCA[T, D, G] = RMQ(L, R[D], R[G])= RMQ(L, 3, 8)£¬LÖÐµÚ4µ½7¸öÔªËØµÄÉî¶È·Ö±ðÎª£º1,2,3,3£¬ÔòÉî¶È×îÐ¡µÄÊÇB¡£
+T=<V,E>ï¼Œå…¶ä¸­V={A,B,C,D,E,F,G},E={AB,AC,BD,BE,EF,EG},ä¸”Aä¸ºæ ‘æ ¹ã€‚åˆ™å›¾Tçš„DFSç»“æžœä¸ºï¼šA->B->D->B->E->F->E->G->E->B->A->C->Aï¼Œè¦æ±‚Då’ŒGçš„æœ€è¿‘å…¬å…±ç¥–å…ˆ, åˆ™LCA[T, D, G] = RMQ(L, R[D], R[G])= RMQ(L, 3, 8)ï¼ŒLä¸­ç¬¬4åˆ°7ä¸ªå…ƒç´ çš„æ·±åº¦åˆ†åˆ«ä¸ºï¼š1,2,3,3ï¼Œåˆ™æ·±åº¦æœ€å°çš„æ˜¯Bã€‚

@@ -1,7 +1,7 @@
 #define MAXN 100010
 struct Node{
     int key, sz, cnt;
-    Node *ch[2], *pnt;//×óÓÒ¶ù×ÓºÍ¸¸Ç×
+    Node *ch[2], *pnt;//å·¦å³å„¿å­å’Œçˆ¶äº²
     Node(){}
     Node(int x, int y, int z){
     key = x, sz = y, cnt = z;
@@ -10,15 +10,15 @@ struct Node{
     sz = ch[0]->sz + ch[1]->sz + cnt;
     }
 }nil(0, 0, 0), *NIL = &nil;
-struct Splay{//ÉìÕ¹Ê÷½á¹¹ÌåÀàĞÍ
+struct Splay{//ä¼¸å±•æ ‘ç»“æ„ä½“ç±»å‹
     Node *root;
-    int ncnt;//¼ÆËãkeyÖµ²»Í¬µÄ½áµãÊı£¬×¢ÒâÒÑ¾­È¥ÖØÁË
+    int ncnt;//è®¡ç®—keyå€¼ä¸åŒçš„ç»“ç‚¹æ•°ï¼Œæ³¨æ„å·²ç»å»é‡äº†
     Node nod[MAXN];
-    void init(){// Ê×ÏÈÒª³õÊ¼»¯
+    void init(){// é¦–å…ˆè¦åˆå§‹åŒ–
         root = NIL;
         ncnt = 0;
     }
-    void rotate(Node *x, bool d){//Ğı×ª²Ù×÷£¬dÎªtrue±íÊ¾ÓÒĞı
+    void rotate(Node *x, bool d){//æ—‹è½¬æ“ä½œï¼Œdä¸ºtrueè¡¨ç¤ºå³æ—‹
         Node *y = x->pnt;
         y->ch[!d] = x->ch[d];
         if (x->ch[d] != NIL)
@@ -35,7 +35,7 @@ struct Splay{//ÉìÕ¹Ê÷½á¹¹ÌåÀàĞÍ
         y->rs();
         x->rs();
     }
-    void splay(Node *x, Node *target){//½«xÉìÕ¹µ½targetµÄ¶ù×ÓÎ»ÖÃ´¦
+    void splay(Node *x, Node *target){//å°†xä¼¸å±•åˆ°targetçš„å„¿å­ä½ç½®å¤„
         Node *y;
         while (x->pnt != target){
             y = x->pnt;
@@ -53,8 +53,8 @@ struct Splay{//ÉìÕ¹Ê÷½á¹¹ÌåÀàĞÍ
         if (target == NIL)
             root = x;
     }
-    /************************ÒÔÉÏÒ»°ã²»ÓÃĞŞ¸Ä************************/
-    void insert(int key){//²åÈëÒ»¸öÖµ
+    /************************ä»¥ä¸Šä¸€èˆ¬ä¸ç”¨ä¿®æ”¹************************/
+    void insert(int key){//æ’å…¥ä¸€ä¸ªå€¼
         if (root == NIL){
             ncnt = 0;
             root = &nod[++ncnt];
@@ -101,7 +101,7 @@ struct Splay{//ÉìÕ¹Ê÷½á¹¹ÌåÀàĞÍ
         }
         splay(y, NIL);
     }
-    Node* search(int key){//²éÕÒÒ»¸öÖµ£¬·µ»ØÖ¸Õë
+    Node* search(int key){//æŸ¥æ‰¾ä¸€ä¸ªå€¼ï¼Œè¿”å›æŒ‡é’ˆ
         if (root == NIL)
             return NIL;
         Node *x = root, *y = NIL;
@@ -126,15 +126,15 @@ struct Splay{//ÉìÕ¹Ê÷½á¹¹ÌåÀàĞÍ
         splay(x, NIL);
         return y;
     }
-    Node* searchmin(Node *x){//²éÕÒ×îĞ¡Öµ£¬·µ»ØÖ¸Õë
+    Node* searchmin(Node *x){//æŸ¥æ‰¾æœ€å°å€¼ï¼Œè¿”å›æŒ‡é’ˆ
         Node *y = x->pnt;
-        while (x->ch[0] != NIL){//±éÀúµ½×î×óµÄ¶ù×Ó¾ÍÊÇ×îĞ¡Öµ
+        while (x->ch[0] != NIL){//éå†åˆ°æœ€å·¦çš„å„¿å­å°±æ˜¯æœ€å°å€¼
             x = x->ch[0];
         }
             splay(x, y);
             return x;
     }
-    void del(int key){//É¾³ıÒ»¸öÖµ
+    void del(int key){//åˆ é™¤ä¸€ä¸ªå€¼
         if (root == NIL)
             return;
         Node *x = search(key), *y;
@@ -166,13 +166,13 @@ struct Splay{//ÉìÕ¹Ê÷½á¹¹ÌåÀàĞÍ
         y->rs();
         root = y;
     }
-    int rank(int key){//Çó½áµã¸ß¶È
+    int rank(int key){//æ±‚ç»“ç‚¹é«˜åº¦
         Node *x = search(key);
         if (x == NIL)
             return 0;
         return x->ch[0]->sz + 1/* or x->cnt*/;
     }
-    Node* findk(int kth){//²éÕÒµÚkĞ¡µÄÖµ
+    Node* findk(int kth){//æŸ¥æ‰¾ç¬¬kå°çš„å€¼
         if (root == NIL || kth > root->sz)
             return NIL;
         Node *x = root;
@@ -197,12 +197,12 @@ sp.init();
 sp.insert(3);
 sp.searchmin(sp.root)->key
 sp.del(1);
-int ncnt;//¼ÆËãkeyÖµ²»Í¬µÄ½áµãÊı£¬×¢ÒâÒÑ¾­È¥ÖØÁË(jia)
-void rotate(Node *x, bool d){//Ğı×ª²Ù×÷£¬dÎªtrue±íÊ¾ÓÒĞı
-void splay(Node *x, Node *target){//½«xÉìÕ¹µ½targetµÄ¶ù×ÓÎ»ÖÃ´¦
-Node* search(int key){//²éÕÒÒ»¸öÖµ£¬·µ»ØÖ¸Õë//ÕÒ²»µ½Ê±keyÎª0
-int rank(int key){//Çó½áµã¸ß¶È//µÚ¼¸Ğ¡
-Node* findk(int kth){//²éÕÒµÚkĞ¡µÄÖµ
+int ncnt;//è®¡ç®—keyå€¼ä¸åŒçš„ç»“ç‚¹æ•°ï¼Œæ³¨æ„å·²ç»å»é‡äº†(jia)
+void rotate(Node *x, bool d){//æ—‹è½¬æ“ä½œï¼Œdä¸ºtrueè¡¨ç¤ºå³æ—‹
+void splay(Node *x, Node *target){//å°†xä¼¸å±•åˆ°targetçš„å„¿å­ä½ç½®å¤„
+Node* search(int key){//æŸ¥æ‰¾ä¸€ä¸ªå€¼ï¼Œè¿”å›æŒ‡é’ˆ//æ‰¾ä¸åˆ°æ—¶keyä¸º0
+int rank(int key){//æ±‚ç»“ç‚¹é«˜åº¦//ç¬¬å‡ å°
+Node* findk(int kth){//æŸ¥æ‰¾ç¬¬kå°çš„å€¼
 
 Node *x = sp.search(3);
     sp.splay(x,NIL);
@@ -280,7 +280,7 @@ struct Splay
 {
 
 Node  data[MAX];
-Node *store[MAX];//ÈË¹¤¶ÑÕ»
+Node *store[MAX];//äººå·¥å †æ ˆ
 Node * null;
 Node * root;
 int number;
@@ -318,7 +318,7 @@ void init()
     root = newNode(-INF);
     root->ch[1] = newNode(-INF);
     root->ch[1]->pre = root;
-    push_up(root);//ÕâÀïÖ÷ÒªÊÇÎªÁË¸üĞÂsize£¬sumµÄ¸üĞÂ²¢²»ÕıÈ·£¬µ«ÊÇÔÚrotateºÍsplay²Ù×÷ÖĞ»áÕıÈ·
+    push_up(root);//è¿™é‡Œä¸»è¦æ˜¯ä¸ºäº†æ›´æ–°sizeï¼Œsumçš„æ›´æ–°å¹¶ä¸æ­£ç¡®ï¼Œä½†æ˜¯åœ¨rotateå’Œsplayæ“ä½œä¸­ä¼šæ­£ç¡®
 
 }
 
@@ -329,7 +329,7 @@ void push_up(Node * p)
         return;
     }
     push_down(p);
-    push_down(p->ch[0]);//ÒÔÇóºÍÎªÀı£¬p½ÚµãÖµµÄ¸üĞÂĞèÒªÒÀÀµÁ½¸ö×Ö½Úµã£¬ÄÇÃ´ÕâÁ½¸ö×Ö½ÚµãµÄsumÒªÏÈµÃµ½¸üĞÂ£¬ËùÒÔÒªÏÂ·Å
+    push_down(p->ch[0]);//ä»¥æ±‚å’Œä¸ºä¾‹ï¼ŒpèŠ‚ç‚¹å€¼çš„æ›´æ–°éœ€è¦ä¾èµ–ä¸¤ä¸ªå­—èŠ‚ç‚¹ï¼Œé‚£ä¹ˆè¿™ä¸¤ä¸ªå­—èŠ‚ç‚¹çš„sumè¦å…ˆå¾—åˆ°æ›´æ–°ï¼Œæ‰€ä»¥è¦ä¸‹æ”¾
     push_down(p->ch[1]);
 
     p->size = p->ch[0]->size + p->ch[1]->size + 1;
@@ -371,8 +371,8 @@ void push_down(Node * p)
 }
 
 
-//ÖĞĞò±éÀú
-void dfs(Node * p)  //Êä³ö
+//ä¸­åºéå†
+void dfs(Node * p)  //è¾“å‡º
 {
     if(p == null)
     {
@@ -382,7 +382,7 @@ void dfs(Node * p)  //Êä³ö
     printf("%d   ",p->value);
     dfs(p->ch[1]);
 }
-//c=1 ÓÒĞı
+//c=1 å³æ—‹
 void rotate(Node * x,int c)
 {
     Node * y = x->pre;
@@ -424,7 +424,7 @@ void splay(Node * x,Node * f)
 
     for(push_down(x);x->pre!=f;)
     {
-        if(x->pre->pre == f)//µ¥Ğı
+        if(x->pre->pre == f)//å•æ—‹
         {
             if(x == x->pre->ch[0])
             {
@@ -441,13 +441,13 @@ void splay(Node * x,Node * f)
             Node * z = y->pre;
             if(z->ch[0] == y)
             {
-                if(y->ch[0] == x)//Ò»×ÖĞÎĞı×ª
+                if(y->ch[0] == x)//ä¸€å­—å½¢æ—‹è½¬
                 {
                     rotate(y,1);
                     rotate(x,1);
 
                 }
-                else//Ö®×ÖĞÎ
+                else//ä¹‹å­—å½¢
                 {
                     rotate(x,0);
                     rotate(x,1);
@@ -455,12 +455,12 @@ void splay(Node * x,Node * f)
             }
             else
             {
-                if(y->ch[1] == x)//Ò»×ÖĞÎ
+                if(y->ch[1] == x)//ä¸€å­—å½¢
                 {
                     rotate(y,0);
                     rotate(x,0);
                 }
-                else//Ö®×ÖĞÎ
+                else//ä¹‹å­—å½¢
                 {
                     rotate(x,1);
                     rotate(x,0);
@@ -471,10 +471,10 @@ void splay(Node * x,Node * f)
     }
     push_up(x);
 }
-void select(int k,Node * f)//kÊÇÖ¸µÚ¼¸¸ö½Úµã,´Ó1¿ªÊ¼  Ê¹µÚk¸ö½ÚµãÔÚfÏÂÃæ
+void select(int k,Node * f)//kæ˜¯æŒ‡ç¬¬å‡ ä¸ªèŠ‚ç‚¹,ä»1å¼€å§‹  ä½¿ç¬¬kä¸ªèŠ‚ç‚¹åœ¨fä¸‹é¢
 {
     Node * t;
-    //k = k-1+1;//ÆäÊµÕı³£Çé¿öÏÂÓ¦¸ÃÊÇ k = k-1;µ«ÊÇÇ°ºó¼ÓÁ½¸ö½ÚµãµÄ»°£¬ÕıºÃÏòÓÒÒÆ¶¯Ò»Î»
+    //k = k-1+1;//å…¶å®æ­£å¸¸æƒ…å†µä¸‹åº”è¯¥æ˜¯ k = k-1;ä½†æ˜¯å‰ååŠ ä¸¤ä¸ªèŠ‚ç‚¹çš„è¯ï¼Œæ­£å¥½å‘å³ç§»åŠ¨ä¸€ä½
     for(t=root;;)
     {
         push_down(t);
@@ -515,31 +515,31 @@ Node * build(int left,int right,int *ary)
     {
         p->ch[1]->pre = p;
     }
-    push_up(p);//Update²Ù×÷
+    push_up(p);//Updateæ“ä½œ
     return p;
 }
 
 
-void insert(int pos,int *ary,int n)  //ÔÚx´¦²åÈën¸öµã£¬±êºÅ´Óx¿ªÊ¼
+void insert(int pos,int *ary,int n)  //åœ¨xå¤„æ’å…¥nä¸ªç‚¹ï¼Œæ ‡å·ä»xå¼€å§‹
 {
     select(pos-1,null);
     select(pos,root);
     Node * p = build(0,n-1,ary);
     root->ch[1]->ch[0] = p;
     p->pre = root->ch[1];
-    splay(p,null);//½«pÒÆÖÁ¸ù½Úµã
+    splay(p,null);//å°†pç§»è‡³æ ¹èŠ‚ç‚¹
 }
 void del(int pos,int end)
 {
     select(pos-1,null);
     select(end,root);
-    Node * p = root->ch[1]->ch[0];//Èç¹û²»»ØÊÕµÄ»°£¬½«»áÔì³ÉÄÚ´æĞ¹Â©
+    Node * p = root->ch[1]->ch[0];//å¦‚æœä¸å›æ”¶çš„è¯ï¼Œå°†ä¼šé€ æˆå†…å­˜æ³„æ¼
     root->ch[1]->ch[0] = null;
-    splay(root->ch[1],null);//±ğÍüÁËÎ¬»¤
+    splay(root->ch[1],null);//åˆ«å¿˜äº†ç»´æŠ¤
     recyle(p);
 }
 
-void recyle(Node *p)//ÈË¹¤»ØÊÕÉ¾³ıµÄ¿Õ¼ä£¬·ÀÖ¹Õ»Òç³ö
+void recyle(Node *p)//äººå·¥å›æ”¶åˆ é™¤çš„ç©ºé—´ï¼Œé˜²æ­¢æ ˆæº¢å‡º
 {
     if(p == null)
     {
@@ -550,20 +550,20 @@ void recyle(Node *p)//ÈË¹¤»ØÊÕÉ¾³ıµÄ¿Õ¼ä£¬·ÀÖ¹Õ»Òç³ö
     store[++top] = p;
 
 }
-int getSum(int start,int end)  //Çø¼äºÍ
+int getSum(int start,int end)  //åŒºé—´å’Œ
 {
     select(start-1,null);
-    select(end,root);//ÕâÀïÍêÈ«²»ÓÃµ£ĞÄ£¬¿Ï¶¨»áÒÆµ½rootµÄÓÒ×ÓÊ÷£¬ÒòÎªend±Èstart-1´ó£¬¸ù¾İ²éÑ¯¶ş²æÊ÷µÄĞÔÖÊ
+    select(end,root);//è¿™é‡Œå®Œå…¨ä¸ç”¨æ‹…å¿ƒï¼Œè‚¯å®šä¼šç§»åˆ°rootçš„å³å­æ ‘ï¼Œå› ä¸ºendæ¯”start-1å¤§ï¼Œæ ¹æ®æŸ¥è¯¢äºŒå‰æ ‘çš„æ€§è´¨
     return root->ch[1]->ch[0]->sum;
 }
-int maxSum(int pos,int end)  //sp.maxSum(1,sp.root->size - 1)È«¾Ö
+int maxSum(int pos,int end)  //sp.maxSum(1,sp.root->size - 1)å…¨å±€
 {
     select(pos-1,null);
     select(end,root);
     Node * p = root->ch[1]->ch[0];
     return p->MaxM;
 }
-void makeSame(int pos,int end,int s)  //Ê¹Çø¼ä±äÎªs
+void makeSame(int pos,int end,int s)  //ä½¿åŒºé—´å˜ä¸ºs
 {
     select(pos-1,null);
     select(end,root);
@@ -581,7 +581,7 @@ void reverse(int pos,int end)
     splay(p,null);
 }
 }sp;
-int ary[MAX];                                   //×ó±ÕÓÒ¿ª£¬ÒÔÊı×éÏÂ±êÎªĞò 0ºÍÄ©ÎªĞéÄâsp.root->size=size+2
+int ary[MAX];                                   //å·¦é—­å³å¼€ï¼Œä»¥æ•°ç»„ä¸‹æ ‡ä¸ºåº 0å’Œæœ«ä¸ºè™šæ‹Ÿsp.root->size=size+2
 int main()
 {
     int T;
@@ -623,7 +623,7 @@ int main()
             if(strcmp(cmd,"INSERT") == 0)
             {
                 scanf("%d%d",&x,&y);
-                x++;//ÏòºóÒÆ¶¯Ò»Î»
+                x++;//å‘åç§»åŠ¨ä¸€ä½
                 for(int i=0;i<y;i++)
                 {
                     scanf("%d",&ary[i]);

@@ -1,12 +1,12 @@
-int cnt,root;			//¿ÉÖØ¸´£¬s±íÊ¾½ÚµãµÄÖµµÄ¸öÊı
-struct Treap{				//rand()¿ÉÄÜÎÊÌâ
+int cnt,root;			//å¯é‡å¤ï¼Œsè¡¨ç¤ºèŠ‚ç‚¹çš„å€¼çš„ä¸ªæ•°
+struct Treap{				//rand()å¯èƒ½é—®é¢˜
     int l,r;
     int fix,key,size,s;
 }tr[maxn];
 inline void updata(int a){tr[a].size=tr[a].s+tr[tr[a].l].size+tr[tr[a].r].size;}
 inline int newtreap(int _val){++cnt;tr[cnt].l=tr[cnt].r=0;tr[cnt].fix=rand();tr[cnt].key=_val;tr[cnt].size=tr[cnt].s=1;return cnt;}
 void init(){srand((int)time(0));root=cnt=0;tr[0].size=tr[0].s=tr[0].l=tr[0].r=0;}
-int Merge(int A,int B){//ºÏ²¢²Ù×÷
+int Merge(int A,int B){//åˆå¹¶æ“ä½œ
     if(!A)return B;
     if(!B)return A;
     if(tr[A].fix<tr[B].fix){
@@ -19,7 +19,7 @@ int Merge(int A,int B){//ºÏ²¢²Ù×÷
         return B;
     }
 }
-pair<int,int> Split(int x,int k){//²ğ·Ö²Ù×÷Ç°k
+pair<int,int> Split(int x,int k){//æ‹†åˆ†æ“ä½œå‰k
     if(!x)return mp(0,0);
     pair<int,int> y;
     if(tr[tr[x].l].size>=k){
@@ -35,7 +35,7 @@ pair<int,int> Split(int x,int k){//²ğ·Ö²Ù×÷Ç°k
     }
     return y;
 }
-void Build(int *a){//½¨Ôì²Ù×÷		ÒÑ¾­sort,a[0]Îªsize
+void Build(int *a){//å»ºé€ æ“ä½œ		å·²ç»sort,a[0]ä¸ºsize
     static int stack[maxn],x,last;
     int p=0;
     for(int i=1;i<=a[0];++i){
@@ -54,7 +54,7 @@ void Build(int *a){//½¨Ôì²Ù×÷		ÒÑ¾­sort,a[0]Îªsize
     while(p) updata(stack[p--]);
     root=stack[1];
 }
-int Findkth(int t,int k){//²éÕÒµÚKĞ¡
+int Findkth(int t,int k){//æŸ¥æ‰¾ç¬¬Kå°
     while(t)
     {
         if(tr[tr[t].l].size<k&&tr[tr[t].l].size+tr[t].s>=k)
@@ -69,18 +69,18 @@ int Findkth(int t,int k){//²éÕÒµÚKĞ¡
     }
     return 0;
 }
-int Getkth(int x,int v){//Ñ¯ÎÊÒ»¸öÊıvÊÇµÚ¼¸´ó,×î´ó¿ÉÄÜ
+int Getkth(int x,int v){//è¯¢é—®ä¸€ä¸ªæ•°væ˜¯ç¬¬å‡ å¤§,æœ€å¤§å¯èƒ½
     if(!x)return 0;
     return v<tr[x].key?Getkth(tr[x].l,v):Getkth(tr[x].r,v)+tr[tr[x].l].size+tr[x].s;
 }
-void Insert(int v){//²åÈë²Ù×÷
+void Insert(int v){//æ’å…¥æ“ä½œ
     pair<int,int> x=Split(root,Getkth(root,v-1));
     pair<int,int> y=Split(x.second,Getkth(x.second,v));
     if(y.first==0)y.first=newtreap(v);
     else tr[y.first].s++,tr[y.first].size++;
     root=Merge(Merge(x.first,y.first),y.second);
 }
-void Delete(int k){//É¾³ı²Ù×÷ 1¸ök
+void Delete(int k){//åˆ é™¤æ“ä½œ 1ä¸ªk
     pair<int,int> x=Split(root,Getkth(root,k-1));
     pair<int,int> y=Split(x.second,Getkth(x.second,k));
     if(y.first==0||tr[y.first].s==1)y.first=0;

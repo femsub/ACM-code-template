@@ -34,14 +34,14 @@ tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> tr;
 
 
 
-/*null_mapped_type ¾É°æ±¾
-key,mapped metadataÊÇÎ¬»¤Öµ
-tr.node_begin().get_metadata() ·µ»ØÕâ¿ÃÊ÷µÄ×ÜÎ¬»¤Öµ
-a.join(b);  abÁ½¿ÃÊ÷²»Ïà½»,ºÏ²¢ºóbÇå¿Õ
-a.split(key,b);   aÖĞĞ¡ÓÚµÈÓÚkeyµÄÔÚa,ÆäËûÔÚb,bÖĞÔ­ÓĞÔªËØµÄÇå¿Õ
+/*null_mapped_type æ—§ç‰ˆæœ¬
+key,mapped metadataæ˜¯ç»´æŠ¤å€¼
+tr.node_begin().get_metadata() è¿”å›è¿™æ£µæ ‘çš„æ€»ç»´æŠ¤å€¼
+a.join(b);  abä¸¤æ£µæ ‘ä¸ç›¸äº¤,åˆå¹¶åbæ¸…ç©º
+a.split(key,b);   aä¸­å°äºç­‰äºkeyçš„åœ¨a,å…¶ä»–åœ¨b,bä¸­åŸæœ‰å…ƒç´ çš„æ¸…ç©º
 begin(),end(),size(),empty(),clear(),find(),lower_bound(),upper_bound(),erase(),insert(),[]
 
-tree_order_statistics_node_update: get_metadataÎ¬»¤µÄÊÇsize_t
-.find_by_order(k) ·µ»ØµÚkĞ¡µÄµü´úÆ÷£¬0-base
-.order_of_key(key) ·µ»ØkeyµÄrank=Ğ¡ÓÚkeyµÄ¸öÊı
+tree_order_statistics_node_update: get_metadataç»´æŠ¤çš„æ˜¯size_t
+.find_by_order(k) è¿”å›ç¬¬kå°çš„è¿­ä»£å™¨ï¼Œ0-base
+.order_of_key(key) è¿”å›keyçš„rank=å°äºkeyçš„ä¸ªæ•°
 */

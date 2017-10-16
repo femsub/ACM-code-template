@@ -4,13 +4,13 @@ struct SegTree
         int l,r;
         LL d,sum;
 }tr[MAXN*5];
-struct ZXTree{                          //»ØËİÊ±¼äÏß¶ÎÊ÷
-        int n,no,time;//nÎªÏß¶ÎÊ÷¸öÊı
+struct ZXTree{                          //å›æº¯æ—¶é—´çº¿æ®µæ ‘
+        int n,no,time;//nä¸ºçº¿æ®µæ ‘ä¸ªæ•°
         int T[MAXN],noo[MAXN];
         void init(int n)
         {
-                //sorted[]´æÇ°×ººÍ
-                //time=0Ê±Îª³õÊ¼Öµ
+                //sorted[]å­˜å‰ç¼€å’Œ
+                //time=0æ—¶ä¸ºåˆå§‹å€¼
                 this->n=n;
                 T[0]=build(1,n);
                 time=0;
@@ -27,7 +27,7 @@ struct ZXTree{                          //»ØËİÊ±¼äÏß¶ÎÊ÷
                 }
                 return cur;
         }
-        int insertt(int ti,int k,int d)//k-n  +d  ÔÚt
+        int insertt(int ti,int k,int d)//k-n  +d  åœ¨t
         {
                 int l=1,r=n,cur=++no,c=cur;
                 while(1)
@@ -84,7 +84,7 @@ struct ZXTree{                          //»ØËİÊ±¼äÏß¶ÎÊ÷
                 }
                 return (k+1)*d-sum;
         }
-        void update(int l,int r,int d)//timeÊ±¼ä¸üĞÂl-r +d£¬Ê±¼ä±äÎªtime+1
+        void update(int l,int r,int d)//timeæ—¶é—´æ›´æ–°l-r +dï¼Œæ—¶é—´å˜ä¸ºtime+1
         {
                 time++;
                 T[time]=insertt(T[time-1],l,d);
@@ -92,17 +92,17 @@ struct ZXTree{                          //»ØËİÊ±¼äÏß¶ÎÊ÷
                 T[time]=insertt(T[time],r+1,-d);
                 noo[time]=no;
         }
-        void update(int l,int d)//timeÊ±¼ä¸üĞÂl-n +d£¬Ê±¼ä±äÎªtime+1
+        void update(int l,int d)//timeæ—¶é—´æ›´æ–°l-n +dï¼Œæ—¶é—´å˜ä¸ºtime+1
         {
                 time++;
                 T[time]=insertt(T[time-1],l,d);
                 noo[time]=no;
         }
-        LL query(int l,int r,int t)//l-r,ÔÚtÊ±¼äÇø¼äºÍ
+        LL query(int l,int r,int t)//l-r,åœ¨tæ—¶é—´åŒºé—´å’Œ
         {
                 return query(r,t)-query(l-1,t);
         }
-        void back(int t)//»Øµ½tÊ±¼ä
+        void back(int t)//å›åˆ°tæ—¶é—´
         {
                 time=t;
                 no=noo[t];
@@ -110,7 +110,7 @@ struct ZXTree{                          //»ØËİÊ±¼äÏß¶ÎÊ÷
 }zt;
 
 
-//Íâ²¿Êı×é´æ·ÅÇ°×ººÍ   query+a[r]-a[l-1]
+//å¤–éƒ¨æ•°ç»„å­˜æ”¾å‰ç¼€å’Œ   query+a[r]-a[l-1]
 zt.init(n);
 zt.update(l,r,d);
 zt.query(l,r,t)

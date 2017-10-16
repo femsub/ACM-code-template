@@ -13,7 +13,7 @@ void dfs(int u,int fa)
 
 
 p[u][x].fi=v;.se=w;
-q[u][x].fi=v;.se=jÑ¯ÎÊ´ÎĞò
+q[u][x].fi=v;.se=jè¯¢é—®æ¬¡åº
 
 
 void dfs(int u)
@@ -34,7 +34,7 @@ void dfs(int u)
 }
 
 ****************************
-int L[maxn*2],cnt=0,deep[maxn];//uµÄdeepÊÇdeep[u];
+int L[maxn*2],cnt=0,deep[maxn];//uçš„deepæ˜¯deep[u];
 int st[maxn*2][30];
 vector<int>node[maxn];
 void dfs(int u,int fa)
@@ -80,7 +80,7 @@ int lca(int u,int v)
 
 ***************************************** n ~ 1
 
-void Build(int *a){//½¨Ôì²Ù×÷		ÒÑ¾­sort,a[0]Îªsize
+void Build(int *a){//å»ºé€ æ“ä½œ		å·²ç»sort,a[0]ä¸ºsize
     static int stack[maxn],x,last;
     int p=0;
     for(int i=1;i<=a[0];++i){
@@ -99,4 +99,4 @@ void Build(int *a){//½¨Ôì²Ù×÷		ÒÑ¾­sort,a[0]Îªsize
     root=stack[1];
 }
 
-µÑ¿¨¶ûÊ÷½¨Á¢£¬¹ı³ÌÖĞÅÜtarjan lca
+ç¬›å¡å°”æ ‘å»ºç«‹ï¼Œè¿‡ç¨‹ä¸­è·‘tarjan lca

@@ -69,5 +69,5 @@ struct SegTree{
 tr.build(15);
 tr.update(1,10,1);
 tr.query(1,15);
-lower_bound½øĞĞÀëÉ¢»¯
+lower_boundè¿›è¡Œç¦»æ•£åŒ–
 */
