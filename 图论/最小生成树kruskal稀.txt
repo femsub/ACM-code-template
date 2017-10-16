@@ -30,7 +30,7 @@ int kruskal()
                 v=edges[i].v;
                 if(get_father(u)!=get_father(v))
                 {
-                        add(edges[i]);//加入结果
+                        add(edges[i]);//鍔犲叆缁撴灉
                         sum+=edges[i].w;
                         num++;
                         link(u,v);

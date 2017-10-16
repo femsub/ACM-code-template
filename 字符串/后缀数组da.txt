@@ -22,15 +22,15 @@ void da(int r[], int sa[], int n, int m) {
             x[sa[i]] = cmp(y, sa[i-1], sa[i], j) ? p-1 : p++;
     }
 }
-void calheight(int r[], int sa[], int n) {              // ÕâÀïµÄnÊÇÔ­´®µÄ±¾À´³¤¶È£¬¼´²»°üÀ¨ĞÂÔöµÄ0
+void calheight(int r[], int sa[], int n) {              // è¿™é‡Œçš„næ˜¯åŸä¸²çš„æœ¬æ¥é•¿åº¦ï¼Œå³ä¸åŒ…æ‹¬æ–°å¢çš„0
     int i, j, k = 0;
-    for (i = 1; i <= n; ++i) rank[sa[i]] = i;           // rank[n]´Óx¿ªÊ¼µÄºó×ºµÄÅÅÃû   0~n-1ÓĞĞ§ rank[n]=0;
-    for (i = 0; i < n; height[rank[i++]] = k)                  //height[i]±íÊ¾ÅÅÃûµÚ i µÄºó×ºÓëÅÅÃûµÚ i-1 Î»µÄºó×ºµÄ×î³¤¹«¹²Ç°×ºµÄ³¤¶È    2-nÓĞĞ§
-        for (k?k--:0, j = sa[rank[i]-1]; r[i+k] == r[j+k]; k++);        //sa[i]±íÊ¾ÅÅÃûÎªµÚ i Î»µÄºó×ºÊÇ´Ósa[i]¿ªÊ¼µÄ  1-nÓĞĞ§ sa[0]=n
-}                                                           //LCP(i,j)=min{LCP(k-1,k)|i+1<=k<=j}         £¨LCP Theorem£©  LCP(i,j)ÅÅÃûµÚi jÖ®¼äµÄ×î³¤¹«¹²×Ö´®
+    for (i = 1; i <= n; ++i) rank[sa[i]] = i;           // rank[n]ä»xå¼€å§‹çš„åç¼€çš„æ’å   0~n-1æœ‰æ•ˆ rank[n]=0;
+    for (i = 0; i < n; height[rank[i++]] = k)                  //height[i]è¡¨ç¤ºæ’åç¬¬ i çš„åç¼€ä¸æ’åç¬¬ i-1 ä½çš„åç¼€çš„æœ€é•¿å…¬å…±å‰ç¼€çš„é•¿åº¦    2-næœ‰æ•ˆ
+        for (k?k--:0, j = sa[rank[i]-1]; r[i+k] == r[j+k]; k++);        //sa[i]è¡¨ç¤ºæ’åä¸ºç¬¬ i ä½çš„åç¼€æ˜¯ä»sa[i]å¼€å§‹çš„  1-næœ‰æ•ˆ sa[0]=n
+}                                                           //LCP(i,j)=min{LCP(k-1,k)|i+1<=k<=j}         ï¼ˆLCP Theoremï¼‰  LCP(i,j)æ’åç¬¬i jä¹‹é—´çš„æœ€é•¿å…¬å…±å­—ä¸²
 void init(char* s){
     int n=strlen(s),m=0;
-    for (int i = 0; i < n; ++i){r[i]=s[i]-'a'+1;m=max(m,r[i]);}r[n]=0;	//******×¢ÒâÏÂÏŞ£¡£¡£¡
+    for (int i = 0; i < n; ++i){r[i]=s[i]-'a'+1;m=max(m,r[i]);}r[n]=0;	//******æ³¨æ„ä¸‹é™ï¼ï¼ï¼
     da(r,sa,n+1,m+1);
     calheight(r,sa,n);
     Log[0]=-1;for(int i=1;i<=n;i++)Log[i]=Log[i>>1]+1;
@@ -39,7 +39,7 @@ void init(char* s){
         for(int x=1;x<=n&&x+(1<<y)-1<=n;x++)
             st[x][y]=min(st[x][y-1],st[x+(1<<(y-1))][y-1]);
 }
-int query(int a,int b){//´Óa¿ªÊ¼µÄºó×ºÓë´Ób¿ªÊ¼µÄºó×ºµÄ×î´ó¹«¹²Ç°×º³¤¶È 0¿ªÊ¼
+int query(int a,int b){//ä»aå¼€å§‹çš„åç¼€ä¸ä»bå¼€å§‹çš„åç¼€çš„æœ€å¤§å…¬å…±å‰ç¼€é•¿åº¦ 0å¼€å§‹
     a=rank[a];b=rank[b];
     if(a>b)swap(a,b);a++;
     int t=Log[b-a+1];

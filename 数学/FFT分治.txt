@@ -13,8 +13,6 @@ void Solve(LL A[],LL ans[],int len)//ans[0]=1,A[0]=1;
 **************************
 cdq
 
-
-
 int A[maxn],Ans[maxn];
 void solve(int l,int r){
     int m=(l+r)>>1;
@@ -33,7 +31,6 @@ void CDQ(int L,int R){
 
 *************************
 CDQ(0,n);
-ธ๘ณ๖Aสื้
 ans[0]=1,A[0]=0;
 Ans[x]=sigma{Ans[y]*A[x-y]}
 

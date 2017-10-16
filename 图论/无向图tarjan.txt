@@ -17,8 +17,8 @@ void dfs(int i,int fa)
         {
             dfs(j,i);
             low[i]=min(low[i],low[j]);
-            //if (low[j]>dfn[i])   >=¸îµã
-            //    ans=min(ans,m2[j][i]);//ÇÅµÄ×îĞ¡Öµ
+            //if (low[j]>dfn[i])   >=å‰²ç‚¹
+            //    ans=min(ans,m2[j][i]);//æ¡¥çš„æœ€å°å€¼
         }
         else
             low[i]=min(dfn[j],low[i]);

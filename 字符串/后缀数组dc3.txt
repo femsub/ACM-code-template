@@ -1,4 +1,4 @@
-struct SuffixArray{                             //Çósa O(n),ÇóheightÊ±st ,nlogn,1;
+struct SuffixArray{                             //æ±‚sa O(n),æ±‚heightæ—¶st ,nlogn,1;
 const static int N = maxn;
 
     #define F(x) ((x)/3+((x)%3==1?0:tb))
@@ -20,7 +20,7 @@ const static int N = maxn;
         for(i=n-1;i>=0;i--) b[--ws[wv[i]]]=a[i];
         return;
     }
-    void dc3(int *r,int *sa,int n,int m) //º­ÒåÓëDA ÏàÍ¬
+    void dc3(int *r,int *sa,int n,int m) //æ¶µä¹‰ä¸DA ç›¸åŒ
     {
         int i,j,*rn=r+n,*san=sa+n,ta=0,tb=(n+1)/3,tbc=0,p;
         r[n]=r[n+1]=0;
@@ -44,14 +44,14 @@ const static int N = maxn;
     }
     void init(char* s){
     int n=strlen(s),m=0;
-    for (int i = 0; i < n; ++i){r[i]=s[i]-'a'+1;m=max(m,r[i]);}		//*******×¢ÒâÏÂÏŞ£¡£¡
+    for (int i = 0; i < n; ++i){r[i]=s[i]-'a'+1;m=max(m,r[i]);}		//*******æ³¨æ„ä¸‹é™ï¼ï¼
     dc3(r,sa,n+1,m+1);
     calheight(r,sa,n);
     }
-    void calheight(int r[], int sa[], int n) {              // ÕâÀïµÄnÊÇÔ­´®µÄ±¾À´³¤¶È£¬¼´²»°üÀ¨ĞÂÔöµÄ0
+    void calheight(int r[], int sa[], int n) {              // è¿™é‡Œçš„næ˜¯åŸä¸²çš„æœ¬æ¥é•¿åº¦ï¼Œå³ä¸åŒ…æ‹¬æ–°å¢çš„0
     int i, j, k = 0;
-    for (i = 1; i <= n; ++i) rank[sa[i]] = i;           // rank[n]´Óx¿ªÊ¼µÄºó×ºµÄÅÅÃû   0~n-1ÓĞĞ§ rank[n]=0;
-    for (i = 0; i < n; height[rank[i++]] = k)                  //height[i]±íÊ¾ÅÅÃûµÚ i µÄºó×ºÓëÅÅÃûµÚ i-1 Î»µÄºó×ºµÄ×î³¤¹«¹²Ç°×ºµÄ³¤¶È    2-nÓĞĞ§
-        for (k?k--:0, j = sa[rank[i]-1]; r[i+k] == r[j+k]; k++);        //sa[i]±íÊ¾ÅÅÃûÎªµÚ i Î»µÄºó×ºÊÇ´Ósa[i]¿ªÊ¼µÄ  1-nÓĞĞ§ sa[0]=n
+    for (i = 1; i <= n; ++i) rank[sa[i]] = i;           // rank[n]ä»xå¼€å§‹çš„åç¼€çš„æ’å   0~n-1æœ‰æ•ˆ rank[n]=0;
+    for (i = 0; i < n; height[rank[i++]] = k)                  //height[i]è¡¨ç¤ºæ’åç¬¬ i çš„åç¼€ä¸æ’åç¬¬ i-1 ä½çš„åç¼€çš„æœ€é•¿å…¬å…±å‰ç¼€çš„é•¿åº¦    2-næœ‰æ•ˆ
+        for (k?k--:0, j = sa[rank[i]-1]; r[i+k] == r[j+k]; k++);        //sa[i]è¡¨ç¤ºæ’åä¸ºç¬¬ i ä½çš„åç¼€æ˜¯ä»sa[i]å¼€å§‹çš„  1-næœ‰æ•ˆ sa[0]=n
 	}
 }SA;

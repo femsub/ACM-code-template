@@ -54,7 +54,7 @@ bool SPFA(int s, int t, int n)
 int MCMF(int s, int t) // minCostMaxFlow
 {
     int n=MAXN;
-    int flow = 0; // ×ÜÁ÷Á¿
+    int flow = 0; // æ€»æµé‡
     int i, minflow, mincost;
     mincost = 0;
     while(SPFA(s, t, n))
@@ -71,7 +71,7 @@ int MCMF(int s, int t) // minCostMaxFlow
         }
         mincost += dist[t] * minflow;
     }
-    sumFlow=flow; // ×î´óÁ÷
+    sumFlow=flow; // æœ€å¤§æµ
     return mincost;
 }
 
@@ -79,7 +79,7 @@ int MCMF(int s, int t) // minCostMaxFlow
 
 
 init();
-addedge(a,b,cap,cost);µ¥Î»·ÑÓÃ  ÓĞÏò
-MCMF(0,n+1)£»
+addedge(a,b,cap,cost);å•ä½è´¹ç”¨  æœ‰å‘
+MCMF(0,n+1)ï¼›
 E=4*(m+2)
-¿É¸º±ß
+å¯è´Ÿè¾¹

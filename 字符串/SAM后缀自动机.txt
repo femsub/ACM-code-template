@@ -1,13 +1,13 @@
 #define Len 101000
 #define Alp 26
 int pa[Len<<1],son[Len<<1][Alp],Right[Len<<1];
-int Max[Len<<1],cnt,root,last;   //0Îªnull½Úµã£¬nullÖ»ÄÜµ½null
+int Max[Len<<1],cnt,root,last;   //0ä¸ºnullèŠ‚ç‚¹ï¼Œnullåªèƒ½åˆ°null
 inline int Newnode(int _Max){++cnt;memset(son[cnt],0,sizeof(son[cnt]));Max[cnt]=_Max;return cnt;}
 inline void pre(){cnt=Max[0]=0;root=last=Newnode(0);}
-inline void SAM(int alp)        //×¢ÒâT=26,s[x]-'a',¶à´®Ê±Ã¿´Îlast=root
+inline void SAM(int alp)        //æ³¨æ„T=26,s[x]-'a',å¤šä¸²æ—¶æ¯æ¬¡last=root
 {
     int np=son[last][alp],u=last,v,nv;
-    if(np&&Max[np]==Max[last]+1){last=np;return;}//ÒÑÓÐ×´Ì¬£¬¶ÔËùÓÐ¸¸×´Ì¬¸üÐÂ
+    if(np&&Max[np]==Max[last]+1){last=np;return;}//å·²æœ‰çŠ¶æ€ï¼Œå¯¹æ‰€æœ‰çˆ¶çŠ¶æ€æ›´æ–°
     np=Newnode(Max[last]+1);
     Right[np]=1;
     while(u&&!son[u][alp])son[u][alp]=np,u=pa[u];
@@ -27,8 +27,8 @@ inline void SAM(int alp)        //×¢ÒâT=26,s[x]-'a',¶à´®Ê±Ã¿´Îlast=root
     last=np;
 }
 
-int ttopo[Len<<1],topo[Len<<1],Min[Len<<1];     //ÐèÒªRightÊý×é
-void  topology(){ // Çó³öparentÊ÷µÄÍØÆËÐò,¿ÉÒÔÇórightÊý,min[1]=0,min[x]=max[pa[x]]+1,max,µ«²»ÖªµÀrightÔÚÄÇÐ©Î»ÖÃ
+int ttopo[Len<<1],topo[Len<<1],Min[Len<<1];     //éœ€è¦Rightæ•°ç»„
+void  topology(){ // æ±‚å‡ºparentæ ‘çš„æ‹“æ‰‘åº,å¯ä»¥æ±‚rightæ•°,min[1]=0,min[x]=max[pa[x]]+1,max,ä½†ä¸çŸ¥é“rightåœ¨é‚£äº›ä½ç½®
     int maxVal=0;
     mem(ttopo,0);
     for (int i=1;i<=cnt;i++) maxVal=max(maxVal,Max[i]),ttopo[Max[i]]++;
@@ -37,7 +37,7 @@ void  topology(){ // Çó³öparentÊ÷µÄÍØÆËÐò,¿ÉÒÔÇórightÊý,min[1]=0,min[x]=max[pa[x
     for (int i=cnt;i>=1;i--)Right[pa[topo[i]]]+=Right[topo[i]],Min[topo[i]]=Max[pa[topo[i]]]+1;
     Min[1]=0;
     for (int i=1;i<=cnt;i++)printf("%d %d %d %d %d %d\n",i,ttopo[i],topo[i],Min[i],Max[i],Right[i]);
-}                   //Ã¿¸ö½ÚµãµÄ×Ó´®¸öÊýÎª(MAX[x]-MIN[x]+1)*Right[x]
+}                   //æ¯ä¸ªèŠ‚ç‚¹çš„å­ä¸²ä¸ªæ•°ä¸º(MAX[x]-MIN[x]+1)*Right[x]
 char SS[maxn];
 int test()
 {
@@ -59,17 +59,17 @@ int test()
 
 
 /*
-pa[x]ÎªparÖ¸Õë£¬Ö¸Ïò×´Ì¬x±í´ïµÄËùÓÐ×Ö·û´®µÄ×î³¤¹«¹²ºó×ºËùÔÚ½Úµã min[x]=max[pa[x]]+1;
-son Îªºó¼ÌÖ¸Õë
-max ±íÊ¾µ½Õâ¸ö×´Ì¬µÄ×Ö·û´®µÄ×î³¤³¤¶È
-min ÀàËÆmax
-right(x)¸Ã×´Ì¬µÄºó×ºÆðµã¼¯ºÏ
-µ½×´Ì¬xµÄ×Ö·û´®Á¬Ðø£¬min<=³¤¶È<=max ±ÈÈçba,bba,abba,aabba
-parÖ¸Õë¹¹³ÉparentÊ÷£¬parentÊ÷dfsÐò¿ÉÇó³öright¼¯ºÏ
+pa[x]ä¸ºparæŒ‡é’ˆï¼ŒæŒ‡å‘çŠ¶æ€xè¡¨è¾¾çš„æ‰€æœ‰å­—ç¬¦ä¸²çš„æœ€é•¿å…¬å…±åŽç¼€æ‰€åœ¨èŠ‚ç‚¹ min[x]=max[pa[x]]+1;
+son ä¸ºåŽç»§æŒ‡é’ˆ
+max è¡¨ç¤ºåˆ°è¿™ä¸ªçŠ¶æ€çš„å­—ç¬¦ä¸²çš„æœ€é•¿é•¿åº¦
+min ç±»ä¼¼max
+right(x)è¯¥çŠ¶æ€çš„åŽç¼€èµ·ç‚¹é›†åˆ
+åˆ°çŠ¶æ€xçš„å­—ç¬¦ä¸²è¿žç»­ï¼Œmin<=é•¿åº¦<=max æ¯”å¦‚ba,bba,abba,aabba
+paræŒ‡é’ˆæž„æˆparentæ ‘ï¼Œparentæ ‘dfsåºå¯æ±‚å‡ºrighté›†åˆ
 */
 
 **********************************************
-ÕâÑù¿ÉÒÔÇó³öÃ¿¸ö×´Ì¬µÄ×î´óÆ¥Åä³¤¶È,ÄÜ×ß×ß£¬²»ÄÜ×ß·µ»Ø
+è¿™æ ·å¯ä»¥æ±‚å‡ºæ¯ä¸ªçŠ¶æ€çš„æœ€å¤§åŒ¹é…é•¿åº¦,èƒ½èµ°èµ°ï¼Œä¸èƒ½èµ°è¿”å›ž
 for(int x=cnt;x>=0;x--)sum[x]=Max[x];
     while(scanf("%s",s)!=EOF)
     {

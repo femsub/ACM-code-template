@@ -1,6 +1,6 @@
 /**
  * recognize all the subsequences of a string.
- *用字符最后出现状态来转移
+ *鐢ㄥ瓧绗︽渶鍚庡嚭鐜扮姸鎬佹潵杞Щ
  * time complexity: O(n)
  **/
 struct SequenceAutomaton{

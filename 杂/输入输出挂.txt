@@ -52,10 +52,10 @@ inline void writeln(){*ou++='\n';}
 inline void read(int&a){for(a=0;*buf<48;buf++);while(*buf>47)a=a*10+*buf++-48;}
 
 
-//这句话放到代码中
+//杩欏彞璇濇斁鍒颁唬鐮佷腑
 fread(Buf,1,BUF,stdin);
 
-//样例
+//鏍蜂緥
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;

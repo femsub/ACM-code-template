@@ -6,7 +6,7 @@ edge e[MAXM];
 int p[MAXN],eid;
  
 inline void init(){memset(p,-1,sizeof(p));eid=0;}
-//ÓĞÏòÍ¼£¬ÎŞÏòÍ¼²åÁ½´Î
+//æœ‰å‘å›¾ï¼Œæ— å‘å›¾æ’ä¸¤æ¬¡
 inline void insert(int from,int to,int val)
 {
     e[eid].v=to;
@@ -22,7 +22,7 @@ inline void insert(int from,int to,int val)
     p[from]=eid++;
 }
  
-int N=MAXN;//nÎªµãÊı mÎª±ßÊı
+int N=MAXN;//nä¸ºç‚¹æ•° mä¸ºè¾¹æ•°
 int h[MAXN];
 int gap[MAXN];
  
@@ -91,10 +91,10 @@ int sap(int st,int ed)
 
 
 /*
-N=4;µãÊı
-m=5;±ßÊı
-×¢Òâmaxn£¬maxm
-×¢Òâµã´Ó1¿ªÊ¼
+N=4;ç‚¹æ•°
+m=5;è¾¹æ•°
+æ³¨æ„maxnï¼Œmaxm
+æ³¨æ„ç‚¹ä»1å¼€å§‹
 init();
 insert1(1,2,5);
 sap(st,ed);

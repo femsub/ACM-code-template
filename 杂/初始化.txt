@@ -15,7 +15,7 @@
 #include <string>
 #include <time.h>
 using namespace std;
-long double esp=1e-11;
+double eps=1e-8;
 //#pragma comment(linker, "/STACK:1024000000,1024000000")
 #define fi first
 #define se second
@@ -24,8 +24,6 @@ long double esp=1e-11;
 #define mem(p,c) memset(p,c,sizeof(p))
 #define mp(A, B) make_pair(A, B)
 #define pb push_back
-#define lson l , m , rt << 1
-#define rson m + 1 , r , rt << 1 | 1
 typedef long long int LL;
 const long double PI = acos((long double)-1);
 const LL INF=0x3f3f3f3fll;
@@ -35,12 +33,6 @@ int main()
 {
     //freopen("in.txt", "r", stdin);
     //freopen("inlay.in", "r", stdin);
-    //freopen("out.txt", "w", stdout);      %I64d
-    //iterator iter;
-    //memset(m,0,sizeof(int));
-    //for(int x=1;x<=n;x++)
-    //for(int y=1;y<=n;y++)
-    //scanf("%d",&a);
-    //printf("%d\n",ans);
+    //freopen("out.txt", "w", stdout);
     return 0;
 }

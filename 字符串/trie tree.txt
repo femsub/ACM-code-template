@@ -1,4 +1,4 @@
-﻿int cnt;
+int cnt;
 struct Trie{          
 int p[26],sum;
 }tr[maxn];

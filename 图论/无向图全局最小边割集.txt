@@ -1,91 +1,91 @@
-һ��������ͨ���磬ȥ��һ���߼�����ʹ����������ͨ����������߼����Ǹ����С���Ȼ��Ȩ����С�ĸ��
+一个无向连通网络，去掉一个边集可以使其变成两个连通分量则这个边集就是割集；最小割集当然就权和最小的割集。
 
-��������С�и������������
+可以用最小切割最大流定理：
 
-1.min=MAXINT,ȷ��һ��Դ��
+1.min=MAXINT,确定一个源点
 
-2.ö�ٻ��
+2.枚举汇点
 
-3.�������������ȷ����ǰԴ�����С�������minС����min
+3.计算最大流，并确定当前源汇的最小割集，若比min小更新min
 
-4.ת��2ֱ��ö�����
+4.转到2直到枚举完毕
 
-5.min��Ϊ�������min
+5.min即为所求输出min
 
-    ���ѿ������ӶȺܸߣ�ö�ٻ��ҪO(n)���������·������㷨���������O((n^2)m)���Ӷȣ��ڸ���������O(m)=O(n^2)���㷨�ܸ��ӶȾ���O(n^5)�����²�����߱��Ԥ�����㷨�������O((n^2)(m^0.5))���㷨�ܸ��Ӷ�ҲҪO(n^4)
+    不难看出复杂度很高：枚举汇点要O(n)，最短增广路最大流算法求最大流是O((n^2)m)复杂度，在复杂网络中O(m)=O(n^2)，算法总复杂度就是O(n^5)；哪怕采用最高标号预进流算法求最大流O((n^2)(m^0.5))，算法总复杂度也要O(n^4)
 
-    �������������㷨�����С����ӶȲ������O(n^4)��
+    所以用网络流算法求解最小割集复杂度不会低于O(n^4)。
 
-������������������
+－－－－－－－－－
 
-    prim�㷨��������������С��������Ҳ���������������������С�Stoer-Wagner�㷨���ǵ��͵�Ӧ��ʵ����
+    prim算法不仅仅可以求最小生成树，也可以求“最大生成树”。最小割集Stoer-Wagner算法就是典型的应用实例。
 
-    �����С��ձ����Stoer-Wagner�㷨�����ṩ���㷨֤���ʹ��룬ֻ�ṩ�㷨˼·��
+    求解最小割集普遍采用Stoer-Wagner算法，不提供此算法证明和代码，只提供算法思路：
 
-1.min=MAXINT���̶�һ������P
+1.min=MAXINT，固定一个顶点P
 
-2.�ӵ�P�á����ơ�prim��s�㷨��չ�������������������¼�����չ�Ķ���������չ�ı�
+2.从点P用“类似”prim的s算法扩展出“最大生成树”，记录最后扩展的顶点和最后扩展的边
 
-3.���������չ���Ķ�����и�ֵ������˶������������б�Ȩ�ͣ�������minС����min
+3.计算最后扩展到的顶点的切割值（即与此顶点相连的所有边权和），若比min小更新min
 
-4.�ϲ������չ�������ߵ������˵�Ϊһ�����㣨��Ȼ���ǵı�ҲҪ�ϲ������������ɣ���
+4.合并最后扩展的那条边的两个端点为一个顶点（当然他们的边也要合并，这个好理解吧？）
 
-5.ת��2���ϲ�N-1�κ����
+5.转到2，合并N-1次后结束
 
-6.min��Ϊ�������min
+6.min即为所求，输出min
 
-prim�������Ӷ���O(n^2)���ϲ�n-1�Σ��㷨���Ӷȼ�ΪO(n^3)
+prim本身复杂度是O(n^2)，合并n-1次，算法复杂度即为O(n^3)
 
-�����prim�мӶ��Ż������ӶȻήΪO((n^2)logn)
+如果在prim中加堆优化，复杂度会降为O((n^2)logn)
 
-���Stoer-Wagner�㷨���Բμ���ƪpaper(http://docs.google.com/fileview?id=0BwxLvD9mcDNtMjk3MWVkMTAtZjMzNi00ZWE3LTkxYjQtYTQwNzcyZTk3Njk2&hl=en), �����˼���ǵ�����С��ģ, �㷨��������һ����ʵ:
-
- 
-
-����ͼ����������s��t, ����Ҫô������С���������ͬ����, Ҫô����ͬһ����.
+这个Stoer-Wagner算法可以参见这篇paper(http://docs.google.com/fileview?id=0BwxLvD9mcDNtMjk3MWVkMTAtZjMzNi00ZWE3LTkxYjQtYTQwNzcyZTk3Njk2&hl=en), 其核心思想是迭代缩小规模, 算法基于这样一个事实:
 
  
 
-����Ǻ���, ��ô�ϲ�s��t�󲢲�Ӱ����С��. ������ô��˼��, ���ÿ�������ͼ��ĳ����֮�����С��, Ȼ����´𰸺�ϲ������ټ�������С��, �͵õ����մ���. �㷨��������:
+对于图中任意两点s和t, 它们要么属于最小割的两个不同集中, 要么属于同一个集.
 
  
 
-1. ����С��cut=INF, ��ѡһ����s������A��, ����W(A, p)ΪA�е����е㵽A��һ��p��Ȩ�ܺ�.
-
-2. �Ըղ�ѡ����s, ����W(A,p)(��ֵ����).
-
-3. ѡ��A��һ��p, ��W(A,p)������Ϊ�µ�s, ��A!=G(V), �����2.
-
-4. ��������A�������Ϊs��t, ��W(A,t)����cut.
-
-5. �½�����u, ��Ȩw(u, v)=w(s, v)+w(t, v), ɾ������s��t, �Լ������������ı�.
-
-6. ��|V|!=1�����1.
+如果是后者, 那么合并s和t后并不影响最小割. 基于这么个思想, 如果每次能求出图中某两点之间的最小割, 然后更新答案后合并它们再继续求最小割, 就得到最终答案了. 算法步骤如下:
 
  
 
-�������ܼ�, ÿ���������������һ��ѡ���"��"(ע��, ������ʵ���Ǳ�, �����Ѿ��ۼƵ�Ȩֵ֮��, �͵��Ǽ�Ȩ�ĶȺ���), Ȼ��������������������һ��Ϳ�����. �ϲ��������n-1��, �����Ӷ��Ż���prim��O(n^2)��, �������ո��Ӷ�O(n^3), Ҫ������������һ�������, ��������ϡ��ͼ����Fibonacci Heap�Ż�һ��, ��������ת��һȦ, ��඼��˵����Fibonacci Heap�Ż������������ĸ��Ӷ�, �������Լ�д�����Ŀ���Ҳû����, ����uoregon(���ոԴ�ѧ)��һ���������е㺮. (http://resnet.uoregon.edu/~gurney_j/jmpc/fib.html)
+1. 设最小割cut=INF, 任选一个点s到集合A中, 定义W(A, p)为A中的所有点到A外一点p的权总和.
+
+2. 对刚才选定的s, 更新W(A,p)(该值递增).
+
+3. 选出A外一点p, 且W(A,p)最大的作为新的s, 若A!=G(V), 则继续2.
+
+4. 把最后进入A的两点记为s和t, 用W(A,t)更新cut.
+
+5. 新建顶点u, 边权w(u, v)=w(s, v)+w(t, v), 删除顶点s和t, 以及与它们相连的边.
+
+6. 若|V|!=1则继续1.
 
  
 
-�ر�ע�⼸���ط�, ���ϵĺü���Stoer-Wagner�汾������һЩС����:
+看起来很简单, 每次像做最大生成树一样选最大"边"(注意, 这里其实不是边, 而是已经累计的权值之和, 就当是加权的度好了), 然后把最后进入的两个点缩到一块就可以了. 合并点最多有n-1次, 而不加堆优化的prim是O(n^2)的, 所以最终复杂度O(n^3), 要是你有心情敲一大坨代码, 还可以在稀疏图上用Fibonacci Heap优化一下, 不过网上转了一圈, 大多都是说能用Fibonacci Heap优化到怎样怎样的复杂度, 真正能自己写出来的恐怕也没几个, 看看uoregon(俄勒冈大学)的一大坨代码就有点寒. (http://resnet.uoregon.edu/~gurney_j/jmpc/fib.html)
 
  
 
-1. �㷨����"���������"ʱ���µĲ�����ͨ�����ϵ�����, ������֮�����ıߵ�Ȩֵ��, �����б߶��ǵ�λȨֵʱ�����ۼƶ�.
+特别注意几个地方, 网上的好几个Stoer-Wagner版本都存在一些小错误:
 
-2. "������A�������Ϊs��t", ���϶�s�����ֽ���, һ����t֮ǰһ���ӽ�ȥ�ĵ�, ����t��ǰ���ڵ�, Ҳ�������ѡ��������ߵ���һ��. �����ǵ�һ��!
+ 
 
-3. ���ڳ���ͼ, ��������, ���ö�, ӳ����ֶ�, ����STL�����ȶ��ж���TLE, ����������ʵʵO(n^3).
+1. 算法在做"最大生成树"时更新的不是普通意义上的最大边, 而是与之相连的边的权值和, 当所有边都是单位权值时就是累计度.
+
+2. "最后进入A的两点记为s和t", 网上对s有两种解释, 一是在t之前一个加进去的点, 二是t的前趋节点, 也就是最后选择的那条边的另一端. 正解是第一种!
+
+3. 对于稠密图, 比如这题, 我用堆, 映射二分堆, 或者STL的优先队列都会TLE, 还不如老老实实O(n^3).
 ************************************************
 #include <iostream>
 #include <cmath>
 using namespace std;
 int mat[600][600];
 int res;
-//Stoer-Wagner�㷨�������Լ����ö��ı�ע
-//����ͼȫ����С�����prim���Ʒ���o��n^3)��ѧϰ��һ�����硭��
-//һ��ʼ��ö��Դ������������⣬���Ӷ�o(n^5) ��ʱ
+//Stoer-Wagner算法，加了自己看得懂的备注
+//无向图全局最小割，用求prim类似方法o（n^3)，学习了一个下午……
+//一开始用枚举源点汇点的最大流求解，复杂度o(n^5) 超时
 int min(int a,int b)
 {
     if(a<b) return a;
@@ -102,7 +102,7 @@ void Mincut(int n)
     while (n > 1) 
     {
         int maxj = 1;
-        for (i = 1; i <n; i++) //��ʼ������Ȧ���ϵĸ��С
+        for (i = 1; i <n; i++) //初始化到已圈集合的割大小
     { 
             dist[node[i]] = mat[node[0]][node[i]];
             if (dist[node[i]] > dist[node[maxj]])
@@ -113,21 +113,21 @@ void Mincut(int n)
         visit[node[0]] = true;
         for (i = 1; i < n; i++)
     {
-                        if (i == n - 1)//ֻʣ���һ��û���뼯�ϵĵ㣬������С��
+                        if (i == n - 1)//只剩最后一个没加入集合的点，更新最小割
             { 
                                 res = min(res, dist[node[maxj]]);
-                                for (k = 0; k < n; k++) //�ϲ����һ�����Լ��Ƴ����ļ����еĵ�
+                                for (k = 0; k < n; k++) //合并最后一个点以及推出它的集合中的点
                 {
                     mat[node[k]][node[prev]]=(mat[node[prev]][node[k]]+=mat[node[k]][node[maxj]]);
                 }
-                                node[maxj] = node[--n]; //������ͼ
+                                node[maxj] = node[--n]; //缩点后的图
                         }
                         visit[node[maxj]] = true;
                         prev = maxj;
                         maxj = -1;
                         for (j = 1; j < n; j++)
             {
-                                if (!visit[node[j]]) //���ϴ����maxj���뼯�ϣ��ϲ��������ڵıߵ��
+                                if (!visit[node[j]]) //将上次求的maxj加入集合，合并与它相邻的边到割集
                 { 
                                       dist[node[j]] += mat[node[prev]][node[j]];
                                       if (maxj == -1 || dist[node[maxj]] < dist[node[j]])

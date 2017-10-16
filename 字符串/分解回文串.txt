@@ -4,7 +4,7 @@
  * pl[i][0] -- minimal even factorization
  * pl[i][1] -- minimal odd factorization
  * 1 <= i <= n
- *°Ñ×Ö·û´®·Ö½â³É¾¡Á¿ÉÙµÄ»ØÎÄ´®£¬
+ *æŠŠå­—ç¬¦ä¸²åˆ†è§£æˆå°½é‡å°‘çš„å›žæ–‡ä¸²ï¼Œ
  * time complexity: O(n log n)
  **/ 
 const int MAXN = 300000 + 10;

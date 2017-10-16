@@ -1,5 +1,5 @@
 const int MAX_E=10010;
-const int MAX_V=1010;			//E³õÊ¼»¯
+const int MAX_V=1010;			//Eåˆå§‹åŒ–
 struct edge{int from,to,cost;}es[MAX_E];
 int E=0;
 void addedge(int a,int b,int c){es[E].from=a;es[E].to=b;es[E].cost=c;E++;}
@@ -25,17 +25,17 @@ int bell(int s,int V)
     }
 }*******************************
 
-²î·ÖÔ¼ÊøÏµÍ³
+å·®åˆ†çº¦æŸç³»ç»Ÿ
 u->v  wi
 
-d(u)+wi>=d(v)	Ìõ¼ş£¬½¨±ß
+d(u)+wi>=d(v)	æ¡ä»¶ï¼Œå»ºè¾¹
 
-s-t×î¶ÌÂ·¾ÍÊÇd(t)-d(s)×î´óÖµ
+s-tæœ€çŸ­è·¯å°±æ˜¯d(t)-d(s)æœ€å¤§å€¼
 
 *************************************
-						¸º»·
+						è´Ÿç¯
 const int MAX_E=10010;
-const int MAX_V=1010;			//E³õÊ¼»¯
+const int MAX_V=1010;			//Eåˆå§‹åŒ–
 struct edge{int from,to,cost;}es[MAX_E];
 int E=0;
 void addedge(int a,int b,int c){es[E].from=a;es[E].to=b;es[E].cost=c;E++;}

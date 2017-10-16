@@ -1,26 +1,26 @@
-vector<int> G[maxn]; // ÁÚ½Ó±í
-int dfn[maxn];    // dfsÊ±¼ä´Á
-int low[maxn];    // uÒÔ¼°uµÄºó´úËùÄÜ×·Ëİµ½µÄ×îÔçµÄ×æÏÈ
-int sccno[maxn];  // sccno[u] ÎªuËùÊôSCCµÄ±àºÅ£¬´Ó1¿ªÊ¼
-int dfs_clock;    // dfsÊ±¼ä´Á±äÁ¿
-int scc_cnt;      // SCCÊıÁ¿
-stack<int> S;     // DFS´¢´æ·ÃÎÊµÄ½áµã
+vector<int> G[maxn]; // é‚»æ¥è¡¨
+int dfn[maxn];    // dfsæ—¶é—´æˆ³
+int low[maxn];    // uä»¥åŠuçš„åä»£æ‰€èƒ½è¿½æº¯åˆ°çš„æœ€æ—©çš„ç¥–å…ˆ
+int sccno[maxn];  // sccno[u] ä¸ºuæ‰€å±SCCçš„ç¼–å·ï¼Œä»1å¼€å§‹
+int dfs_clock;    // dfsæ—¶é—´æˆ³å˜é‡
+int scc_cnt;      // SCCæ•°é‡
+stack<int> S;     // DFSå‚¨å­˜è®¿é—®çš„ç»“ç‚¹
 
 void dfs(int u) {
     dfn[u] = low[u] = ++dfs_clock;
     S.push(u);
     for (int i = 0; i < G[u].size(); i++) {
         int v = G[u][i];
-        if (!dfn[v]) { // ÕâÌõ±ßÊÇÊ÷±ß   Ã»ÓĞ×ß¹ı
+        if (!dfn[v]) { // è¿™æ¡è¾¹æ˜¯æ ‘è¾¹   æ²¡æœ‰èµ°è¿‡
             dfs(v);
             low[u] = min(low[u], low[v]);
         }
-        else if (!sccno[v]) { // ÕâÌõ±ßÊÇ·´Ïò±ß  ×ß¹ı µ«sccno[v]==0£¬Îª×æÏÈ
+        else if (!sccno[v]) { // è¿™æ¡è¾¹æ˜¯åå‘è¾¹  èµ°è¿‡ ä½†sccno[v]==0ï¼Œä¸ºç¥–å…ˆ
             low[u] = min(low[u], dfn[v]);
         }
     }
 
-    if (low[u] == dfn[u]) {   // ÅĞ¶ÏÊÇ·ñÊÇSCCÖĞµÄ×îÔç·ÃÎÊ½áµã
+    if (low[u] == dfn[u]) {   // åˆ¤æ–­æ˜¯å¦æ˜¯SCCä¸­çš„æœ€æ—©è®¿é—®ç»“ç‚¹
         scc_cnt++;
         for (;;) {
             int x = S.top(); S.pop();

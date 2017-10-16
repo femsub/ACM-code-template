@@ -73,7 +73,7 @@ int kruskal(int n,int e)
                 v=edges[i].v;
                 if(get_father(u)!=get_father(v))
                 {
-                        add(i);//加入结果
+                        add(i);//鍔犲叆缁撴灉
                         sum+=edges[i].w;
                         num++;
                         link(u,v);

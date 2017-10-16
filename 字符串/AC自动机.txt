@@ -1,6 +1,6 @@
 struct Trie
 {
-    int next[500010][26],fail[500010],end[500010];//end±íÊ¾ÒÔËû½áÎ²µÄÄ£Ê½´®¸öÊı,¼ÇÂ¼ĞÅÏ¢
+    int next[500010][26],fail[500010],end[500010];//endè¡¨ç¤ºä»¥ä»–ç»“å°¾çš„æ¨¡å¼ä¸²ä¸ªæ•°,è®°å½•ä¿¡æ¯
     int root,L;
     int newnode()
     {
@@ -14,7 +14,7 @@ struct Trie
         L = 0;
         root = newnode();
     }
-    void insert(char buf[])     //¸ü¸Äend
+    void insert(char buf[])     //æ›´æ”¹end
     {
         int len = strlen(buf);
         int now = root;
@@ -37,13 +37,13 @@ struct Trie
             {
                 fail[next[root][i]] = root;
                 Q.push(next[root][i]);
-            }                                   //bfs¹ı³Ì£¬¿ÉÒÔ¸ü¸Äend
+            }                                   //bfsè¿‡ç¨‹ï¼Œå¯ä»¥æ›´æ”¹end
         while( !Q.empty() )
         {
             int now = Q.front();
             Q.pop();
             for(int i = 0;i < 26;i++)
-                if(next[now][i] == -1)//Ê§ÅäÊ±
+                if(next[now][i] == -1)//å¤±é…æ—¶
                     next[now][i] = next[fail[now]][i];
                 else
                 {
@@ -59,11 +59,11 @@ struct Trie
         int res = 0;
         for(int i = 0;i < len;i++)
         {
-            now = next[now][buf[i]-'a'];            //next°üº¬ÁËfail
+            now = next[now][buf[i]-'a'];            //nextåŒ…å«äº†fail
             int temp = now;
             while( temp != root )
             {
-                //res += end[temp];             //=0±íÊ¾¸ÃÄ£Ê½´®Ö»¿¼ÂÇÒ»´Î
+                //res += end[temp];             //=0è¡¨ç¤ºè¯¥æ¨¡å¼ä¸²åªè€ƒè™‘ä¸€æ¬¡
                 //end[temp] = 0;
                 temp = fail[temp];
             }
@@ -93,8 +93,8 @@ struct Trie
 ***********************
 now=next[pa][i]
 fail[now]=next[fail[pa]][i]
-µ±Ç°µÄfailÎª¸¸Ç×µÄfailµÄÏÂÒ»²½
+å½“å‰çš„failä¸ºçˆ¶äº²çš„failçš„ä¸‹ä¸€æ­¥
 
-failÊ÷ÀàËÆºó×ºÊ÷
-ÓĞÕıÏòËùÓĞÇ°×º
-¸¸Ç×Îª×î³¤¹«¹²ºó×ºµÄÇ°×º
+failæ ‘ç±»ä¼¼åç¼€æ ‘
+æœ‰æ­£å‘æ‰€æœ‰å‰ç¼€
+çˆ¶äº²ä¸ºæœ€é•¿å…¬å…±åç¼€çš„å‰ç¼€

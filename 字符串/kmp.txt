@@ -1,6 +1,6 @@
-char S[maxn],quS[maxn];     //quSÖ÷´®
+char S[maxn],quS[maxn];     //quSä¸»ä¸²
 int nx[maxn];
-int kmp_next()      //nxÊı×é±íÊ¾Æ¥ÅäÊ§ÅäºóÄ£Ê½´®Ìø×ªÎ»ÖÃababc-10-102
+int kmp_next()      //nxæ•°ç»„è¡¨ç¤ºåŒ¹é…å¤±é…åæ¨¡å¼ä¸²è·³è½¬ä½ç½®ababc-10-102
 {
     int len=strlen(S),i=0,j=nx[0]=-1;
     while(i<len)
@@ -8,7 +8,7 @@ int kmp_next()      //nxÊı×é±íÊ¾Æ¥ÅäÊ§ÅäºóÄ£Ê½´®Ìø×ªÎ»ÖÃababc-10-102
         while(j!=-1&&S[i]!=S[j])j=nx[j];
         i++;j++;
         nx[i]=(S[i]==S[j])?nx[j]:j;
-        //nx[i]=j; 		Ç°i-1×î´óÇ°×ººó×º whlielen+1
+        //nx[i]=j; 		å‰i-1æœ€å¤§å‰ç¼€åç¼€ whlielen+1
     }
     return len;
 }
@@ -23,7 +23,7 @@ int kmp()
         i++;j++;
         if(j>=m)
         {
-            ans++;		//iÔÚÖ÷´®Æ¥ÅäµÄ×Ö´®µÄºó1Î»
+            ans++;		//iåœ¨ä¸»ä¸²åŒ¹é…çš„å­—ä¸²çš„å1ä½
             j=nx[j];
         }
     }
@@ -31,7 +31,7 @@ int kmp()
 }
 
 **************************
-ÓÃÔ­°ænext£¬i % ( i - nx[i] ) == 0 && nx[i] != 0 Ê±£¬Ç°×ºÑ­»·
-Ñ­»·½Ú³¤¶ÈÎª:   i - next[i]
+ç”¨åŸç‰ˆnextï¼Œi % ( i - nx[i] ) == 0 && nx[i] != 0 æ—¶ï¼Œå‰ç¼€å¾ªç¯
+å¾ªç¯èŠ‚é•¿åº¦ä¸º:   i - next[i]
 
-Ñ­»·´ÎÊıÎª:       i / ( i - next[i] )
+å¾ªç¯æ¬¡æ•°ä¸º:       i / ( i - next[i] )
