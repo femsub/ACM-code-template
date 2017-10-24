@@ -91,6 +91,7 @@ priority_queue<int, vector<int>, greater<int> >
 
 int up(int u){return(ro[u]==u)?u:ro[u]=up(ro[u]);}
 
+int up(int u){return ro[u] ? ro[u] = up(ro[u]) : u;}
 /***********************/
 
 #include <ext/pb_ds/priority_queue.hpp>
