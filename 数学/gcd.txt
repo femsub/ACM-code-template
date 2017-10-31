@@ -6,6 +6,22 @@ inline int gcd(int a,int b){while(b^=a^=b^=a%=b);return a;}
 LL lcm = 1;
 	for(LL i = 1; i <= n; i++)lcm = lcm/__gcd(lcm,m[i])*m[i];
 
+*****************************
+LL ex(LL a,LL b,LL &x,LL &y)
+{
+        if(a==0&&b==0)return -1;
+        if(b==0){x=1;y=0;return a;}
+        LL d=ex(b,a%b,y,x);
+        y-=a/b*x;
+        return d;
+}
+
+-1无解
+
+ax+by=c
+(a/g)x+(b/g)y=c/g   //c不整除g无解
+x=(x0+(b/gcd)t)*(c/g)
+y=(y0-(a/gcd)t)*(c/g)
 ***************	O(n)预处理 O(1)查询
 const int N=10000000;
 const int sn=sqrt(N);
