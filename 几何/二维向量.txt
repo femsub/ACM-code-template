@@ -1,38 +1,38 @@
 struct point{
-		double x,y,z;
-        point(){x=y=z=0;}
-        point(double x,double y,double z):x(x),y(y),z(z){};
-        point operator+(const point& a){return point(x+a.x,y+a.y,z+a.z);}
-        point operator-(const point& a){return point(x-a.x,y-a.y,z-a.z);}
-        double operator*(const point& a){return a.x*x+a.y*y+a.z*z;}
-        point operator*(const double& a){return point(a*x,a*y,a*z);}
-        point operator/(const double& a){return point(x/a,y/a,z/a);}
-        point operator^(const point& a){return point(y*a.z-z*a.y,z*a.x-x*a.z,x*a.y-y*a.x);}
-        bool operator<(const point &a)const{
-        	if(abs(x-a.x)>eps)return x<a.x;
-        	if(abs(y-a.y)>eps)return y<a.y;
-        	return z<a.z-eps;
-		}
-        double length(){return sqrt(x*x+y*y+z*z);}
-        void pr(){printf("%.2f %.2f %.2f\n",x,y,z);}
+	double x,y,z;
+	point(){x=y=z=0;}
+	point(double x,double y,double z):x(x),y(y),z(z){};
+	point operator+(const point& a){return point(x+a.x,y+a.y,z+a.z);}
+	point operator-(const point& a){return point(x-a.x,y-a.y,z-a.z);}
+	double operator*(const point& a){return a.x*x+a.y*y+a.z*z;}
+	point operator*(const double& a){return point(a*x,a*y,a*z);}
+	point operator/(const double& a){return point(x/a,y/a,z/a);}
+	point operator^(const point& a){return point(y*a.z-z*a.y,z*a.x-x*a.z,x*a.y-y*a.x);}
+	bool operator<(const point &a)const{
+		if(abs(x-a.x)>eps)return x<a.x;
+		if(abs(y-a.y)>eps)return y<a.y;
+		return z<a.z-eps;
+	}
+	double length(){return sqrt(x*x+y*y+z*z);}
+	void pr(){printf("%.2f %.2f %.2f\n",x,y,z);}
 };
 point operator*(double const &a,point const &b){return point(a*b.x,a*b.y,a*b.z);}
 /***********************************/
 struct point{
-        double x,y;
-        point(){x=y=0;}
-        point(double x,double y):x(x),y(y){};
-        point operator+(const point &a){return point(x+a.x,y+a.y);}
-        point operator-(const point &a){return point(x-a.x,y-a.y);}
-        double operator*(const point &a){return a.x*x+a.y*y;}
-        point operator*(const double &a){return point(a*x,a*y);}
-		point operator/(const double &a){return point(x/a,y/a);}
-        double operator^(const point &a){return x*a.y-y*a.x;}
-        bool operator<(const point &a)const{
-        	if(abs(x-a.x)>eps)return x<a.x;
-        	return y<a.y-eps;
-		}
-		double length(){return hypot(x,y);}
-        void pr(){printf("%.2f %.2f\n",x,y);}
+	double x,y;
+	point(){x=y=0;}
+	point(double x,double y):x(x),y(y){};
+	point operator+(const point &a){return point(x+a.x,y+a.y);}
+	point operator-(const point &a){return point(x-a.x,y-a.y);}
+	double operator*(const point &a){return a.x*x+a.y*y;}
+	point operator*(const double &a){return point(a*x,a*y);}
+	point operator/(const double &a){return point(x/a,y/a);}
+	double operator^(const point &a){return x*a.y-y*a.x;}
+	bool operator<(const point &a)const{
+		if(abs(x-a.x)>eps)return x<a.x;
+		return y<a.y-eps;
+	}
+	double length(){return hypot(x,y);}
+	void pr(){printf("%.2f %.2f\n",x,y);}
 };
 point operator*(double const &a,point const &b){return point(a*b.x,a*b.y);}

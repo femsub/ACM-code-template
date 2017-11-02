@@ -9,8 +9,8 @@ public class Main
         Scanner in = new Scanner(new File("in.txt"));
         PrintWriter out = new PrintWriter(new FileWriter("out.txt",true));
         //Scanner in = new Scanner(System.in);
-	//PrintWriter out = new PrintWriter(System.out);
-       int n = in.nextInt();
+		//PrintWriter out = new PrintWriter(System.out);
+		int n = in.nextInt();
         out.println(ans[n]);
         out.close();
     }

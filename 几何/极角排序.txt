@@ -26,3 +26,46 @@ bool cmp(point& a,point& b)
 	}
 	return l1 < l2;
 }
+
+
+////////////////////////
+struct point{
+	int x,y;
+	int pos,c;
+	point(){x=y=0;}
+	point(int x,int y):x(x),y(y){};
+	point operator+(const point &a){return point(x+a.x,y+a.y);}
+	point operator-(const point &a){return point(x-a.x,y-a.y);}
+	int operator*(const point &a){return a.x*x+a.y*y;}
+	point operator*(const int &a){return point(a*x,a*y);}
+	point operator/(const int &a){return point(x/a,y/a);}
+	int operator^(const point &a){return x*a.y-y*a.x;}
+	bool operator<(const point &a)const{
+		if(abs(x-a.x)>eps)return x<a.x;
+		return y<a.y-eps;
+	}
+	int length(){return hypot(x,y);}
+	void pr(){printf("%.2f %.2f\n",x,y);}
+};
+point operator*(int const &a,point const &b){return point(a*b.x,a*b.y);}
+
+int quad(point a)// 判断象限的函数，每个象限包括半个坐标轴
+{
+	if( a.x>0&&a.y>=0 ) return 1;
+	if( a.x<=0&&a.y>0 ) return 2;
+	if( a.x<0&&a.y<=0 ) return 3;
+	if( a.x>=0&&a.y<0 ) return 4;
+	return -1;
+}
+bool cmp(point& p1,point& p2)
+{
+	int l1,l2;
+	l1 = quad(p1); l2 = quad(p2);
+	if( l1 == l2 )
+	{
+		//double c = cross(a,b);
+		int c=p1^p2;
+		return c>0 ||( c==0 && p1.x*p1.x+p1.y*p1.y<p2.x*p2.x+p2.y*p2.y);
+	}
+	return l1 < l2;
+}
