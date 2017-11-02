@@ -1,23 +1,19 @@
-int hashp=751,hashsz=0;
+int hashp=751;
 int hashpow[maxn];
 struct hashS{
-	int len;
 	vector<int>hashval;
-	hashS(){len=0;}
+	hashS(const char* s=NULL){if(s!=NULL)gethash(s);}
 	int gethash(const char* s){
-		int len=strlen(s);
 		hashval.clear();
 		hashval.emplace_back(*s);
 		for(char* p=(char*)s+1;*p;p++)
 			hashval.emplace_back((1ll*hashval.back()*hashp+(*p))%MOD);
-		if(hashsz==0)
-			hashpow[0]=1;
-		if(hashsz<len){
-			for(int x=hashsz+1;x<=len;x++)
-				hashpow[x]=1ll*hashpow[x-1]*hashp%MOD;
-			hashsz=len;
-		}
 		return hashval.back();
+	}
+	void static init(){
+		hashpow[0]=1;
+		for(int x=1;x<maxn;x++)
+			hashpow[x]=1ll*hashpow[x-1]*hashp%MOD;
 	}
 	int seghash(int a,int b){
 		if(a==0)return hashval[b];
