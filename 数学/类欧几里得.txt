@@ -1,0 +1,64 @@
+//默认输入<1e9
+LL likegcd(LL a,LL b,LL c,LL n){//sigma(0-n){(ai+b)/c}
+	if(a>=c||b>=c)
+		return ((1+n)*n/2%MOD*(a/c)+(b/c)*(1+n)+likegcd(a%c,b%c,c,n))%MOD;
+	LL m=(a*n+b)/c;
+	if(a==0||n==0||m==0)
+		return 0;
+	LL ans=(n*m-likegcd(c,c-b-1,a,m-1))%MOD;
+	if(ans<0)ans+=MOD;
+	return ans;
+}
+
+////////////////////////////////////////////////
+
+struct like{//f=sigma(0-n){(ai+b)/c},g=sigma(0-n){i*[(ai+b)/c]},h=sigma(0-n){[(ai+b)/c]^2}
+	LL f,g,h;
+	like(){};
+	like(LL f,LL g,LL h):f(f),g(g),h(h){};
+};
+LL inv2=500000004ll,inv6=166666668ll;
+like likegcd2(LL a, LL b, LL c, LL n){
+	if(a>=c||b>=c){
+		like t=likegcd2(a%c,b%c,c,n);
+		like ans;
+		ans.f=(1+n)*n/2%MOD*(a/c);
+		ans.f+=(b/c)*(1+n);
+		ans.f+=t.f;
+
+		ans.g=(a/c)*n%MOD*(n+1)%MOD*(2*n+1)%MOD*inv6;
+		ans.g+=n*(n+1)/2%MOD*(b/c);
+		ans.g+=t.g;
+
+		ans.h=(a/c)*(a/c)%MOD*n%MOD*(n+1)%MOD*(2*n+1)%MOD*inv6;
+		ans.h+=(b/c)*(b/c)%MOD*(n+1);
+		ans.h+=t.h;
+		ans.h+=(a/c)*(b/c)%MOD*n%MOD*(n+1);
+		ans.h+=2*(a/c)*t.g;
+		ans.h+=2*(b/c)*t.f;
+
+		ans.f%=MOD;
+		ans.g%=MOD;
+		ans.h%=MOD;
+		if(ans.f<0)ans.f+=MOD;
+		if(ans.g<0)ans.g+=MOD;
+		if(ans.h<0)ans.h+=MOD;
+		return ans;
+	}
+	LL m=(a*n+b)/c;
+	if(a==0||n==0||m==0)
+		return like(0,0,0);
+    like t=likegcd2(c,c-b-1,a,m-1);
+    like ans;
+    ans.f=n*m-t.f;
+    ans.g=n*(n+1)/2%MOD*m-t.f*inv2-t.h*inv2;
+    ans.h=m*(m+1)%MOD*n-2*t.g-t.f-n*m;
+
+    ans.f%=MOD;
+	ans.g%=MOD;
+	ans.h%=MOD;
+	if(ans.f<0)ans.f+=MOD;
+	if(ans.g<0)ans.g+=MOD;
+	if(ans.h<0)ans.h+=MOD;
+	return ans;
+}
