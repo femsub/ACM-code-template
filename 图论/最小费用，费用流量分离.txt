@@ -25,7 +25,7 @@ void addedge(int u,int v,int c,int cost)
 bool spfa(int begin,int end){
     int u,v;
     queue<int> q;
-    for(int i=0;i<=end+2;i++){
+    for(int i=0;i<=end+2;i++){				//********
         pre[i]=-1;
         vis[i]=0;
         dist[i]=INF;
@@ -66,7 +66,7 @@ int MCMF(int begin,int end){
             edge[i].c-=flow;
             edge[i^1].c+=flow;
         }
-        ans+=dist[end];
+        ans+=dist[end]*flow;
         flow_sum += flow;
     }
     //cout << flow_sum << endl;

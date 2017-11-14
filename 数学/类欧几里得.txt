@@ -1,4 +1,4 @@
-//默认输入<1e9
+//默认输入<1e9 a,b,n>=0 c>0
 LL likegcd(LL a,LL b,LL c,LL n){//sigma(0-n){(ai+b)/c}
 	if(a>=c||b>=c)
 		return ((1+n)*n/2%MOD*(a/c)+(b/c)*(1+n)+likegcd(a%c,b%c,c,n))%MOD;

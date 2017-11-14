@@ -1,0 +1,76 @@
+namespace plane{
+const int N=2010,M=2010;//2倍边
+struct point{
+	int x,y;
+	point(){};
+	point(int x,int y):x(x),y(y){};
+	LL operator^(const point &a)const {return 1ll*x*a.y-1ll*y*a.x;}
+}p[N];
+struct edge{
+	int u,v,cost;
+	double r;
+	edge(){};
+	edge(int u,int v,int cost):u(u),v(v),cost(cost){r=atan2(p[v].y-p[u].y,p[v].x-p[u].x);};
+}e[M];
+int ecnt;//0~ecnt-1边数*2
+struct cmp{bool operator()(int a,int b){return e[a].r<e[b].r;}};
+set<int,cmp>g[N];
+vector<int>q;
+bool del[M];
+int belong[M],cnt,idsz;//0~cnt面数,0~idsz-1端点个数
+void init(){
+	for(int x=0;x<idsz;x++)g[x].clear();
+	for(int x=0;x<ecnt;x++)g[e[x].u].insert(x);
+	memset(del,0,sizeof(del));
+	memset(belong,0,sizeof(belong));
+	cnt=0;
+}
+void work(){
+	init();
+	set<int,cmp>::iterator k;
+	for(int x=0;x<ecnt;x++)
+	if(!del[x]){
+		q.clear();
+		int t=x;
+		while(1){
+			q.emplace_back(t);
+			k=g[e[t].v].find(t^1);
+			++k;
+			if(k==g[e[t].v].end())k=g[e[t].v].begin();
+			t=*k;
+			if(t==x)break;
+		}
+		LL s=0;
+		for(auto&& y:q)
+			s+=p[e[y].u]^p[e[y].v],del[y]=1;
+		if(s>=0)continue;		//表示最外环和无面积环,belong=0
+		cnt++;
+		for(auto&& y:q)
+			belong[y]=cnt;
+	}
+}
+map<pair<int,int>,int>id;
+int Get(pair<int,int>t){
+	if(id.find(t)==id.end()){
+		p[idsz]=point(t.first,t.second);
+		return id[t]=idsz++;
+	}
+	else return id[t];
+}
+vector<tuple<int,int,int>>build(vector<tuple<pair<int,int>,pair<int,int>,int>>in){
+	id.clear();
+	idsz=ecnt=0;
+	for(auto&& x:in){
+		int u=Get(get<0>(x));
+		int v=Get(get<1>(x));
+		int w=get<2>(x);
+		e[ecnt++]=edge(u,v,w);
+		e[ecnt++]=edge(v,u,w);
+	}
+	work();
+	vector<tuple<int,int,int>>ans;
+	for(int x=0;x<ecnt;x+=2)							//=============单向还是双向?
+		ans.emplace_back(make_tuple(belong[x],belong[x^1],e[x].cost));
+	return ans;
+}
+}
