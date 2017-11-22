@@ -1,0 +1,11 @@
+double Cir_t(double b,double c,double x){
+	return sqrt(-x*x+b*x+c)*(2*x-b)/4+asin((2*x-b)/sqrt(b*b+4*c))*(b*b+4*c)/8;
+}
+double Cir_area(double a,double b,double r,double x1,double x2,bool up){
+	double B=2*a;
+	double C=r*r-a*a;
+	return b*(x2-x1)+(up?1:-1)*(Cir_t(B,C,x2)-Cir_t(B,C,x1));
+}
+
+
+x1-x2区间积分,圆(x-a)^2+(y-b)^2=r^2,up表示上半或下半

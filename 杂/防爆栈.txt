@@ -92,25 +92,11 @@ random_shuffle(all(p));
 (x1!=x2)?(x1<x2):(y1<y2);
 bool operator <(const Node&a) const  {  return y < a.y; }
 
-int cmp1(const cu &a,const cu &b) {return a.p1 < b.p1;}
+bool operator<(const TMax &a, const TMax &b)const{return a.x<b.x;} 
 
+int cmp(const cu &a,const cu &b) {return a.p1 < b.p1;}
 
-bool operator<(const TMax &a, const TMax &b)const
-{
-	return a.x<b.x;
-} 
-
-
-class Comp
-{
-public:
-bool operator()(const bitset<50>& left, const bitset<50>& right)
-{
-		for(int x=49;x>=0;x--)
-				if(left[x]!=right[x])
-						return left[x] < right[x];
-}
-};
+struct cmp{bool operator()(int a,int b){return e[a].r<e[b].r;}};
 set<bitset<50>,Comp>q;
 
 /***********************/

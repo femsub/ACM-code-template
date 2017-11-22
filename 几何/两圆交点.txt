@@ -1,20 +1,14 @@
-struct Cir{
-	point o;
-	double r;
-	Cir(point o,double r){this->o=o;this->r=r;}
-};
-
-pair<bool,pair<point,point> > cro(Cir a,Cir b)
-{								
-    double d=dis(a.o-b.o);
-    if(a.r+b.r<d-esp)return mp(false,mp(point(0,0),point(0,0)));
-    else if(abs(a.r-b.r)>d+esp)return mp(false,mp(point(0,0),point(0,0)));
-    double coth=(a.r*a.r+d*d-b.r*b.r)/(2*a.r*d);
-    point f=b.o-a.o;
-    point p=f;
-    f=point(-f.y,f.x);					
-    p=p/d*a.r*coth;			
-    if(1-abs(coth)<esp)return mp(true,mp(a.o+p,a.o+p));
-    f=f/dis(f)*a.r*sqrt(1.0-coth*coth);
-    return mp(true,mp(a.o+p+f,a.o+p-f));
+bool circles_intersect(point o1, double r1, point o2, double r2, point &p1, point &p2){
+	if (r1 < r2) swap(o1, o2), swap(r1, r2);
+	double L = (o1 - o2).length();
+	if (r1 + r2 < L - eps || L < r1 - r2 - eps || fabs(L) < eps) return false;
+	if (fabs(r1 + r2 - L) < eps || fabs(L - r1 + r2) < eps){
+		p1 = p2 = o1 + (o2 - o1)/L * r1;
+		return true;
+	}
+	double x = (r1 * r1 - r2 * r2 + L * L) / (2 * L), d = sqrt(r1 * r1 - x * x);
+	point b = o1 + (o2 - o1)/L * x, a = (o2 - o1) / L;
+	a = point(a.y,-a.x);
+	p1 = b + a * d; p2 = b - a * d;
+	return true;
 }
