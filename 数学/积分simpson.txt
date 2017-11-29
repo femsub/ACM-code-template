@@ -1,18 +1,18 @@
-double function (double x) {  
-    
-}  
-double simpson (double l , double r ) {    
-    return (function (l ) + 4 * function ((l + r) / 2.0 ) + function (r )) * (r - l) / 6.0;    
-}    
-double simpson (double l , double r , double all , double eps) {  
-    double m = (l + r) / 2.0;  
-    double L = simpson (l , m) , R = simpson (m , r);  
-    if (fabs (L + R - all) <= 15 * eps) return L + R + (L + R - all) / 15;  
-    return simpson (l , m , L , eps / 2.0) + simpson (m , r , R , eps / 2.0);  
-}  
-double simpson (double l , double r , double eps) {  
-    return simpson (l , r , simpson (l , r) , eps);  
-}  
+double f (double x) {
+  
+}
+double simpson (double l , double r ) {
+    return (f (l ) + 4 * f ((l + r) / 2.0 ) + f (r )) * (r - l) / 6.0;
+}
+double simpson (double l , double r , double all , double eps) {
+    double m = (l + r) / 2.0;
+    double L = simpson (l , m) , R = simpson (m , r);
+    if (fabs (L + R - all) <= 15 * eps) return L + R + (L + R - all) / 15;
+    return simpson (l , m , L , eps / 2.0) + simpson (m , r , R , eps / 2.0);
+}
+double simpson (double l , double r , double eps) {
+    return simpson (l , r , simpson (l , r) , eps);
+}
 
 
 *********************
