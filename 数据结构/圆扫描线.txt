@@ -1,0 +1,68 @@
+const int maxn=210000;
+int n,fa[maxn],deep[maxn];
+int nowpos;
+struct cir{
+	int x,y,r,up,p;
+	cir(){};
+	cir(int x,int y,int r,int up=0,int p=0):x(x),y(y),r(r),up(up),p(p){};
+	bool operator <(const cir a)const{
+		if(x==a.x&&y==a.y&&r==a.r)return up<a.up;
+		double cy=y+((up)?1:-1)*sqrt(1ll*r*r-1ll*(x-nowpos)*(x-nowpos));
+		double ay=a.y+((a.up)?1:-1)*sqrt(1ll*a.r*a.r-1ll*(a.x-nowpos)*(a.x-nowpos));
+		return cy<ay;
+	}
+}c[maxn];
+vector<pair<int,int>>ls;
+set<cir>q;
+void init(){
+	ls.clear();
+	scanf("%d",&n);
+	for(int x=1;x<=n;x++){
+		scanf("%d%d%d",&c[x].x,&c[x].y,&c[x].r);
+		c[x].up=1;
+		c[x].p=x;
+		ls.push_back(make_pair(c[x].x-c[x].r,x));
+		ls.push_back(make_pair(c[x].x+c[x].r,x));
+	}
+	sort(ls.begin(),ls.end());
+	ls.erase(unique(ls.begin(),ls.end()),ls.end());
+}
+void build(){
+	memset(fa,0,sizeof(fa));
+	memset(deep,0,sizeof(deep));
+	q.clear();
+	nowpos=-100000;
+	cir zs(0,0,100000,1,0);
+	q.insert(zs);
+	zs.up=0;
+	q.insert(zs);
+	for(auto && tt:ls){
+		nowpos=tt.first;
+		int pos=tt.second;
+		if(nowpos==c[pos].x-c[pos].r){	//add
+			auto ne=q.lower_bound(c[pos]);
+			auto pr=prev(ne);
+			if(ne->p==pr->p)
+				fa[pos]=ne->p,deep[pos]=deep[ne->p]+1;
+			else if(deep[ne->p]>deep[pr->p])
+				fa[pos]=fa[ne->p],deep[pos]=deep[ne->p];
+			else
+				fa[pos]=fa[pr->p],deep[pos]=deep[pr->p];
+			c[pos].up=0;
+			q.insert(c[pos]);
+			c[pos].up=1;
+			q.insert(c[pos]);
+		}
+		else{			//del
+			c[pos].up=1;
+			auto ne=q.upper_bound(c[pos]);
+			auto t1=prev(ne);
+			assert(t1->p==pos);
+			q.erase(t1);
+			ne=q.upper_bound(c[pos]);
+			auto t2=prev(ne);
+			assert(t2->p==pos);
+			q.erase(t2);
+		}
+	}
+}

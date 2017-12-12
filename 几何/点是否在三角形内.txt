@@ -1,0 +1,4 @@
+bool point_in_triangle(point a,point b,point c,point p)//p in abc
+{
+    return ((b-a)^(c-a))*((b-a)^(p-a))>0&&((c-b)^(a-b))*((c-b)^(p-b))>0&&((a-c)^(b-c))*((a-c)^(p-c))>0;
+}
