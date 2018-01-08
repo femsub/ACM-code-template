@@ -28,14 +28,15 @@ inline void SAM(int alp)        //注意T=26,s[x]-'a',多串时每次last=root
 }
 
 int ttopo[Len<<1],topo[Len<<1],Min[Len<<1];     //需要Right数组
-void  topology(){ // 求出parent树的拓扑序,可以求right数,min[1]=0,min[x]=max[pa[x]]+1,max,但不知道right在那些位置
+void  topology(){
+// 求出parent树的拓扑序,可以求right数,min[1]=0,min[x]=max[pa[x]]+1,max,但不知道right在那些位置
+// 按max做一个计数排序
     int maxVal=0;
     mem(ttopo,0);
     for (int i=1;i<=cnt;i++) maxVal=max(maxVal,Max[i]),ttopo[Max[i]]++;
     for (int i=1;i<=maxVal;i++) ttopo[i]+=ttopo[i-1];
     for (int i=1;i<=cnt;i++) topo[ttopo[Max[i]]--]=i;
-    for (int i=cnt;i>=1;i--)Right[pa[topo[i]]]+=Right[topo[i]],Min[topo[i]]=Max[pa[topo[i]]]+1;
-    Min[1]=0;
+    for (int i=cnt;i>1;i--)Right[pa[topo[i]]]+=Right[topo[i]],Min[topo[i]]=Max[pa[topo[i]]]+1;
     for (int i=1;i<=cnt;i++)printf("%d %d %d %d %d %d\n",i,ttopo[i],topo[i],Min[i],Max[i],Right[i]);
 }                   //每个节点的子串个数为(MAX[x]-MIN[x]+1)*Right[x]
 char SS[maxn];

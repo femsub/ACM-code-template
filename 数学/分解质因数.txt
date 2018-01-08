@@ -64,45 +64,48 @@ int len=work(n);
 dfs(len-1,1);
 
 **********************************************************
- 线性筛next=0终止
+线性筛next=0终止
 
 struct fact{
     int p,num,next;
     fact(){};
     fact(int p_,int num_,int next_):p(p_),num(num_),next(next_){};
 }factor[maxn];
-int head[maxn];
 int prime[maxn];
 bool mark[maxn];
 int getfact(int N)
 {
     memset(mark,0,N*sizeof(bool));
-    int tot=0,cnt=0,i,j;
+    int tot=0,i,j;
     mark[0]=mark[1]=1;
-    head[1]=-1;
+    factor[1]=fact(1,0,0);
     for(i=2;i<=N;i++)
     {
         if(!mark[i]){
             prime[tot++]=i;
-            factor[cnt]=fact(i,1,-1);
-            head[i]=cnt++;
+            factor[i]=fact(i,1,0);
             }
         for(j=0;j<tot&&i*prime[j]<=N;j++){
             mark[i*prime[j]]=1;
             if(!(i%prime[j]))
             {
-                factor[cnt]=fact(prime[j],1+factor[head[i]].num,factor[head[i]].next);
-                head[i*prime[j]]=cnt++;
+                factor[i*prime[j]]=fact(prime[j],1+factor[i].num,factor[i].next);
                 break;
             }
             else
-            {
-                factor[cnt]=fact(prime[j],1,head[i]);
-                head[i*prime[j]]=cnt++;
-            }
+                factor[i*prime[j]]=fact(prime[j],1,i);
         }
     }
-    factor[cnt]=fact(1,0,-1);
-    head[1]=cnt++;
     return tot;
+}
+
+void cal(int n,int now){
+    if(n==0){
+        G.pb(now);
+        return ;
+    }
+    for(int x=0,s=1;x<=factor[n].num;x++){
+        cal(factor[n].next,now*s,flag);
+        s*=factor[n].p;
+    }
 }
