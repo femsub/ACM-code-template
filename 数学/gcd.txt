@@ -6,22 +6,58 @@ inline int gcd(int a,int b){while(b^=a^=b^=a%=b);return a;}
 LL lcm = 1;
 	for(LL i = 1; i <= n; i++)lcm = lcm/__gcd(lcm,m[i])*m[i];
 
-*****************************
+*****************************	ax+by=gcd(a,b)
 LL ex(LL a,LL b,LL &x,LL &y)
 {
-        if(a==0&&b==0)return -1;
-        if(b==0){x=1;y=0;return a;}
-        LL d=ex(b,a%b,y,x);
-        y-=a/b*x;
-        return d;
+	if(a==0&&b==0)return -1;
+	if(b==0){x=1;y=0;return a;}
+	LL d=ex(b,a%b,y,x);
+	y-=a/b*x;
+	return d;
 }
 
 -1无解
+x=x0+(b/g)t
+y=y0-(a/g)t
+*****************************	ax+by=c
+void linear_equation(LL a,LL b,LL c){
+	LL x,y;
+	LL g=ex(a,b,x,y);
+	if(c%g){
+		printf("no solution\n");
+	}
+	else{
+		x*=c/g;
+		y*=c/g;
+		printf("%lldx + %lldy = %lld\n",a,b,c);
+		printf("%lld * (%lld + %lldt) + %lld *  (%lld + %lldt) = %lld\n",a,x,b/g,b,y,-a/g,c);
+	}
+}
 
-ax+by=c
-(a/g)x+(b/g)y=c/g   //c不整除g无解
-x=(x0+(b/gcd)t)*(c/g)
-y=(y0-(a/gcd)t)*(c/g)
+ax+by=c,g=gcd(a,b)
+ax+by=g*(c/g)			//c不整除gcd(a,b)无解
+ax0+by0=g
+x=(c/g)x0+(b/g)t
+y=(c/g)y0-(a/g)t
+***************		ax=b%n
+void mod_equation(LL a,LL b,LL n){
+	LL x=1,y;
+	LL g=ex(a,n,x,y);
+	if(b%g){
+		printf("no solution\n");
+	}
+	else{
+		x=(x*(b/g)%n+n)%(n/g);
+		printf("%lldx = %lld %% %lld\n",a,b,n);
+		printf("%lld * (%lld + %lldt) = %lld %% %lld\n",a,x,n/g,b,n);
+		for(LL i=0;i<g;i++)
+			printf("%lld * %lld = %lld %% %lld\n",a,(x+n/g*i)%n,b,n);
+	}
+}
+
+ax=b%n
+ax+n(-y)=b,g=gcd(a,n)		//b不整除gcd(a,n)无解
+x=(b/g)x0+(n/g)t %n		t=[0,g)
 ***************	O(n)预处理 O(1)查询
 const int N=10000000;
 const int sn=sqrt(N);
