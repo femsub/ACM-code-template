@@ -1,25 +1,22 @@
 *********************************************
 int prime[maxn];      //线性筛素数，最小素因子
 int mark[maxn];        //mark[i]为i时为素数,
-int getprime(int N)
-{
-  mem(mark,0);
-  int tot=0,i,j;
-  mark[0]=mark[1]=1;
-  for(i=2;i<=N;i++)//相当于分解质因式的逆过程
-  {
-     if(!mark[i]){
-         prime[tot++]=i;//筛素数的时候首先会判断i是否是素数。
-         mark[i]=1;
-         }
-     for(j=0;j<tot&&i*prime[j]<=N;j++)
-     {
-       mark[i*prime[j]]=1;//确定i*prime[j]不是素数
-       if(!(i%prime[j]))//接着我们会看prime[j]是否是i的约数
-         break;
-     }
-  }
-  return tot;
+int getprime(int N) {
+	mem(mark, 0);
+	int tot = 0, i, j;
+	mark[0] = mark[1] = 1;
+	for(i = 2; i <= N; i++) { //相当于分解质因式的逆过程
+		if(!mark[i]) {
+			prime[tot++] = i; //筛素数的时候首先会判断i是否是素数。
+			mark[i] = 1;
+		}
+		for(j = 0; j < tot && i * prime[j] <= N; j++) {
+			mark[i * prime[j]] = 1; //确定i*prime[j]不是素数
+			if(!(i % prime[j])) //接着我们会看prime[j]是否是i的约数
+				break;
+		}
+	}
+	return tot;
 }
   *********************************************
 int phi[maxn],prime[maxn];      //线性筛素数，欧拉函数

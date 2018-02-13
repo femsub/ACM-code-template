@@ -5,18 +5,17 @@ struct hashS{
 	hashS(const char* s=NULL){if(s!=NULL)gethash(s);}
 	int gethash(const char* s){
 		hashval.clear();
-		hashval.emplace_back(*s);
-		for(char* p=(char*)s+1;*p;p++)
-			hashval.emplace_back((1ll*hashval.back()*hashp+(*p))%MOD);
+		hashval.emplace_back(0);
+		for(;*s;s++)
+			hashval.emplace_back((1ll*hashval.back()*hashp+(*s))%MOD);
 		return hashval.back();
 	}
-	void static init(){
+	static void init(){
 		hashpow[0]=1;
 		for(int x=1;x<maxn;x++)
 			hashpow[x]=1ll*hashpow[x-1]*hashp%MOD;
 	}
 	int seghash(int a,int b){
-		if(a==0)return hashval[b];
-		return ((hashval[b]-1ll*hashval[a-1]*hashpow[b-a+1])%MOD+MOD)%MOD;
+		return ((hashval[b+1]-1ll*hashval[a]*hashpow[b-a+1])%MOD+MOD)%MOD;
 	}
 };
