@@ -1,30 +1,30 @@
-struct complex
+struct Complex
 {
     double r,i;
-    complex(double _r = 0.0,double _i = 0.0){r = _r; i = _i;}
-    complex operator +(const complex &b){return complex(r+b.r,i+b.i);}
-    complex operator -(const complex &b){return complex(r-b.r,i-b.i);}
-    complex operator *(const complex &b){return complex(r*b.r-i*b.i,r*b.i+i*b.r);}
+    Complex(double _r = 0.0,double _i = 0.0){r = _r; i = _i;}
+    Complex operator +(const Complex &b){return Complex(r+b.r,i+b.i);}
+    Complex operator -(const Complex &b){return Complex(r-b.r,i-b.i);}
+    Complex operator *(const Complex &b){return Complex(r*b.r-i*b.i,r*b.i+i*b.r);}
 };
-complex conj(complex a){return complex(a.r,-a.i);}
-complex w[maxn];
+Complex conj(Complex a){return Complex(a.r,-a.i);}
+Complex w[maxn];
 int bitrev[maxn];
 inline void fft_prepare(int len)
 {
 	int L=__builtin_ctz(len);
 	for(int i=0;i<len;i++) bitrev[i] = bitrev[i >> 1] >> 1 | ((i & 1) << (L - 1));
-	for(int i=0;i<len;i++) w[i] = complex(cos(2 * PI * i / len), sin(2 * PI * i / len));
+	for(int i=0;i<len;i++) w[i] = Complex(cos(2 * PI * i / len), sin(2 * PI * i / len));
 }
-void FFT(complex *a, const int &n)
+void FFT(Complex *a, const int &n)
 {
 	for(int i=0;i<n;i++) if (i < bitrev[i]) swap(a[i], a[bitrev[i]]);
 	for (int i = 2, lyc = n >> 1; i <= n; i <<= 1, lyc >>= 1)
 		for (int j = 0; j < n; j += i)
 		{
-			complex *l = a + j, *r = a + j + (i >> 1), *p = w;
+			Complex *l = a + j, *r = a + j + (i >> 1), *p = w;
 			for(int k=0;k<(i >> 1);k++)
 			{
-				complex tmp = *r * *p;
+				Complex tmp = *r * *p;
 				*r = *l - tmp, *l = *l + tmp;
 				++l, ++r, p += lyc;
 			}
@@ -36,7 +36,7 @@ int callen(int len1,int len2){
     return len;
 }
 int fftans[maxn];
-complex A[maxn],B[maxn];
+Complex A[maxn],B[maxn];
 void fft(int* y1,int len1,int* y2,int len2){
     int len=callen(len1,len2);
     fft_prepare(len);
@@ -49,13 +49,12 @@ void fft(int* y1,int len1,int* y2,int len2){
     for(int x=0;x<len;x++)
     {
         j=(len-x)&(len-1);
-        B[x]=(A[j]*A[j]-conj(A[x]*A[x]))*complex(0,-0.25);
+        B[x]=(A[j]*A[j]-conj(A[x]*A[x]))*Complex(0,-0.25);
     }
     FFT(B,len);
     for(int x=0;x<len;x++)
         fftans[x]=(LL)(B[x].r/len+0.5);
 }
-
 
 
 //*************************************/
