@@ -1,85 +1,85 @@
-int sumFlow;
-const int MAXN = 110;
-const int MAXM = 10200;
-struct Edge
-{
-    int u, v, cap, cost;
-    int next;
-}edge[MAXM<<2];
-int NE;
-int head[MAXN], dist[MAXN], pp[MAXN];
-bool vis[MAXN];
-void init()
-{
-    NE = 0;
-    memset(head, -1, sizeof(head));
+#define V 10100
+#define E 1000100
+int vis[V];
+int dist[V];
+int pre[V];
+
+struct Edge{
+    int u,v,c,cost,next;
+}edge[E];
+int head[V],cnt;
+
+void init(){
+    cnt=0;
+    memset(head,-1,sizeof(head));
 }
-void addedge(int u, int v, int cap, int cost)
+void addedge(int u,int v,int c,int cost)
 {
-    edge[NE].u = u; edge[NE].v = v; edge[NE].cap = cap; edge[NE].cost = cost;
-    edge[NE].next = head[u]; head[u] = NE++;
-    edge[NE].u = v; edge[NE].v = u; edge[NE].cap = 0; edge[NE].cost = -cost;
-    edge[NE].next = head[v]; head[v] = NE++;
+    edge[cnt].u=u;edge[cnt].v=v;edge[cnt].cost=cost;
+    edge[cnt].c=c;edge[cnt].next=head[u];head[u]=cnt++;
+
+    edge[cnt].u=v;edge[cnt].v=u;edge[cnt].cost=-cost;
+    edge[cnt].c=0;edge[cnt].next=head[v];head[v]=cnt++;
 }
-bool SPFA(int s, int t, int n)
-{
-    int i, u, v;
-    queue <int> qu;
-    memset(vis,false,sizeof(vis));
-    memset(pp,-1,sizeof(pp));
-    for(i = 0; i <= n; i++) dist[i] = INF;
-    vis[s] = true; dist[s] = 0;
-    qu.push(s);
-    while(!qu.empty())
-    {
-        u = qu.front(); qu.pop(); vis[u] = false;
-        for(i = head[u]; i != -1; i = edge[i].next)
-        {
-            v = edge[i].v;
-            if(edge[i].cap && dist[v] > dist[u] + edge[i].cost)
-            {
-                dist[v] = dist[u] + edge[i].cost;
-                pp[v] = i;
-                if(!vis[v])
-                {
-                    qu.push(v);
-                    vis[v] = true;
+
+bool spfa(int begin,int end){
+    int u,v;
+    queue<int> q;
+    for(int i=0;i<V;i++){				//********
+        pre[i]=-1;
+        vis[i]=0;
+        dist[i]=INF;
+    }
+    vis[begin]=1;
+    dist[begin]=0;
+    q.push(begin);
+    while(!q.empty()){
+        u=q.front();
+        q.pop();
+        vis[u]=0;
+        for(int i=head[u];i!=-1;i=edge[i].next){
+            if(edge[i].c>0){
+                v=edge[i].v;
+                if(dist[v]>dist[u]+edge[i].cost){
+                    dist[v]=dist[u]+edge[i].cost;
+                    pre[v]=i;
+                    if(!vis[v]){
+                        vis[v]=true;
+                        q.push(v);
+                    }
                 }
             }
         }
     }
-    if(dist[t] == INF) return false;
-    return true;
+    return dist[end]!=INF;
 }
-int MCMF(int s, int t) // minCostMaxFlow
-{
-    int n=MAXN;
-    int flow = 0; // 总流量
-    int i, minflow, mincost;
-    mincost = 0;
-    while(SPFA(s, t, n))
-    {
-        minflow = INF + 1;
-        for(i = pp[t]; i != -1; i = pp[edge[i].u])
-            if(edge[i].cap < minflow)
-                minflow = edge[i].cap;
-        flow += minflow;
-        for(i = pp[t]; i != -1; i = pp[edge[i].u])
-        {
-            edge[i].cap -= minflow;
-            edge[i^1].cap += minflow;
+
+int MCMF(int begin,int end){
+    int ans=0,flow;
+    int flow_sum=0;
+    while(spfa(begin,end)){
+        flow=INF;
+        for(int i=pre[end];i!=-1;i=pre[edge[i].u])
+            if(edge[i].c<flow)
+                flow=edge[i].c;
+        for(int i=pre[end];i!=-1;i=pre[edge[i].u]){
+            edge[i].c-=flow;
+            edge[i^1].c+=flow;
         }
-        mincost += dist[t] * minflow;
+        ans+=dist[end]*flow;
+        flow_sum += flow;
     }
-    sumFlow=flow; // 最大流
-    return mincost;
+    //cout << flow_sum << endl;
+    return ans;
 }
 
 
 
-
+/*
 init();
-addedge(a,b,cap,cost);单位费用  有向
+addedge(a,b,1,c);总费用  有向
 MCMF(0,n+1)；
 E=4*(m+2)
 可负边
+方向边流量为最后流量
+*/
